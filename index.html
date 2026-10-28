@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CW Console</title>
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="CW Console — โปรแกรมปฏิบัติการ CW (Morse) สำหรับนักวิทยุสมัครเล่น">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CW Console">
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--pn:#121a2b;--rs:#182236;--ln:#243048;--tx:#e7edf7;--mu:#8fa0bb;--ac:#5b9cff;--onac:#06142e;--scr:#080d16;--amb:#ffb454;--ok:#4ade80;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){color-scheme:light;--bg:#eef2f8;--pn:#ffffff;--rs:#f3f6fb;--ln:#d9e1ec;--tx:#0f1a2b;--mu:#566884;--ac:#2563eb;--onac:#ffffff;--ok:#15803d;--amb:#b45309}}
+:root[data-theme="light"]{color-scheme:light;--bg:#eef2f8;--pn:#ffffff;--rs:#f3f6fb;--ln:#d9e1ec;--tx:#0f1a2b;--mu:#566884;--ac:#2563eb;--onac:#ffffff;--ok:#15803d;--amb:#b45309}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 "IBM Plex Sans Thai",system-ui,sans-serif;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+header{flex:none;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:10px clamp(12px,2vw,32px);border-bottom:1px solid var(--ln);background:color-mix(in srgb,var(--pn) 86%,transparent);backdrop-filter:blur(10px)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:3px}
+.logo i{display:block;height:6px;width:6px;border-radius:3px;background:var(--amb)}
+.logo i:nth-child(2){width:18px;background:var(--ac)}
+h1{font-size:18px;font-weight:600;margin:0}
+h2{font-size:15px;font-weight:600;margin:0}
+#av{margin-left:auto;height:38px;width:38px;border-radius:50%;object-fit:cover;border:1px solid var(--ln);background:var(--rs)}#av[hidden]{display:none}
+main{flex:1;min-height:0;width:100%;max-width:2200px;margin:0 auto;padding:12px clamp(12px,1.5vw,24px) 14px}
+.g{display:grid;gap:12px 14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.cols{display:grid;gap:14px;grid-template-columns:minmax(0,1fr);height:100%;min-height:0}
+.cols>.pn{min-height:0;overflow:auto}
+@media (min-width:900px){.cols{grid-template-columns:minmax(320px,400px) minmax(0,1fr)}}
+.pn{background:var(--pn);border:1px solid var(--ln);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start;grid-auto-rows:max-content}
+.pn>h2:not(:first-child){margin-top:4px;padding-top:12px;border-top:1px solid var(--ln)}
+label{display:grid;gap:4px;font-size:13px;color:var(--mu)}
+input,select{background:var(--rs);border:1px solid var(--ln);border-radius:10px;padding:8px 10px;width:100%;color:var(--tx);font:inherit}
+input[type=range]{padding:0;accent-color:var(--ac)}input[type=checkbox]{width:auto;accent-color:var(--ac)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input:not([type]),input[type=text]{text-transform:uppercase}
+button{font:inherit;color:var(--tx);background:var(--rs);border:1px solid var(--ln);border-radius:10px;padding:7px 14px;cursor:pointer;transition:border-color .15s,background .15s}
+button:hover{border-color:var(--ac)}
+button:active{transform:translateY(1px)}
+button.pri{background:var(--ac);color:var(--onac);border-color:var(--ac);font-weight:600}
+button.sm{padding:3px 10px;font-size:12.5px;border-radius:8px;white-space:nowrap;flex:none}
+.seg{display:inline-flex;width:fit-content;gap:2px;padding:3px;background:var(--rs);border:1px solid var(--ln);border-radius:12px}
+.seg button{border:0;background:transparent;padding:5px 14px;border-radius:9px}
+.seg button.on,.seg button.pri{background:var(--ac);color:var(--onac);font-weight:600}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.gr{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.gh{display:grid}.gh b{font-weight:600;font-size:14px}
+canvas{width:100%;display:block;background:var(--scr);border:1px solid var(--ln);border-radius:12px}
+#cv,#sp{height:clamp(56px,8vh,100px)}#sp{cursor:crosshair}
+@media (max-width:520px){.gr{grid-template-columns:1fr}.gr>:nth-child(1){order:1}.gr>#cv{order:2}.gr>:nth-child(2){order:3}.gr>#sp{order:4}}
+.lcdw{background:var(--scr);border:1px solid var(--ln);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.lg{display:flex;flex-wrap:wrap;gap:2px 16px;padding:5px 14px;border-bottom:1px solid var(--ln);font-size:13px}
+.lg span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:6px}
+.lcd{color:#dbe4f0;font:clamp(14px,.5vw + 8px,19px)/1.45 "IBM Plex Mono",ui-monospace,monospace;flex:1;min-height:0;overflow:auto;padding:8px 14px;white-space:pre-wrap;word-break:break-all}
+.k-call{color:#4ade80}.k-name{color:#facc15}.k-qth{color:#2dd4bf}.k-rst{color:#fb923c}.k-pro{color:#e879f9}.k-q{color:#60a5fa}
+.lcd:empty::before{content:"กด เริ่มฟัง หรือ เล่นโทนจำลอง เพื่อเริ่มถอดรหัส";color:#5d6b82;font:15px "IBM Plex Sans Thai",sans-serif;text-shadow:none}
+.led{width:10px;height:10px;border-radius:50%;background:var(--ln)}.led.on{background:var(--amb);box-shadow:0 0 10px var(--amb)}
+.chip{font:500 13px "IBM Plex Mono",monospace;border-radius:999px;padding:3px 12px}
+.chip.on{background:var(--ac);color:var(--onac);border-color:var(--ac)}
+#px{padding:8px 12px;background:var(--rs);border:1px solid var(--ln);border-radius:10px;color:var(--mu)}#px.has{color:var(--tx)}
+code{display:block;white-space:pre-wrap;background:var(--scr);color:#e4efff;border:1px solid var(--ln);border-radius:10px;padding:8px 10px;font:13px/1.5 "IBM Plex Mono",monospace}
+.mu{color:var(--mu);font-size:13px}
+.mc{display:grid;gap:6px}.mh{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--mu);font-size:13px}
+kbd{font:500 11px "IBM Plex Mono",monospace;padding:1px 6px;border:1px solid var(--ln);border-bottom-width:2px;border-radius:5px;background:var(--rs);color:var(--mu);margin-left:4px}
+.mr{display:flex;gap:8px;align-items:center;flex:none}.mr kbd{margin:0}
+.below{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);margin-top:4px;padding-top:16px;border-top:1px solid var(--ln)}
+@media (min-width:1280px){.below{grid-template-columns:minmax(240px,300px) minmax(0,1fr)}}
+.side,.macros{display:grid;gap:10px;align-content:start}
+.macros{gap:12px}.mh2{justify-content:space-between}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.rt{grid-template-rows:auto auto minmax(88px,1fr) auto auto;align-content:stretch}
+.txbar{gap:8px 14px}
+.inl{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu)}.inl select{width:auto;padding:3px 8px;border-radius:8px}
+.sending .mc button.sm{opacity:.45;pointer-events:none}
+.sent{color:#6f819e}.now{background:var(--ac);color:var(--onac);border-radius:3px}
+@media (min-width:900px) and (max-height:820px){.pn{padding:12px 14px;gap:8px}#cv,#sp{height:56px}.below{padding-top:10px;gap:12px}}
+@media (max-width:899px){body{height:auto;overflow:auto;display:block}.cols{height:auto}.cols>.pn{overflow:visible}.rt{grid-template-rows:none}.lcdw{min-height:240px}.lcd{min-height:200px;max-height:50vh}}
+.logw{display:grid;gap:8px;margin-top:2px;padding-top:12px;border-top:1px solid var(--ln);min-height:0}
+.logh{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px}.logh h2{margin-right:2px}
+#utc{font:500 13px "IBM Plex Mono",monospace;color:var(--amb)}.lr:not(.h):nth-child(even){background:color-mix(in srgb,var(--rs) 55%,transparent)}
+#lgst{flex:1;min-width:120px;font-size:13px;color:var(--mu)}
+.lt{border:1px solid var(--ln);border-radius:12px;overflow:auto;height:clamp(84px,15vh,170px);background:var(--pn);color:var(--tx)}
+.lr{display:grid;grid-template-columns:162px 96px 84px 50px 48px minmax(150px,1.5fr) minmax(90px,1fr) minmax(90px,1fr) 52px 52px 78px 48px 28px;gap:4px;align-items:center;padding:1px 6px;min-width:1104px;border-bottom:1px solid var(--ln)}
+.lr.h{position:sticky;top:0;z-index:1;background:var(--rs);color:var(--tx);font-size:12px;font-weight:600;padding-top:5px;padding-bottom:5px}
+.lr input{padding:3px 6px;border-radius:6px;font:13px "IBM Plex Mono",monospace;background:transparent;border-color:transparent}
+.lr input:hover,.lr input:focus{background:var(--rs);border-color:var(--ln)}
+.lr .cl{color:var(--ok);font-weight:600}
+.lr button{padding:0;width:26px;height:26px;border-color:transparent;background:transparent;color:var(--mu)}
+.lt .e{padding:12px 14px;color:var(--mu);font-size:13px}
+.tab[hidden]{display:none!important}
+.man{display:block;height:100%;min-height:0;overflow:auto}.man-in{max-width:920px;margin:0 auto;gap:14px}
+.mh3{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+#mbody h3{font-size:15px;margin:14px 0 4px;padding-top:12px;border-top:1px solid var(--ln)}#mbody h3:first-child{border-top:0;margin-top:0;padding-top:0}
+#mbody ul{margin:4px 0 0;padding-left:20px;display:grid;gap:4px}#mbody p{margin:4px 0 0}
+#mbody kbd{margin:0 2px}#mbody .note{background:var(--rs);border:1px solid var(--ln);border-radius:10px;padding:8px 12px;font-size:13.5px;margin-top:8px}
+.set{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));align-content:start;align-items:start;height:100%;min-height:0;overflow:auto}.sc{display:grid;gap:14px;align-content:start;min-width:0}
+.setw{display:flex;flex-direction:column;gap:12px;height:100%;min-height:0}.setw>.set{flex:1;height:auto}
+.svc.pn{display:grid;grid-template-columns:1fr 1fr;gap:6px 0;padding:5px 6px;border-radius:14px;align-content:center;grid-auto-rows:auto;flex:none}
+.sv{display:flex;align-items:center;gap:8px;min-width:0;padding:0 8px}.sv+.sv{border-left:1px solid var(--ln)}
+.svt{display:grid;gap:0;line-height:1.2;flex:none;max-width:230px}.svt b{font-size:13.5px}.svt span{font-size:11px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sv input:not([type=checkbox]){flex:0 1 160px;min-width:70px;width:auto;padding:4px 8px;border-radius:8px;font-size:13px}
+.sv .inl{white-space:nowrap;flex:none}.sv button.sm{padding:4px 10px}
+.svs{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+@media (max-width:1180px){.svc.pn{grid-template-columns:1fr}.sv+.sv{border-left:0;border-top:1px solid var(--ln);padding-top:6px}.sv{flex-wrap:wrap}}
+#nav{margin-left:8px}#nav button{padding:4px 16px}
+.rig{display:flex;align-items:center;gap:10px}
+.rig input{flex:1;min-width:0;font:600 26px "IBM Plex Mono",monospace;text-align:right;padding:6px 12px;letter-spacing:.5px}
+.rig input[readonly]{border-color:var(--ac);color:var(--ac)}
+.rig .chip{min-width:52px;text-align:center}
+.bc{border-radius:999px;text-align:center;border:1px solid #2b2b2b;margin:0;font-weight:600;color:#111;line-height:1.15}
+.bch{display:flex;flex-wrap:wrap;gap:8px}
+.bch button{border:1px solid #2b2b2b;border-radius:999px;padding:3px 0;width:62px;font:600 13px "IBM Plex Mono",monospace;color:#111;cursor:pointer;transition:transform .08s}
+.bch button:hover{transform:translateY(-1px)}.bch button.cur{outline:3px solid var(--tx);outline-offset:1px}
+.chip.pend{border-style:dashed;color:var(--amb)}
+#dxin.part{color:var(--amb);font-style:italic}
+.lr input[data-k=b]{text-align:center;font-weight:600}
+.lr input.need{border-color:var(--amb)}
+.lr input[data-k=n],.lr input[data-k=co],.lr input[data-k=q],.lr input[data-k=cm]{text-transform:none}
+.rbf{display:flex;flex-wrap:wrap;gap:6px}
+.rbf button{border:1px solid #2b2b2b;border-radius:999px;padding:2px 0;width:58px;font:600 12.5px "IBM Plex Mono",monospace;color:#111;cursor:pointer}
+.rbf.sel button:not(.on){opacity:.4}.rbf button.on{outline:2px solid var(--tx);outline-offset:1px}
+.pn details{border:1px solid var(--ln);border-radius:10px;padding:8px 12px;background:var(--rs)}.rbn summary{cursor:pointer;font-weight:600}
+.pn ol{margin:6px 0 4px;padding-left:20px;display:grid;gap:4px;font-size:13px;color:var(--mu)}
+.pn li code,.pn details code{display:inline;background:none;border:0;padding:0;font-family:"IBM Plex Mono",monospace;color:var(--tx)}
+#tip{position:fixed;z-index:30;background:var(--pn);color:var(--tx);border:1px solid var(--ac);border-radius:10px;padding:8px 12px;font-size:13px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.35);max-width:320px;pointer-events:none;white-space:pre-line}#tip[hidden]{display:none}
+#rbl{overflow:hidden;border:1px solid var(--ln);border-radius:10px}
+.rr{display:grid;grid-template-columns:38px 50px 70px minmax(0,1fr) 44px;gap:6px;align-items:center;padding:4px 8px;border-bottom:1px solid var(--ln);font:12.5px "IBM Plex Mono",monospace;cursor:pointer}
+.rr:last-child{border-bottom:0}.rr:hover{background:var(--rs)}.rr.me{background:color-mix(in srgb,var(--amb) 22%,transparent)}
+.rbal{display:flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid var(--ok);background:color-mix(in srgb,var(--ok) 16%,transparent);border-radius:10px;font:600 12.5px "IBM Plex Mono",monospace;cursor:pointer}
+.rbal[hidden],.rbme[hidden]{display:none!important}.rbal .x{margin-left:auto;color:var(--mu);font-weight:400;padding:0 4px}
+.rr.new{background:color-mix(in srgb,var(--ok) 22%,transparent)}
+.rbme{border:1px solid var(--ln);border-radius:10px;padding:6px 10px;font-size:12.5px;display:grid;gap:4px}.rbme b{font-weight:600}
+.rbme .ch{display:flex;flex-wrap:wrap;gap:4px}.rbme .ch span{border:1px solid var(--ln);background:var(--rs);border-radius:999px;padding:0 8px;font:12px "IBM Plex Mono",monospace}
+.rr.h{position:sticky;top:0;background:var(--pn);color:var(--mu);font:11px "IBM Plex Sans Thai",sans-serif;cursor:default;z-index:1}.rr.h:hover{background:var(--pn)}
+.rr .c{font-size:14.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rr .ty{font-size:10.5px;color:var(--mu);font-weight:400;margin-left:4px}
+.rr .bc{border:1px solid #2b2b2b;border-radius:999px;text-align:center;font-weight:600;font-size:11.5px;padding:0}
+.thb{min-height:max-content;display:grid;grid-template-columns:auto 1fr 1fr;gap:0 10px;font:12.5px/1.7 "IBM Plex Mono",monospace;border:1px solid var(--ln);border-radius:10px}
+.thb>span{padding:0 8px;border-bottom:1px solid var(--ln);min-width:0}.thb>span.bc{padding:0 4px;margin:2px 0;line-height:1.4}.thb>.h{background:var(--rs);color:var(--mu);font-family:"IBM Plex Sans Thai",sans-serif;font-size:11px}
+.thb>.on{background:color-mix(in srgb,var(--ac) 20%,transparent);color:var(--tx);font-weight:600}
+.thb>span:nth-last-child(-n+3){border-bottom:0}
+@media (max-width:760px){.g3{grid-template-columns:1fr 1fr}}
+nav#nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media (min-width:900px){
+ body{flex-direction:row}
+ header{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:16px;width:88px;padding:14px 8px;border-bottom:0;border-right:1px solid var(--ln)}
+ .brand{flex-direction:column;gap:6px;align-items:center;text-align:center}
+ .brand h1{font-size:12.5px;line-height:1.2}
+ header #nav{margin:0;flex:1;min-height:0;flex-direction:column;width:100%;gap:4px;padding:4px;border-radius:14px}
+ header #nav button[data-t=p2]{margin-top:auto}
+ header #nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px;font-size:12px;border-radius:11px;line-height:1.2}
+ header #nav button svg{display:block}
+ #av{margin:0 auto;flex:none}
+ main{width:auto;min-width:0;margin:0 auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="logo"><i></i><i></i><i></i></span><h1>CW Console</h1></div><nav id="nav" class="seg" aria-label="เมนู"><button data-t="p1" class="pri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8M5 9.5V21h5v-6h4v6h5V9.5"/></svg><span>หน้าหลัก</span></button><button data-t="p2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg><span>ตั้งค่า</span></button><button data-t="p3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg><span>คู่มือ</span></button></nav><img id="av" alt="" hidden></header>
+<main>
+<section id="p1" class="tab cols">
+ <div class="pn">
+  <div class="row"><button id="go" class="pri">เริ่มฟัง</button><button id="stop">หยุด</button><span id="st" class="mu" style="flex:1;min-width:140px">พร้อมใช้งาน</span></div>
+  <h2>วิทยุ (CAT) <span class="mu" style="font-weight:400">ความถี่/ย่านสำหรับบันทึก Log</span></h2>
+  <div class="rig"><input id="fq" inputmode="decimal" autocomplete="off" placeholder="14.0740" title="พิมพ์ความถี่ (MHz เช่น 14.074 หรือ kHz เช่น 14074) แล้วกด Enter ถ้าต่อวิทยุอยู่จะสั่งวิทยุให้" aria-label="ความถี่ (MHz)"><span class="mu">MHz</span><span id="bd" class="chip on">--</span></div>
+  <div class="row"><button id="txc" class="sm">เชื่อมต่อวิทยุ (คีย์ / CAT)</button><span id="md" class="mu"></span></div>
+  <div id="rigst" class="mu"></div>
+  <h2>ย่าน <span class="mu" style="font-weight:400">กดเพื่อตั้งความถี่ของย่านนั้น</span></h2>
+  <div id="bch" class="bch"></div>
+  <h2>สถานีที่กำลัง CQ <span class="mu" style="font-weight:400">จาก RBN · กดเพื่อตั้งความถี่และใช้เป็นคู่สถานี</span></h2>
+  <div class="row"><button id="rbth" class="sm" title="แสดงเฉพาะสถานีไทย (HS, E2) ทั้งแบบ CQ และ DX ตามอายุสปอตที่เลือกในตั้งค่า">เฉพาะ HS / E2</button><span id="rbn" class="mu" style="flex:1;min-width:0"></span></div>
+  <div id="rbst2" class="mu"></div>
+  <div id="rbal2" class="rbal" hidden></div>
+  <div id="rbl"></div>
+  <div id="rbme" class="rbme" hidden></div>
+
+ </div>
+ <div class="pn rt">
+  <div class="gr">
+   <div class="gh"><b>Scope</b><span class="mu">ระดับสัญญาณที่โทน (เส้นประคือเกณฑ์)</span></div>
+   <div class="gh"><b>Audio</b><span class="mu">สเปกตรัม 0-2000 Hz คลิกที่กราฟเพื่อตั้งโทน</span></div>
+   <canvas id="cv" width="600" height="160"></canvas>
+   <canvas id="sp" width="600" height="160"></canvas>
+  </div>
+  <div class="row"><h2 style="flex:1">ข้อความที่ถอดได้</h2><span id="wr" class="mu"></span><span id="led" class="led"></span></div>
+  <div class="lcdw">
+   <div class="lg"><span class="k-call">Callsign</span><span class="k-name">ชื่อ</span><span class="k-qth">QTH</span><span class="k-rst">RST</span><span class="k-pro">&lt;Prosign&gt;</span><span class="k-q">Q-code</span></div>
+   <div id="lcd" class="lcd"></div>
+  </div>
+  <div class="below">
+   <div class="side">
+    <div class="row"><button id="clr">ล้าง <kbd>Del</kbd></button><button id="cp"><span>คัดลอก</span> <kbd>C</kbd></button></div>
+    <div class="mu">Callsign ที่พบ (กดเลือกเป็นคู่สถานี) หรือพิมพ์เอง ล็อกไว้จนจบการสนทนา</div>
+    <div id="chips" class="row"></div>
+    <input id="dxin" placeholder="พิมพ์ Callsign คู่สถานี" autocomplete="off" spellcheck="false" aria-label="Callsign คู่สถานี">
+    <div id="px" class="mu"></div>
+    <div class="g2">
+     <label>ทักทาย<select id="gr"><option value="">อัตโนมัติ (ตามเวลา)</option><option value="GM">GM (ตอนเช้า)</option><option value="GA">GA (ตอนบ่าย)</option><option value="GE">GE (ตอนเย็น)</option></select></label>
+     <label>RST ที่ให้คู่สถานี<select id="rs"><option>599</option><option>5NN</option></select></label>
+    </div>
+   </div>
+   <div class="macros">
+    <div class="row mh2"><h2>ข้อความมาโคร</h2><div id="lvl" class="seg" title="ระดับการติดต่อสื่อสาร"><button data-v="beg" title="เริ่มต้น: รายงาน 599 อย่างเดียว ไม่มีชื่อ/QTH ไม่มีอุปกรณ์/อากาศ">เริ่มต้น</button><button data-v="semi" title="กึ่งโปร: มีชื่อ/QTH แต่ไม่มีอุปกรณ์/อากาศ">กึ่งโปร</button><button data-v="pro" title="โปร: ครบทุกข้อความ">โปร</button></div><div id="mode" class="seg"><button data-m="cq">เราเรียก CQ</button><button data-m="ans">เราตอบ CQ</button></div></div>
+    <div class="row txbar">
+     <label class="inl">ความเร็วส่ง <select id="txw"><option value="">อัตโนมัติ (ตามที่ถอดได้)</option><option value="8">8 WPM</option><option value="10">10 WPM</option><option value="12">12 WPM</option><option value="14">14 WPM</option><option value="15">15 WPM</option><option value="16">16 WPM</option><option value="18">18 WPM</option><option value="20">20 WPM</option><option value="22">22 WPM</option><option value="25">25 WPM</option><option value="28">28 WPM</option><option value="30">30 WPM</option><option value="35">35 WPM</option></select></label>
+     <label class="inl"><input id="side" type="checkbox"> เสียงโทนขณะส่ง</label>
+     <button id="txstop" class="sm" hidden>หยุดส่ง <kbd>Esc</kbd></button>
+     <span id="txst" class="mu"></span>
+    </div>
+    <div id="mac" style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr))"></div>
+   </div>
+  </div>
+  <div class="logw">
+   <div class="logh"><h2>บันทึกการสนทนา</h2><span id="utc"></span><span id="lgst"></span>
+    <button id="lgadd" class="pri">บันทึก QSO <kbd id="kbl">Num Enter</kbd></button>
+    <button id="lgadi" class="sm">ส่งออก ADIF</button><button id="lgcsv" class="sm">ส่งออก CSV</button></div>
+   <div id="lt" class="lt"></div>
+  </div>
+ </div>
+</section>
+<section id="p2" class="tab setw" hidden>
+ <div class="svc pn">
+  <div class="sv">
+   <div class="svt"><b>QRZ.com</b><span>ค้นชื่อ / QTH / GRID ของคู่สถานี</span></div>
+   <input id="qzu" autocomplete="off" spellcheck="false" placeholder="Username" aria-label="QRZ Username">
+   <input id="qzp" type="password" autocomplete="off" placeholder="Password" aria-label="QRZ Password">
+   <label class="inl" title="จำรหัสผ่านในเบราว์เซอร์เครื่องนี้ ไม่แนะนำถ้าใช้เครื่องร่วมกับคนอื่น"><input id="qzr" type="checkbox"> จำรหัส</label>
+   <button id="qzt" class="sm">ทดสอบ</button><span id="qzst" class="mu svs"></span>
+  </div>
+  <div class="sv">
+   <div class="svt"><b>HamQTH.com</b><span>สำรอง: หาพิกัด / Grid เมื่อ QRZ ไม่ให้</span></div>
+   <input id="hqu" autocomplete="off" spellcheck="false" placeholder="Callsign" aria-label="HamQTH Username (Callsign)">
+   <input id="hqp" type="password" autocomplete="off" placeholder="Password" aria-label="HamQTH Password">
+   <label class="inl" title="จำรหัสผ่านในเบราว์เซอร์เครื่องนี้ ไม่แนะนำถ้าใช้เครื่องร่วมกับคนอื่น"><input id="hqr" type="checkbox"> จำรหัส</label>
+   <button id="hqt" class="sm">ทดสอบ</button><span id="hqst" class="mu svs"></span>
+  </div>
+ </div>
+ <div class="set">
+ <div class="sc">
+ <div class="pn"><h2>การเชื่อมต่อวิทยุ</h2>
+  <div class="g3">
+   <label>คีย์ผ่านขา<select id="txs"><option value="DTR">DTR</option><option value="RTS">RTS</option></select></label>
+   <label>CI-V Baud<select id="baud"><option>1200</option><option>2400</option><option>4800</option><option>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select></label>
+   <label>CI-V Address (Hex)<input id="civ" maxlength="2" autocomplete="off" placeholder="94"></label>
+  </div>
+  <label class="inl"><input id="civset" type="checkbox"> กดป้ายย่านแล้วสั่งวิทยุเปลี่ยนความถี่ด้วย (CI-V) · ไม่ส่งสัญญาณออกอากาศ</label>
+  <label class="inl"><input id="alog" type="checkbox"> บันทึก QSO อัตโนมัติเมื่อส่งมาโครตัวสุดท้าย (ปิดท้าย) เสร็จ · ถ้ากด Esc ยกเลิกกลางคันจะไม่บันทึก</label>
+  <div class="mu">ใช้พอร์ต USB เดียวกันทั้งคีย์ (DTR/RTS) และอ่านความถี่ (CI-V) ค่า Baud และ Address ต้องตรงกับที่ตั้งในวิทยุ (IC-7300 ปกติ Address คือ 94) ถ้าเปลี่ยนค่า ให้ตัดการเชื่อมต่อแล้วต่อใหม่</div>
+ </div>
+ <div class="pn"><h2>เสียงเข้า <span class="mu" style="font-weight:400">ปุ่ม เริ่มฟัง / หยุด อยู่ที่หน้าหลัก</span></h2>
+  <label>อุปกรณ์เสียง<span class="row"><select id="dev" style="flex:1"></select><button id="ref">รีเฟรช</button></span></label>
+  <div class="g2">
+   <label>ช่องเสียง<select id="ch"><option value="mix">รวม (Mix)</option><option value="L">ซ้าย (Left)</option><option value="R">ขวา (Right)</option></select></label>
+   <label><span>โทนที่ฟัง: <b id="tv"></b> Hz</span><input id="tone" type="range" min="400" max="1000" step="10"></label>
+  </div>
+  <label class="inl"><input id="auto" type="checkbox"> ติดตามโทนอัตโนมัติ (ตามเสียงที่แรงที่สุดใน 400–1000 Hz)</label>
+  <div class="row"><button id="rec" class="sm" title="บันทึกเสียงเข้าย้อนหลัง 30 วินาที เป็นไฟล์ .wav ไว้ตรวจสอบเวลาถอดรหัสผิด">บันทึกเสียง 30 วิ (.wav)</button></div>
+  <label>ทดสอบโดยไม่ต้องมีวิทยุ<span class="row"><input id="tt" style="flex:1"><button id="tst">เล่นโทนจำลอง</button></span></label>
+ </div>
+ <div class="pn"><h2>สถานีของเรา</h2><div id="sf" class="g3"></div><div class="mu">ใช้เติมในข้อความมาโครและบันทึก Log</div>
+  <label class="inl" title="ถ้า QRZ/HamQTH/RBN ไม่ให้ Grid แอปจะหาพิกัดโดยประมาณจากชื่อเมือง (QTH) ของคู่สถานี ตารางจังหวัดไทยอยู่ในแอป ที่อื่นถาม OpenStreetMap เฉพาะชื่อเมือง ไม่ส่ง Callsign"><input id="geo" type="checkbox"> ประมาณ Grid จากชื่อเมือง เมื่อ QRZ/HamQTH ไม่ให้ (ขึ้นเป็น ~)</label></div>
+ </div>
+ <div class="sc">
+ <div class="pn"><h2>ย่านความถี่สมัครเล่นในไทย <span class="mu" style="font-weight:400">อ้างอิง</span></h2>
+  <div id="thb" class="thb"></div>
+  <div class="mu" style="font-size:12px;line-height:1.45">อ้างอิง RAST (2014) และ IARU R3 เท่านั้น ประกาศ กสทช. ปัจจุบันอาจต่างไป * = ยังไม่ยืนยัน สิทธิ์ใช้ขึ้นกับชั้นใบอนุญาต · แถวที่ไฮไลต์คือย่านของความถี่ปัจจุบัน ส่วนการกดเลือกย่าน (ป้ายสี) อยู่ที่หน้าหลัก</div></div>
+ <div class="pn"><h2>สำรองข้อมูล</h2>
+  <div class="mu" style="font-size:12.5px">การตั้งค่าและ Log เก็บอยู่ในเบราว์เซอร์เครื่องนี้ ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่องจะหาย ควรสำรองเป็นระยะ ไฟล์สำรอง<b>ไม่มีรหัสผ่าน</b> QRZ/HamQTH</div>
+  <div class="row"><button id="bk" class="sm">สำรองการตั้งค่า + Log (.json)</button><button id="bki" class="sm">นำเข้าจากไฟล์สำรอง</button><input id="bkf" type="file" accept=".json,application/json" hidden></div>
+  <div id="bkst" class="mu" style="font-size:12.5px"></div>
+ </div>
+ <div class="pn"><h2>ธีมหน้าจอ</h2>
+  <label>โหมดสี<select id="thm"><option value="auto">อัตโนมัติ ตามเวลา (06:00–18:00 สว่าง นอกนั้นมืด)</option><option value="sys">อัตโนมัติ ตามระบบของเครื่อง</option><option value="light">สว่างตลอด</option><option value="dark">มืดตลอด</option></select></label>
+  <div class="mu" style="font-size:12.5px">โหมดตามเวลาใช้นาฬิกาของเครื่อง และสลับให้เองโดยไม่ต้องรีเฟรช</div>
+ </div>
+ <div class="pn"><h2>เกี่ยวกับ</h2>
+  <div style="font-size:13.5px"><b>CW Console</b> เวอร์ชัน <span id="ver"></span></div>
+  <div class="mu" style="font-size:12.5px;line-height:1.5">ถอดรหัส CW / ส่งมาโคร / Log QSO สำหรับนักวิทยุสมัครเล่น · ข้อมูลชื่อ-QTH-Grid จาก QRZ.com และ HamQTH.com (ใช้บัญชีของผู้ใช้เอง · HamQTH สมัครฟรีที่ hamqth.com มีข้อมูลเฉพาะคนที่เปิดเผยตำแหน่งไว้ · Data provided by HamQTH.com) · สปอตจาก Reverse Beacon Network · ตารางย่านไทยเป็นข้อมูลอ้างอิง ตรวจกับ กสทช. ก่อนใช้งานจริง · แจ้งปัญหาให้บอกเลขเวอร์ชันนี้</div>
+ </div>
+ </div>
+ <div class="sc">
+ <div class="pn"><h2>RBN <span class="mu" style="font-weight:400">สถานีที่กำลัง CQ (Reverse Beacon Network)</span></h2>
+  <div class="row"><button id="rbc" class="pri">เชื่อมต่อ</button><button id="rbrun" class="sm" title="สั่งให้ Windows เปิดตัวเชื่อม (ต้องติดตั้งตัวเชื่อมแล้ว)">เปิดตัวเชื่อม</button><span id="rbst" class="mu" style="flex:1;min-width:140px"></span></div>
+  <div class="mu" style="font-size:12.5px">รายการสถานีอยู่ที่หน้าหลัก ใต้ป้ายย่าน เข้าระบบ RBN ด้วย Callsign ใน “สถานีของเรา” (RBN ไม่ใช้รหัสผ่าน)</div>
+  <div id="rbb" class="rbf"></div>
+  <div class="g2">
+   <label>SNR อย่างน้อย<select id="rbs"><option value="-99">ทั้งหมด</option><option value="10">10 dB</option><option value="15">15 dB</option><option value="20">20 dB</option><option value="25">25 dB</option><option value="30">30 dB</option></select></label>
+   <label>อายุสปอตไม่เกิน<select id="rba"><option value="5">5 นาที</option><option value="10">10 นาที</option><option value="15">15 นาที</option><option value="30">30 นาที</option><option value="60">1 ชั่วโมง</option><option value="180">3 ชั่วโมง</option><option value="360">6 ชั่วโมง</option><option value="600">10 ชั่วโมง</option><option value="1440">24 ชั่วโมง</option></select></label>
+  </div>
+  <div class="g2">
+   <label>เรียงตาม<select id="rbo"><option value="t">ล่าสุด</option><option value="s">สัญญาณแรง</option><option value="f">ความถี่</option></select></label>
+   <label>ค้น Callsign<input id="rbq" autocomplete="off" spellcheck="false" placeholder="เช่น HS,E2,JA (ขึ้นต้นด้วย)"></label>
+  </div>
+  <label class="inl"><input id="rbcq" type="checkbox"> แสดงเฉพาะที่เรียก CQ (ปิด = รวม DX, BEACON ฯลฯ)</label>
+  <div class="row"><label style="flex:1;min-width:200px">เตือนเมื่อสถานีไทย (HS/E2) เรียก CQ<select id="rbal"><option value="1">เสียง + แถบเตือน</option><option value="2">แถบเตือนอย่างเดียว (เงียบ)</option><option value="0">ปิด</option></select></label><button id="rbalt" class="sm" style="align-self:flex-end">ลองเสียงเตือน</button></div>
+  <div class="mu" style="font-size:12.5px">เตือนเฉพาะสปอตสดหลังเชื่อมต่อ ไม่เตือนซ้ำสถานีเดิมในย่านเดิมภายใน 10 นาที แถบเตือนอยู่เหนือรายการ กดเพื่อตั้งความถี่ ถ้าฟังวิทยุผ่านไมค์ เสียงเตือนอาจเข้าไมค์ ให้เลือกแบบเงียบ</div>
+  <div class="mu" style="font-size:12.5px;margin-top:4px">ดึงสปอตย้อนหลังและกริดของสถานีจากเว็บ RBN ผ่านตัวเชื่อม (ตามอายุสปอตที่เลือกข้างบน สูงสุด 24 ชม.) ดึงให้เองครั้งหนึ่งตอนเชื่อมต่อ</div>
+  <div class="row"><input id="rbhp" autocomplete="off" spellcheck="false" style="flex:1;min-width:120px" placeholder="HS*,E2*" title="คำนำหน้า Callsign ที่ต้องการดึง คั่นด้วยจุลภาค ใช้ * ต่อท้าย"><button id="rbhb" class="sm">ดึงย้อนหลัง</button></div>
+  <details id="rbh" open><summary>ติดตั้งตัวเชื่อม (ทำครั้งเดียว · Windows และ Mac)</summary>
+   <div class="mu" style="font-size:12.5px;margin:6px 0">เว็บ reversebeacon.net ไม่อนุญาตให้หน้าเว็บอื่นอ่านข้อมูลโดยตรง จึงใช้ “ตัวเชื่อม” เล็กๆ ที่รันบนเครื่องคุณเอง (รับเฉพาะ 127.0.0.1) อ่านฟีดสดของ RBN แล้วส่งมาที่แอป</div>
+   <ol><li>ติดตั้ง <b>Python 3</b> (python.org ติ๊ก “Add python.exe to PATH”)</li>
+   <li>กด <button id="rbdl" class="sm">ดาวน์โหลดตัวติดตั้ง</button> แล้วดับเบิลคลิกไฟล์ <code>install-rbn-bridge.bat</code> (ถ้า Windows เตือน เลือก “More info” &gt; “Run anyway”) ตอบ Y/N ว่าจะให้เปิดเองตอนเปิดเครื่องไหม</li>
+   <li>กลับมาที่นี่ กด “เปิดตัวเชื่อม” (เบราว์เซอร์จะถามขอสิทธิ์ครั้งแรก) แล้วกด “เชื่อมต่อ”</li></ol>
+   <div class="mu" style="font-size:12px;margin-top:6px">ไม่อยากติดตั้ง: <button id="rbpy2" class="sm">ดาวน์โหลด rbn-bridge.py</button> แล้วรัน <code>python rbn-bridge.py</code> เอง · ข้อมูลโดย reversebeacon.net</div>
+   <div style="margin-top:10px;font-weight:600;font-size:13px">macOS (MacBook)</div>
+   <ol><li>เปิด Terminal พิมพ์ <code>python3 --version</code> ถ้ามีหน้าต่างให้ติดตั้ง Command Line Tools กดติดตั้ง (หรือติดตั้ง Python 3 จาก python.org)</li>
+   <li>กด “ดาวน์โหลด rbn-bridge.py” ด้านบน ไฟล์จะอยู่ใน Downloads</li>
+   <li>ใน Terminal พิมพ์ <code>cd ~/Downloads &amp;&amp; python3 "$(ls -t rbn-bridge*.py | head -1)"</code> (คำสั่งนี้เลือกไฟล์ที่ดาวน์โหลดล่าสุดให้เอง กันรันไฟล์เก่าที่ชื่อซ้ำ) เปิดหน้าต่างนี้ค้างไว้ ถ้าเคยรันตัวเก่าอยู่ให้กด Ctrl+C ปิดก่อน (ถ้า macOS ถามเรื่อง network ให้กดอนุญาต)</li>
+   <li>กลับมาที่แอป กด “เชื่อมต่อ” (ปุ่ม “เปิดตัวเชื่อม” และไฟล์ .bat ใช้ได้เฉพาะ Windows)</li>
+   <li>ถ้า Python มาจาก python.org แล้วดึงย้อนหลังไม่ได้ ขึ้นข้อความ CERTIFICATE_VERIFY_FAILED ให้เปิด Applications &gt; Python 3.x แล้วดับเบิลคลิก <code>Install Certificates.command</code> หนึ่งครั้ง</li></ol>
+  </details>
+ </div>
+ </div>
+ </div>
+</section>
+<section id="p3" class="tab man" hidden>
+ <div class="pn man-in">
+  <div class="mh3"><h2 id="mtitle"></h2><div class="seg" id="mlang"><button data-l="th">ไทย</button><button data-l="en">English</button></div></div>
+  <div id="mbody"></div>
+ </div>
+</section>
+</main>
+<script type="text/plain" id="rbpy">
+#!/usr/bin/env python3
+# CW Console - RBN bridge
+# Relays the Reverse Beacon Network telnet feed to the CW Console web page
+# through a WebSocket on this computer only (127.0.0.1). Python 3.8+, no extra packages.
+#
+#   python rbn-bridge.py            (default port 7373)
+#   python rbn-bridge.py 7373
+#
+# The page sends your callsign; RBN only asks for a callsign, no password.
+import asyncio, base64, hashlib, json, os, re, struct, sys, urllib.error, urllib.parse, urllib.request
+
+RBN_HOST = 'telnet.reversebeacon.net'
+RBN_PORT = 7000          # 7000 = CW/RTTY, 7001 = FT8/FT4 and other digital modes
+VERSION = '1.4'          # the page compares this with the version it expects
+GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'
+PORT = 7373
+VER_H = os.environ.get('RBN_VER_H', 'a92929')   # the website's own version hash; it answers error 888 (with the current hash) when it is stale
+HIST_BASE = os.environ.get('RBN_HIST_BASE', 'https://www.reversebeacon.net')   # history of recent spots (same JSON the RBN website uses)
+args = [a for a in sys.argv[1:]]
+if args and args[0].isdigit():
+    PORT = int(args.pop(0))
+if len(args) >= 2:                 # testing: host port of an alternative telnet server
+    RBN_HOST, RBN_PORT = args[0], int(args[1])
+
+
+def frame(text):
+    b = text.encode('utf-8')
+    n = len(b)
+    if n < 126:
+        h = struct.pack('!BB', 0x81, n)
+    elif n < 65536:
+        h = struct.pack('!BBH', 0x81, 126, n)
+    else:
+        h = struct.pack('!BBQ', 0x81, 127, n)
+    return h + b
+
+
+async def read_frame(r):
+    h = await r.readexactly(2)
+    op = h[0] & 15
+    n = h[1] & 127
+    if n == 126:
+        n = struct.unpack('!H', await r.readexactly(2))[0]
+    elif n == 127:
+        n = struct.unpack('!Q', await r.readexactly(8))[0]
+    if n > 1 << 20:
+        raise ValueError('frame too large')
+    mask = await r.readexactly(4) if h[1] & 128 else b'\0\0\0\0'
+    d = bytearray(await r.readexactly(n))
+    for i in range(n):
+        d[i] ^= mask[i % 4]
+    return op, bytes(d)
+
+
+def clean(b):
+    # drop telnet negotiation bytes (IAC ...) and NULs
+    out = bytearray()
+    i = 0
+    n = len(b)
+    while i < n:
+        if b[i] == 255:
+            i += 3 if i + 1 < n and b[i + 1] in (251, 252, 253, 254) else 2
+            continue
+        if b[i] != 0:
+            out.append(b[i])
+        i += 1
+    return out.decode('latin-1')
+
+
+async def handle(r, w):
+    peer = None
+    try:
+        head = await asyncio.wait_for(r.readuntil(b'\r\n\r\n'), 10)
+        m = re.search(rb'Sec-WebSocket-Key:\s*(\S+)', head, re.I)
+        if not m:
+            w.write(b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nCW Console RBN bridge is running.\r\n')
+            await w.drain()
+            return
+        acc = base64.b64encode(hashlib.sha1(m.group(1) + GUID.encode()).digest()).decode()
+        w.write(('HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n'
+                 'Sec-WebSocket-Accept: %s\r\n\r\n' % acc).encode())
+        await w.drain()
+
+        async def send(o):
+            w.write(frame(json.dumps(o)))
+            await w.drain()
+
+        await send({'t': 'v', 'v': VERSION})
+        # first message from the page: {"call": "E25YNH"}
+        op, d = await asyncio.wait_for(read_frame(r), 15)
+        call = str(json.loads(d.decode()).get('call', '')).upper().strip()
+        if not re.fullmatch(r'[A-Z0-9/]{3,14}', call):
+            await send({'t': 'st', 'm': 'bad callsign'})
+            return
+        await send({'t': 'st', 'm': 'connecting to %s:%d ...' % (RBN_HOST, RBN_PORT)})
+        try:
+            tr, tw = await asyncio.wait_for(asyncio.open_connection(RBN_HOST, RBN_PORT), 15)
+        except Exception as e:
+            await send({'t': 'st', 'm': 'cannot reach RBN: %s' % e})
+            return
+        await send({'t': 'st', 'm': 'connected'})
+        sent = False
+
+        async def up():
+            nonlocal sent
+            buf = ''
+            while True:
+                try:
+                    chunk = await asyncio.wait_for(tr.read(4096), 5 if not sent else 3600)
+                except asyncio.TimeoutError:
+                    if not sent:
+                        tw.write((call + '\r\n').encode())
+                        sent = True
+                    continue
+                if not chunk:
+                    await send({'t': 'st', 'm': 'RBN closed the connection'})
+                    return
+                buf += clean(chunk)
+                if not sent and re.search(r'enter your call', buf, re.I):
+                    tw.write((call + '\r\n').encode())
+                    sent = True
+                    await send({'t': 'st', 'm': 'logged in as ' + call})
+                lines = buf.replace('\r', '').split('\n')
+                buf = lines.pop()
+                for ln in lines:
+                    if ln.startswith('DX de'):
+                        await send({'t': 's', 'l': ln})
+
+        async def hist(o):
+            try:
+                cdx = str(o.get('cdx', '')).upper().strip()
+                own = str(o.get('own', '')).upper().strip()
+                if not re.fullmatch(r'[A-Z0-9*,/]{1,60}', cdx) or (own and not re.fullmatch(r'[A-Z0-9/]{3,14}', own)):
+                    await send({'t': 'st', 'm': 'history: bad prefix filter'})
+                    return
+                ma = min(max(int(o.get('ma', 36000)), 60), 86400)
+                n = min(max(int(o.get('r', 100)), 1), 500)
+                allc = cdx if (not own or own in cdx.split(',')) else cdx + ',' + own
+                # the website answers 400 to some requests; try a few variants (smaller row count, without our own call)
+                variants = []
+                for c, r in ((allc, min(n, 100)), (allc, 40), (cdx, 40), (cdx, 15)):
+                    if (c, r) not in variants:
+                        variants.append((c, r))
+
+                def get(c, r):
+                    url = HIST_BASE + '/spots.php?' + urllib.parse.urlencode(
+                        {'h': VER_H, 'cdx': c, 'ma': ma, 'm': 1, 'bc': '1,2', 's': 0, 'r': r}, safe='*')
+                    rq = urllib.request.Request(url, headers={
+                        'User-Agent': 'Mozilla/5.0 (compatible; CWConsole-RBN-bridge/%s)' % VERSION,
+                        'Accept': 'application/json, text/javascript, */*; q=0.01',
+                        'Referer': HIST_BASE + '/main.php',
+                        'X-Requested-With': 'XMLHttpRequest'})
+                    try:
+                        with urllib.request.urlopen(rq, timeout=20) as f:
+                            return f.read(6000000), url
+                    except urllib.error.HTTPError as e:
+                        body = ''
+                        try:
+                            body = e.read(300).decode('utf-8', 'replace').strip().replace('\n', ' ')
+                        except Exception:
+                            pass
+                        e.rbn_info = ' [%s] %s' % (url.split('/spots.php')[1], body[:160])
+                        raise
+                raw = None
+                last = None
+                loop = asyncio.get_event_loop()
+                global VER_H
+                for c, r in variants:
+                    again = True
+                    while again:
+                        again = False
+                        try:
+                            raw, url = await loop.run_in_executor(None, get, c, r)
+                            break
+                        except urllib.error.HTTPError as e:
+                            last = e
+                            if e.code != 400:
+                                raise
+                            m = re.search(r'"ver_h"\s*:\s*"([A-Za-z0-9]{1,16})"', getattr(e, 'rbn_info', ''))
+                            if m and m.group(1) != VER_H:      # stale hash: take the one the site sent and retry this request
+                                VER_H = m.group(1)
+                                again = True
+                                continue
+                            await asyncio.sleep(0.5)
+                    if raw is not None:
+                        break
+                if raw is None:
+                    raise last
+                j = json.loads(raw.decode('utf-8', 'replace'))
+                if isinstance(j.get('ver_h'), str) and re.fullmatch(r'[A-Za-z0-9]{1,16}', j['ver_h']):
+                    VER_H = j['ver_h']
+                await send({'t': 'h', 'd': {'spots': j.get('spots', {}), 'call_info': j.get('call_info', {})}})
+            except Exception as e:
+                hint = ''
+                if 'CERTIFICATE_VERIFY_FAILED' in str(e):
+                    hint = ' (macOS: open Applications > Python 3.x and run Install Certificates.command once)'
+                await send({'t': 'st', 'm': 'history failed: %s%s%s' % (e, getattr(e, 'rbn_info', ''), hint)})
+
+        async def down():
+            while True:
+                op, d = await read_frame(r)
+                if op == 1:
+                    try:
+                        o = json.loads(d.decode())
+                        if isinstance(o.get('hist'), dict):
+                            asyncio.ensure_future(hist(o['hist']))
+                    except Exception:
+                        pass
+                    continue
+                if op == 8:
+                    return
+                if op == 9:
+                    w.write(struct.pack('!BB', 0x8A, len(d)) + d)
+                    await w.drain()
+
+        t1, t2 = asyncio.ensure_future(up()), asyncio.ensure_future(down())
+        done, pend = await asyncio.wait([t1, t2], return_when=asyncio.FIRST_COMPLETED)
+        for t in pend:
+            t.cancel()
+        tw.close()
+    except (asyncio.IncompleteReadError, asyncio.TimeoutError, ConnectionError, ValueError):
+        pass
+    finally:
+        try:
+            w.close()
+        except Exception:
+            pass
+
+
+async def main():
+    try:
+        srv = await asyncio.start_server(handle, '127.0.0.1', PORT)
+    except OSError:
+        print('Port %d is busy - the bridge is probably already running.' % PORT)
+        return
+    print('CW Console RBN bridge v%s: ws://localhost:%d  ->  %s:%d' % (VERSION, PORT, RBN_HOST, RBN_PORT))
+    print('Keep this window open while you use the RBN tab. Ctrl+C to stop.')
+    async with srv:
+        await srv.serve_forever()
+
+try:
+    asyncio.run(main())
+except KeyboardInterrupt:
+    pass
+</script>
+<script>
+const $=s=>document.querySelector(s),E=(t,p={})=>Object.assign(document.createElement(t),p);
+const MAC=/Mac|iPhone|iPad/i.test(navigator.platform||navigator.userAgent||'');
+if(MAC){$('#kbl').textContent='⌘↩';document.querySelector('#clr kbd').textContent='⌫'}
+const M={'.-':'A','-...':'B','-.-.':'C','-..':'D','.':'E','..-.':'F','--.':'G','....':'H','..':'I','.---':'J','-.-':'K','.-..':'L','--':'M','-.':'N','---':'O','.--.':'P','--.-':'Q','.-.':'R','...':'S','-':'T','..-':'U','...-':'V','.--':'W','-..-':'X','-.--':'Y','--..':'Z','-----':'0','.----':'1','..---':'2','...--':'3','....-':'4','.....':'5','-....':'6','--...':'7','---..':'8','----.':'9','.-.-.-':'.','--..--':',','..--..':'?','-..-.':'/','-...-':'<BT>','.-.-.':'<AR>','-....-':'-','...-.-':'<SK>'};
+const R={};for(const k in M)R[M[k]]=k;
+let S={tone:700,auto:true,ch:'mix',dev:'',my:{},ps:[],cur:'',mode:'cq',gr:'',rs:'599',tt:'CQ CQ DE HS0ABC K'};
+try{Object.assign(S,JSON.parse(localStorage.getItem('cwc')||'{}'))}catch(e){}
+if(S.my&&S.my.wx==='RAIN')S.my.wx='RAINY';
+const VER='1.1 · 2026-10-28';
+const save=()=>{try{localStorage.setItem('cwc',JSON.stringify(S))}catch(e){}};
+// ---- theme: auto = light 06:00-18:00, dark otherwise (device clock); or follow system / fixed ----
+function applyTheme(){
+ const m=S.theme||'auto',h=new Date().getHours(),r=document.documentElement;
+ if(m==='sys')r.removeAttribute('data-theme');else r.dataset.theme=m==='auto'?(h>=6&&h<18?'light':'dark'):m}
+applyTheme();setInterval(applyTheme,60000);
+const st=m=>$('#st').textContent=m;
+let ac,an,buf,stream,timer,lastT=0,dot=60,on=false,tOn=0,tOff=0,symD=[],symG=[],MK=[],spaced=true,peak=.01,fl=0,txt='',qso='',H=[],k=0;
+
+function stopAll(){clearInterval(timer);timer=null;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;if(ac)ac.close();ac=null;$('#led').classList.remove('on')}
+function begin(){buf=new Float32Array(an.fftSize);an.smoothingTimeConstant=.5;dot=1200/18;on=false;pend=false;symD=[];symG=[];MK=[];spaced=true;lastT=ac.currentTime;tOff=lastT*1000;peak=.01;fl=0;H=[];LB=[];lvT=0;sig=false;thr=-60;HOLD=null;cand=0;timer=setInterval(tick,10)}
+async function live(){
+ stopAll();
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:{deviceId:S.dev?{exact:S.dev}:undefined,echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:2}})}
+ catch(e){st('เปิดเสียงเข้าไม่ได้ ('+e.name+') ถ้าอยู่ในหน้าตัวอย่าง เบราว์เซอร์อาจบล็อกไมค์ ลองปุ่มเล่นโทนจำลอง หรือเปิดไฟล์นี้ในเครื่องโดยตรง');return}
+ ac=new AudioContext();an=ac.createAnalyser();an.fftSize=8192;
+ const src=ac.createMediaStreamSource(stream);
+ if(S.ch==='mix')src.connect(an);else{const sp=ac.createChannelSplitter(2);src.connect(sp);sp.connect(an,S.ch==='L'?0:1)}
+ begin();recStart(src);st('กำลังฟัง'+(S.auto?' (โทนตามอัตโนมัติ)':' ปรับโทนให้ตรงกับเสียงในวิทยุ'));devs()}
+function test(w=15){
+ stopAll();ac=new AudioContext();an=ac.createAnalyser();an.fftSize=8192;
+ const o=ac.createOscillator(),g=ac.createGain(),m=ac.createGain();o.frequency.value=S.tone;g.gain.value=0;m.gain.value=.12;
+ o.connect(g);g.connect(an);g.connect(m);m.connect(ac.destination);
+ const u=1.2/w;let t=ac.currentTime+.4;
+ for(const c of S.tt.toUpperCase().match(/<[A-Z]+>|[^]/g)||[]){
+  if(c===' '){t+=4*u;continue}
+  for(const s of R[c]||''){g.gain.setTargetAtTime(.6,t,.003);t+=s==='.'?u:3*u;g.gain.setTargetAtTime(0,t,.003);t+=u}
+  t+=2*u}
+ o.start();o.stop(t+.3);begin();st('กำลังเล่นโทนจำลอง '+w+' WPM ผ่านตัวถอดรหัส')}
+function est(){
+ if(MK.length<4)return dot;
+ let a=[...MK].sort((x,y)=>x-y);const av=r=>r.reduce((x,y)=>x+y,0)/r.length,q1=a[a.length>>2];a=a.filter(v=>v<=q1*4.5);
+ const old=dot,firm=MK.length>=10;let c1=a[0],c2=a[a.length-1],single=c2<c1*1.8,r;
+ if(!single){for(let i=0;i<6;i++){const L=a.filter(v=>Math.abs(v-c1)<=Math.abs(v-c2)),U=a.filter(v=>Math.abs(v-c1)>Math.abs(v-c2));if(!L.length||!U.length)break;c1=av(L);c2=av(U)}
+  if(firm&&c1>=old*1.7)single=true}   // the "dot" cluster is really dashes: no dots in the window
+ if(single){const m=a[a.length>>1];
+  if(!firm)r=m<old*1.8?m:m/3;
+  else if(m>=old*2)r=.85*old+.15*m/3;   // only dashes in the window (0, 9, 7, 5 ...): keep the old dot, nudge slowly
+  else if(m<=old*1.5)r=.85*old+.15*m;   // only dots
+  else r=old}
+ else r=c1*.35+c2/3*.65;
+ return Math.min(240,Math.max(24,r))}
+function flush(){dot=est();let q='';
+ symD.forEach((d,i)=>{if(i&&symG[i]>=dot*1.9){put(M[q]||'*');q=''}q+=d>=dot*1.7?'-':'.'});
+ put(M[q]||'*');symD=[];symG=[];spaced=false}
+function put(c){txt=(txt+c).slice(-1500);qso=(qso+c).slice(-3000);paint();upd()}
+const HN=400,MINSEP=11;
+let lastNow=0,LB=[],lvT=0,thr=-60,cLo=-120,cHi=-120,sig=false,pend=false,mS=0,tFall=0,FD=null,HOLD=null,cand=0,candF=0,tvT=0;
+// 2-means on the recent envelope (dB): finds the "noise" level and the "signal" level, so the threshold follows QSB and different stations
+function levels(){
+ const n=LB.length;if(n<60){sig=false;return}
+ const q=[...LB].sort((x,y)=>x-y),P=f=>q[Math.min(n-1,Math.floor(n*f))],med=P(.08),top=P(.995);
+ let lo=P(.3),hi=top;
+ for(let i=0;i<8;i++){const m=(lo+hi)/2;let sl=0,nl=0,sh=0,nh=0;for(const v of LB){if(v<m){sl+=v;nl++}else{sh+=v;nh++}}if(!nl||!nh)break;lo=sl/nl;hi=sh/nh}
+ const pH=cHi;cLo=lo;cHi=hi;thr=20*Math.log10((Math.pow(10,lo/20)+Math.pow(10,hi/20))/2);const kk=sig?-1.5:0;sig=top-med>=20+kk&&hi-lo>=MINSEP+kk;peak=Math.pow(10,hi/20);if(sig&&pH>-100&&Math.abs(hi-pH)>12){dot=1200/18;MK=[];symD=[];symG=[];pend=false;tOff=lastNow;spaced=true}}
+function commit(){
+ pend=false;const d=tFall-mS;
+ if(d>=Math.max(12,Math.min(dot*.4,22))){symG.push(symD.length?mS-tOff:0);symD.push(d);MK.push(d);if(MK.length>24)MK.shift();dot=est();tOff=tFall}}
+function step(m,now){
+ lastNow=now;
+ const L=20*Math.log10(m+1e-4);LB.push(L);if(LB.length>1000)LB.shift();
+ if(++lvT>=(sig?20:4)){lvT=0;levels()}
+ const aLo=Math.pow(10,cLo/20),aR=Math.pow(10,cHi/20)-aLo,v=!sig?false:on?m>aLo+aR*.38:m>aLo+aR*.5,gapMin=Math.max(6,Math.min(20,dot*.3));
+ if(v&&!on){on=true;if(pend)pend=false;else mS=now}
+ else if(!v&&on){on=false;pend=true;tFall=now}
+ if(!on){
+  if(pend&&now-tFall>=gapMin)commit();
+  if(!pend){const g=now-tOff;
+   if(symD.length&&g>dot*2.5)flush();
+   if(!spaced&&!symD.length&&g>dot*4.6){put(' ');spaced=true}}}
+ H.push([m,Math.pow(10,thr/20)]);if(H.length>HN)H.shift()}
+// follow the strongest steady tone in 400-1000 Hz (peak-hold of the FFT), so a station that is off-pitch is still decoded
+function autoTone(){
+ if(!S.auto||!an||!ac||!FD)return;
+ const bw=ac.sampleRate/an.fftSize,i0=Math.ceil(400/bw),i1=Math.floor(1000/bw),n=i1-i0+1;
+ if(!HOLD||HOLD.length!==n)HOLD=new Float32Array(n).fill(-140);
+ let bj=0;for(let j=0;j<n;j++){const v=FD[i0+j];HOLD[j]=Math.max(isFinite(v)?v:-140,HOLD[j]-.25);if(HOLD[j]>HOLD[bj])bj=j}
+ const md=[...HOLD].sort((x,y)=>x-y)[n>>1];
+ if(HOLD[bj]-md<16){cand=0;return}
+ const y0=HOLD[Math.max(bj-1,0)],y1=HOLD[bj],y2=HOLD[Math.min(bj+1,n-1)],dn=y0-2*y1+y2,f=(i0+bj+(dn?.5*(y0-y2)/dn:0))*bw;
+ const cj=Math.round((S.tone/bw)-i0),cur=cj>=0&&cj<n?HOLD[cj]:-140;
+ if(Math.abs(f-S.tone)<=18){ // already on it: centre slowly
+  if(Math.abs(f-S.tone)>=3)setTone(Math.round(S.tone+(f-S.tone)*.25),false);cand=0;return}
+ if(cur>HOLD[bj]-6&&cur-md>=12){cand=0;return} // current tone still strong enough: do not hop
+ if(Math.abs(f-candF)<=12)cand++;else{cand=1;candF=f}
+ if(cand>=4){setTone(Math.round(f),false);cand=0}}
+function setTone(f,sv){S.tone=Math.min(1000,Math.max(400,f));$('#tone').value=S.tone;tv();if(sv)save();else{clearTimeout(tvT);tvT=setTimeout(save,1500)}}
+function tick(){
+ an.getFloatTimeDomainData(buf);
+ if(txOn){lastT=ac.currentTime;on=false;pend=false;symD=[];symG=[];tOff=lastT*1000;spaced=true;return}
+ const sr=ac.sampleRate,B=Math.round(sr*.005),N=Math.round(sr*.012),c=2*Math.cos(2*Math.PI*S.tone/sr),nowT=ac.currentTime;
+ if(nowT-lastT>buf.length/sr)lastT=nowT-buf.length/sr;
+ const n=Math.min(buf.length,Math.round((nowT-lastT)*sr)),nb=Math.floor(n/B),start=buf.length-n;
+ for(let j=1;j<=nb;j++){
+  const e=start+j*B,f=Math.max(0,e-N);let a=0,b=0;
+  for(let i=f;i<e;i++){const s=buf[i]+c*a-b;b=a;a=s}
+  step(Math.sqrt(Math.max(a*a+b*b-c*a*b,0))*2/(e-f),(lastT+j*B/sr)*1000)}
+ lastT+=nb*B/sr;
+ if(++k%4)return;
+ $('#led').classList.toggle('on',on);$('#wr').textContent=MK.length>=6?'ความเร็วจริง '+Math.round(1200/dot)+' WPM':'';
+ if(!FD||FD.length!==an.frequencyBinCount)FD=new Float32Array(an.frequencyBinCount);
+ an.getFloatFrequencyData(FD);autoTone();
+ scope();spec()}
+const SPMAX=2000,dp=()=>window.devicePixelRatio||1,CY='#5ad1ff',AM='#ffb454';
+function scope(){
+ const c=$('#cv'),x=c.getContext('2d'),W=c.width,h=c.height,d=dp(),mx=Math.max(peak*1.15,.01);x.clearRect(0,0,W,h);
+ if(!H.length)return;
+ const pts=H.map((p,i)=>[i*W/HN,h-p[0]/mx*h]);
+ x.beginPath();pts.forEach(([X,Y],i)=>i?x.lineTo(X,Y):x.moveTo(X,Y));
+ x.strokeStyle=CY;x.lineWidth=1.6*d;x.lineJoin='round';x.stroke();
+ x.lineTo(pts[pts.length-1][0],h);x.lineTo(pts[0][0],h);x.closePath();x.fillStyle='rgba(90,209,255,.14)';x.fill();
+ const ty=h-H[H.length-1][1]/mx*h;x.strokeStyle=AM;x.lineWidth=1.2*d;x.setLineDash([4*d,4*d]);x.beginPath();x.moveTo(0,ty);x.lineTo(W,ty);x.stroke();x.setLineDash([])}
+function spec(){
+ const c=$('#sp'),x=c.getContext('2d'),W=c.width,h=c.height,k=dp();x.clearRect(0,0,W,h);
+ x.font=(11*k)+'px "IBM Plex Mono",monospace';x.textBaseline='alphabetic';
+ for(const f of [500,1000,1500]){const X=f/SPMAX*W;x.strokeStyle='rgba(143,160,187,.18)';x.lineWidth=k;x.beginPath();x.moveTo(X,0);x.lineTo(X,h);x.stroke();x.fillStyle='rgba(143,160,187,.8)';x.fillText(String(f),X+4*k,h-5*k)}
+ if(an&&ac){
+  const d=FD&&FD.length===an.frequencyBinCount?FD:(q=>{an.getFloatFrequencyData(q);return q})(new Float32Array(an.frequencyBinCount));
+  const bw=ac.sampleRate/an.fftSize,n=Math.min(d.length,Math.floor(SPMAX/bw));
+  x.beginPath();for(let i=0;i<n;i++){const X=i*bw/SPMAX*W,Y=h-Math.min(Math.max((d[i]+110)/90,0),1)*h;i?x.lineTo(X,Y):x.moveTo(X,Y)}
+  x.strokeStyle=CY;x.lineWidth=1.6*k;x.lineJoin='round';x.stroke();
+  x.lineTo((n-1)*bw/SPMAX*W,h);x.lineTo(0,h);x.closePath();x.fillStyle='rgba(90,209,255,.14)';x.fill()}
+ const tx=S.tone/SPMAX*W;x.strokeStyle=AM;x.lineWidth=1.2*k;x.setLineDash([4*k,4*k]);x.beginPath();x.moveTo(tx,0);x.lineTo(tx,h);x.stroke();x.setLineDash([]);
+ const lb=S.tone+' Hz',tw=x.measureText(lb).width;x.fillStyle=AM;x.textBaseline='top';x.fillText(lb,tx+tw+10*k>W?tx-tw-6*k:tx+6*k,5*k)}
+function fit(){for(const c of [$('#cv'),$('#sp')]){const r=c.getBoundingClientRect(),d=dp(),w=Math.round(r.width*d),h=Math.round(r.height*d);if(w&&h&&(c.width!==w||c.height!==h)){c.width=w;c.height=h}}scope();spec()}
+
+const CR=/\b(?:[A-Z0-9]{1,3}\/)?(?:[A-Z]{1,2}|[0-9][A-Z]|[A-Z][0-9])[0-9][A-Z]{1,4}(?:\/[A-Z0-9]{1,4})?\b/g;
+const CRW=new RegExp('^'+CR.source+'$');
+function kind(w,pv,pc){
+ if(/^<[A-Z]+>$/.test(w))return'pro';
+ if(/^(?:OP\/NAME|NAME|OP)$/.test(pv)&&/^[A-Z]{2,}$/.test(w))return'name';
+ if(pv==='QTH'&&/^[A-Z0-9]{2,}$/.test(w))return'qth';
+ if((pv==='RST'||pv==='UR')&&/^[0-9][0-9N][0-9N]$/.test(w))return'rst';
+ if(pc&&(pc==='name'||pc==='qth'||pc==='rst')&&w===pv)return pc;
+ if(CRW.test(w))return'call';
+ if(/^Q[A-Z]{2}\??$/.test(w))return'q';
+ return''}
+function paint(){
+ const l=$('#lcd'),f=document.createDocumentFragment();let pv='',pc='';
+ for(const w of txt.split(/(\s+|<[A-Z]+>)/)){
+  if(!w)continue;
+  if(/^\s+$/.test(w)){f.append(w);continue}
+  const c=kind(w,pv,pc);f.append(c?E('span',{className:'k-'+c,textContent:w}):w);pv=w;pc=c}
+ l.replaceChildren(f);l.scrollTop=l.scrollHeight}
+// The partner's callsign is built up from several (possibly partial) copies after "DE": E2 -> E27D -> E27DPX.
+// It only counts as complete when it looks like a full callsign and is >=5 characters long (or was received twice).
+let pendCall='';
+const CSTOP=new Set('K KN BK AR SK DE CQ TU GM GA GE UR ES QRZ QTH RST HW FB OM OP NAME BT TNX FER CALL AGN HPE CU GB GL PSE RPRT INFO WX TMP PWR ANT RIG HR UP FM'.split(' '));
+const CHEAD=/^(?:[A-Z0-9]{1,3}\/)?(?:[A-Z]{1,2}|[0-9][A-Z]|[A-Z][0-9])[0-9][A-Z]{0,4}$/;
+const isHead=t=>t.length>=3&&(CHEAD.test(t)||(t.includes('*')&&(CHEAD.test(t.replace(/\*/g,'A'))||CHEAD.test(t.replace(/\*/g,'0')))));
+// Callsign pieces are collected anywhere in the text (not only after DE) and several copies are voted letter by letter:
+//   "E25 M B P ... E25 MBP"  ->  E25MBP.  It counts as complete when it is a full callsign of >=5 characters (or seen twice).
+function callSeek(me,tk){
+ const A=[];
+ for(let i=0;i<tk.length;i++){const t=tk[i];
+  if(i&&tk[i-1]==='DE'&&/^[A-Z0-9*\/]{2,}$/.test(t)&&t!==me&&!CSTOP.has(t)&&!isHead(t)){A.push(t);continue}
+  if(isHead(t)&&t!==me){let a=t,suf=(t.match(/[A-Z*]+$/)||[''])[0].length,j=i+1;
+   while(j<tk.length&&suf<3&&/^[A-Z*]{1,3}$/.test(tk[j])&&!CSTOP.has(tk[j])&&suf+tk[j].length<=4){a+=tk[j];suf+=tk[j].length;j++}
+   A.push(a);i=j-1}}
+ const fit=(a,b)=>{const n=Math.min(a.length,b.length);let x=0;for(let i=0;i<n;i++)if(a[i]!==b[i]&&a[i]!=='*'&&b[i]!=='*')x++;return x===0||(n>=5&&x<=1&&a.slice(0,2)===b.slice(0,2))},
+  vote=g=>{const L=Math.max(...g.map(x=>x.length));let r='';for(let i=0;i<L;i++){const c={};let last='';for(const x of g)if(x[i]&&x[i]!=='*'){c[x[i]]=(c[x[i]]||0)+1;last=x[i]}let b='*',m=0;for(const k in c)if(c[k]>m||(c[k]===m&&k===last)){b=k;m=c[k]}r+=b}return r};
+ let grp=[];
+ for(const t of A){if(grp.length&&fit(vote(grp),t))grp.push(t);else grp=[t]}
+ const cand=grp.length?vote(grp):'',n=grp.filter(x=>x===cand).length;
+ return{cand,D:A,full:CRW.test(cand)&&(cand.length>=5||n>=2)}}
+function partner(){
+ const me=S.my.call||'',tk=qso.split(/\s+/).filter(Boolean),sk=callSeek(me,tk),cnt={};
+ for(const t of tk)if(CRW.test(t))cnt[t]=(cnt[t]||0)+1;
+ const all=[...new Set(tk.filter(t=>CRW.test(t)&&t!==me&&(t.length>=5||cnt[t]>=2)).reverse())].reverse(),
+ c=S.cur||(sk.full?sk.cand:'')||(sk.D.length?'':all[all.length-1]||''),
+ g=r=>{const a=[...qso.matchAll(r)];return a.length?a[a.length-1][1]:''};
+ return{c,all,pend:!c&&sk.cand&&!sk.full?sk.cand:'',n:g(/\bNAME\s+([A-Z]{2,})/g),q:g(/\bQTH\s+([A-Z0-9]{2,})/g),r:g(/\bRST\s+([0-9][0-9N][0-9N])\b/g)||g(/\bUR\s+([0-9][0-9N][0-9N])\b/g)}}
+function upd(){
+ const p=partner();if(p.c)lastP=null;pendCall=p.pend;
+ const cl=p.all.slice(-8).reverse();if(p.c&&!cl.includes(p.c))cl.unshift(p.c);
+ $('#chips').replaceChildren(...cl.map(x=>E('button',{className:'chip'+(x===p.c?' on':''),textContent:x,onclick(){S.cur=x;upd()}})),...(p.pend?[E('button',{className:'chip pend',textContent:p.pend+'…',title:'กดเพื่อพิมพ์ต่อให้ครบเอง',onclick(){const d=$('#dxin');d.value=p.pend;d.focus();d.setSelectionRange(d.value.length,d.value.length)}})]:[]));
+ $('#dxin').placeholder=p.pend?'กำลังรับ '+p.pend+'… (ยังไม่ครบ)':'พิมพ์ Callsign คู่สถานี';
+ $('#px').textContent=p.c?['คู่สถานี '+p.c+(S.cur?' (ล็อกแล้ว)':''),p.n&&'ชื่อ '+p.n,p.q&&'QTH '+p.q,p.r&&'RST ที่ได้รับ '+p.r,pxQ(p.c),qzNote&&!QZ[p.c]&&qzNote].filter(Boolean).join('  ·  '):p.pend?'กำลังรับ Callsign: '+p.pend+'… ยังไม่ครบ รอรับเพิ่ม (ระบบรวมตัวอักษรจากหลายรอบให้) หรือพิมพ์ต่อเองในช่องด้านบนแล้วกด Enter':lastP?'จบแล้ว: '+lastP.c+'  กด "บันทึก QSO" เพื่อบันทึกรายการนี้':'ยังไม่พบ Callsign คู่สถานีในข้อความที่ถอดได้';
+ if(document.activeElement!==$('#dxin')){$('#dxin').value=p.c||p.pend;}
+ $('#dxin').classList.toggle('part',!p.c&&!!p.pend);
+ if(p.c&&(qzOn()||hqOn())&&p.c.length>=4&&CRW.test(p.c)&&!(p.c in QZ)&&Date.now()-qzDead>30000)qzQueue(p.c);
+ $('#px').classList.toggle('has',!!p.c);
+ const m=S.my,me=m.call||'MYCALL',dx=p.c||'DXCALL',v=(x,d)=>x||d,h=new Date().getHours(),
+  gr=S.gr||(h<12?'GM':h<18?'GA':'GE'),rs=S.rs||'599',nm=v(m.name,'___'),qt=v(m.qth,'___'),rg=v(m.rig,'___'),
+  pw=(m.pwr?m.pwr.replace(/\s*W$/i,''):'___')+'W',ant=v(m.ant,'___'),wx=v(m.wx,'___'),tp=m.tmp?m.tmp.replace(/\s*C$/i,'')+'C':'___',
+  info=`RIG HR ${rg} PWR ${pw} ${pw} ANT ${ant} ${ant} <BT> WX ${wx} TMP ${tp} HW? BK`,
+  bye=`BK TNX FER QSO ES HPE CU AGN GB GL 73 73 <AR> ${dx} DE ${me}`;
+ const A=[['QRL? (ถามว่าความถี่ว่างไหม รอประมาณ 5 วินาที 2 รอบ)','QRL? QRL?'],
+  ['เรียก CQ',`CQ CQ CQ DE ${me} K`],
+  ['Part 1 ทักทาย รายงาน ชื่อ QTH',`${dx} DE ${me} ${gr} ES TNX FER CALL <BT> UR RST ${rs} OP/NAME ${nm} ${nm} ES QTH ${qt} ${qt} HW? ${dx} DE ${me} K`],
+  ['Part 2 อุปกรณ์ สภาพอากาศ',`BK TNX FER RPRT <BT> ${info}`],
+  ['Part 3 ปิดการติดต่อ',`${bye} <SK>`],
+  ['ปิดท้าย','E E']];
+ const beg=S.lvl==='beg';
+ if(beg){A[2]=['Part 1 ทักทาย รายงาน 599',`${dx} DE ${me} ${gr} ES TNX FER CALL <BT> UR RST ${rs} ${rs} HW? ${dx} DE ${me} K`]}
+ const B=[['ตอบ CQ',`${dx} DE ${me} K`],
+  ['Part 1 ทักทาย รายงาน ชื่อ QTH',`R R ${dx} DE ${me} ${gr} ES TNX FER RPRT <BT> UR RST ${rs} ${rs} OP/NAME ${nm} ${nm} ES QTH ${qt} ${qt} HW? BK`],
+  ['Part 2 อุปกรณ์ สภาพอากาศ',`BK TNX FER INFO <BT> ${info}`],
+  ['Part 3 ปิดการติดต่อ',`${bye} TU TU E E`],
+  ['ปิดท้าย','E E']];
+ if(beg){B[1]=['Part 1 ทักทาย รายงาน 599',`R R ${dx} DE ${me} ${gr} ES TNX FER RPRT <BT> UR RST ${rs} ${rs} HW? BK`]}
+ document.querySelectorAll('#mode button').forEach(b=>b.classList.toggle('pri',b.dataset.m===(S.mode==='ans'?'ans':'cq')));
+ const lv=S.lvl==='beg'||S.lvl==='semi'?S.lvl:'pro';
+ document.querySelectorAll('#lvl button').forEach(b=>b.classList.toggle('pri',b.dataset.v===lv));
+ const ans=S.mode==='ans',FL=ans?B:A,LL=FL.map((x,i)=>[x[0],x[1],i]).filter(x=>lv==='pro'||x[2]!==(ans?2:3)); // beginner / semi-pro skip the rig & weather part
+ $('#mac').replaceChildren(...LL.map(([n,t,i])=>{const d=E('div',{className:'mc'}),hd=E('div',{className:'mh'}),rt=E('span',{className:'mr'}),b=E('button',{className:'sm pri',textContent:'ส่ง'}),cd=E('code',{textContent:t});
+  b.dataset.n=i+1;b.onclick=()=>sendCW(t,i,i===FL.length-1,cd);
+  rt.append(E('kbd',{textContent:(MAC?'⌥':'Num ')+(i+1),title:'Alt/Option+'+(i+1)+(MAC?'':' หรือ Numpad '+(i+1))}),b);
+  hd.append(E('span',{textContent:'M'+(i+1)+'  '+n}),rt);d.append(hd,cd);return d}));
+ if(!tx.on&&!txMsg)$('#txst').textContent=txInfo()}
+function copyText(t){try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t);return}}catch(e){}
+ const a=E('textarea',{value:t});a.style.cssText='position:fixed;opacity:0';document.body.append(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()}
+let lastP=null,loggedFor='';
+function endQso(){const p=partner();if(p.c&&p.c!==loggedFor)lastP=p;loggedFor='';S.cur='';qso='';tmsg('จบการสนทนา เริ่มค้นหาคู่สถานีใหม่');upd()}
+
+// ---- CW transmit: macro text -> dit/dah timing -> key (serial DTR/RTS) + sidetone ----
+const tx={on:false,abort:false};let txOn=false,txPort=null,txChain=Promise.resolve(),txac=null,txG=null,txMsg='';
+const txWpm=()=>S.txw?+S.txw:Math.min(40,Math.max(8,MK.length>=6?Math.round(1200/dot):18));
+const txSig=()=>S.txs==='RTS'?'requestToSend':'dataTerminalReady';
+const txInfo=()=>'ส่งที่ '+txWpm()+' WPM'+(S.txw?' (ตั้งเอง)':' ตามที่ถอดได้')+' · คีย์ '+(txPort?'เชื่อมต่อแล้ว ('+(S.txs||'DTR')+')':'ยังไม่เชื่อมต่อ (เสียงโทนอย่างเดียว)');
+function tmsg(m,ms=5000){txMsg=m;$('#txst').textContent=m;setTimeout(()=>{if(txMsg===m){txMsg='';if(!tx.on)$('#txst').textContent=txInfo()}},ms)}
+function keySet(v){if(txPort)txChain=txChain.then(()=>txPort.setSignals({[txSig()]:v})).catch(()=>{})}
+function txBlock(t){
+ if(/DXCALL/.test(t))return pendCall?'ส่งไม่ได้: ยังรับ Callsign คู่สถานีไม่ครบ (ตอนนี้ '+pendCall+'…) รอรับให้ครบ หรือพิมพ์เองในช่อง Callsign':'ส่งไม่ได้: ยังไม่มี Callsign คู่สถานี (กดเลือกจาก Callsign ที่พบ)';
+ if(/MYCALL/.test(t))return'ส่งไม่ได้: ยังไม่ได้ตั้ง Callsign ของเรา';
+ if(/___/.test(t))return'ส่งไม่ได้: ข้อมูลสถานีของเรายังไม่ครบ (ช่อง ___)';
+ return''}
+function plan(text,w){const u=1200/w,o=[],re=/<[A-Z]+>|\S/g;let m,end=-1;
+ while((m=re.exec(text))){const c=R[m[0]];if(!c)continue;
+  if(o.length)o.push([0,/\s/.test(text.slice(end,m.index))?7*u:3*u,m.index]);
+  [...c].forEach((e,i)=>{if(i)o.push([0,u,m.index]);o.push([1,e==='.'?u:3*u,m.index])});
+  end=m.index+m[0].length}
+ return o}
+const sleep=ms=>new Promise(r=>setTimeout(r,Math.max(0,ms)));
+function sentMark(cd,text,idx){const m=/<[A-Z]+>|\S/y;m.lastIndex=idx;const tk=(m.exec(text)||[''])[0];
+ cd.replaceChildren(E('span',{className:'sent',textContent:text.slice(0,idx)}),E('span',{className:'now',textContent:tk}),text.slice(idx+tk.length))}
+function abortTx(){if(!tx.on)return;tx.abort=true;keySet(false);
+ if(txG&&txac){txG.gain.cancelScheduledValues(txac.currentTime);txG.gain.setTargetAtTime(0,txac.currentTime,.003)}}
+async function sendCW(text,i,last,cd){
+ if(tx.on)return;
+ const bm=txBlock(text);if(bm){tmsg(bm);return}
+ const w=txWpm(),seq=plan(text,w);if(!seq.length)return;
+ tx.on=true;tx.abort=false;txOn=true;document.body.classList.add('sending');$('#txstop').hidden=false;
+ $('#txst').textContent='กำลังส่ง M'+(i+1)+' ที่ '+w+' WPM';
+ let o=null;txG=null;
+ if(S.side!==false){
+  txac=txac||new AudioContext();if(txac.state==='suspended')txac.resume();
+  o=txac.createOscillator();txG=txac.createGain();o.frequency.value=S.tone;txG.gain.value=0;o.connect(txG);txG.connect(txac.destination);o.start();
+  let a=txac.currentTime+.12;
+  for(const[on,ms]of seq){const d=ms/1000;if(on){txG.gain.setValueAtTime(0,a);txG.gain.linearRampToValueAtTime(.35,a+.004);txG.gain.setValueAtTime(.35,a+d-.004);txG.gain.linearRampToValueAtTime(0,a+d)}a+=d}}
+ keySet(false);
+ let t=performance.now()+120,mark=-1;
+ try{
+  for(const[on,ms,idx]of seq){
+   await sleep(t-performance.now());if(tx.abort)break;
+   keySet(!!on);if(on&&idx!==mark){mark=idx;sentMark(cd,text,idx)}
+   t+=ms}
+  if(!tx.abort)await sleep(t-performance.now());
+ }finally{
+  keySet(false);
+  if(txG){txG.gain.cancelScheduledValues(txac.currentTime);txG.gain.setTargetAtTime(0,txac.currentTime,.003);o.stop(txac.currentTime+.05)}
+  cd.textContent=text;tx.on=false;document.body.classList.remove('sending');$('#txstop').hidden=true;
+  setTimeout(()=>{txOn=false},250);
+  if(tx.abort)tmsg('หยุดส่งแล้ว');else{$('#txst').textContent=txMsg||txInfo();if(last){if(S.alog!==false&&(partner().c||(lastP&&lastP.c)))addLog().catch(()=>{}).finally(endQso);else endQso()}}}}
+async function devs(ask){
+ const sel=$('#dev');
+ try{if(ask){const s=await navigator.mediaDevices.getUserMedia({audio:true});s.getTracks().forEach(t=>t.stop())}
+  const ds=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='audioinput');
+  sel.replaceChildren(E('option',{value:'',textContent:'ค่าเริ่มต้นของระบบ'}),...ds.map(d=>E('option',{value:d.deviceId,textContent:d.label||'อุปกรณ์เสียง'})));
+  sel.value=S.dev}
+ catch(e){st('อ่านรายชื่ออุปกรณ์เสียงไม่ได้ ('+e.name+')')}}
+
+const F=[['call','Callsign'],['name','ชื่อ'],['loc','Location'],['qth','QTH'],['rig','RIG'],['ant','ANT'],['pwr','PWR (W)'],['wx','WX'],['tmp','TMP (°C)']];
+const WX=[['HOT','ร้อน'],['RAINY','ฝนตก'],['COLD','หนาว'],['SUNNY','แดดออก / ฟ้าใส'],['CLOUDY','มีเมฆ'],['STORM','พายุฝนฟ้าคะนอง'],['FOG','หมอก'],['WINDY','ลมแรง']];
+function rS(){
+ $('#sf').replaceChildren(...F.map(([f,n])=>{
+  const l=E('label',{textContent:n});let i;
+  if(f==='wx'){i=E('select');i.append(E('option',{value:'',textContent:'ไม่ระบุ'}),...WX.map(([v,t])=>E('option',{value:v,textContent:v,title:t})));i.value=S.my.wx||'';
+   i.onchange=()=>{S.my.wx=i.value;save();upd()}}
+  else{i=E('input',{value:S.my[f]||''});i.oninput=()=>{S.my[f]=i.value.toUpperCase();save();upd();avQ()}}
+  l.appendChild(i);return l}));}
+const tv=()=>{$('#tv').textContent=S.tone};
+$('#tone').value=S.tone;$('#ch').value=S.ch;$('#tt').value=S.tt;tv();
+$('#tone').oninput=e=>{S.tone=+e.target.value;S.auto=false;$('#auto').checked=false;tv();save();spec()};
+$('#auto').checked=!!S.auto;$('#auto').onchange=e=>{S.auto=e.target.checked;save()};
+$('#ch').onchange=e=>{S.ch=e.target.value;save();if(stream)live()};
+$('#dev').onchange=e=>{S.dev=e.target.value;save();if(stream)live()};
+$('#tt').oninput=e=>{S.tt=e.target.value;save()};
+$('#sp').onclick=e=>{const r=e.currentTarget.getBoundingClientRect(),f=Math.round((e.clientX-r.left)/r.width*SPMAX/10)*10;S.tone=Math.min(1000,Math.max(400,f));S.auto=false;$('#auto').checked=false;$('#tone').value=S.tone;tv();save();spec()};
+$('#ref').onclick=()=>devs(true);$('#go').onclick=live;$('#tst').onclick=()=>test();
+$('#stop').onclick=()=>{stopAll();st('หยุดแล้ว')};
+$('#clr').onclick=()=>{txt='';qso='';S.cur='';lastP=null;$('#lcd').textContent='';upd()};
+$('#cp').onclick=()=>{copyText(txt);const f=$('#cp span');f.textContent='คัดลอกแล้ว';setTimeout(()=>f.textContent='คัดลอก',1200)};
+
+// ---- QRZ.com XML lookup (each user enters their own login; nothing is stored in this file) ----
+const QZ={};let qzKey='',qzPw=S.qp||'',qzDead=0,qzT=0,qzNote='',qzSub='',qzBlock=+S.qb||0;
+const qzOn=()=>!!(S.qu&&qzPw);
+function maiden(la,lo,n){
+ const A='ABCDEFGHIJKLMNOPQRSTUVWX';lo+=180;la+=90;
+ let r=A[Math.floor(lo/20)]+A[Math.floor(la/10)]+Math.floor(lo%20/2)+Math.floor(la%10);
+ if(n>=6)r+=A[Math.floor(lo%2*12)]+A[Math.floor(la%1*24)];return r}
+async function qrzReq(q){
+ const r=await fetch('https://xmldata.qrz.com/xml/current/?'+q,{cache:'no-store'});
+ if(!r.ok)throw Object.assign(new Error('HTTP '+r.status),{http:1});
+ const x=new DOMParser().parseFromString(await r.text(),'text/xml');
+ const f=t=>(x.getElementsByTagName(t)[0]||{}).textContent||'';f.x=x;return f}
+async function qrzLogin(){
+ if(qzBlock>Date.now())throw Object.assign(new Error('QRZ บล็อกการล็อกอินอยู่ ลองใหม่หลัง '+new Date(qzBlock).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Bangkok'})+' น. เวลาไทย'),{login:1,wait:1});
+ const g=await qrzReq('username='+encodeURIComponent(S.qu)+';password='+encodeURIComponent(qzPw)+';agent=CWConsole1.0');
+ if(g('Key')){qzKey=g('Key');qzSub=g('SubExp');return g}
+ const er=g('Error')||'เข้าสู่ระบบ QRZ ไม่สำเร็จ',bm=/blocked until (\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d) UTC/.exec(er);
+ if(bm){qzBlock=Date.parse(bm[1]+'T'+bm[2]+'Z');S.qb=qzBlock;save()}
+ throw Object.assign(new Error(er),{login:1})}
+function qrzWhy(e){
+ if(e&&e.wait)return e.message;
+ if(e&&e.login){let m='QRZ: '+e.message;const b=/blocked until (\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d) UTC/.exec(e.message);
+  if(b){const d=new Date(b[1]+'T'+b[2]+'Z');m+=' (ตรงกับ '+d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Bangkok'})+' น. เวลาไทย)'}
+  return m+(/incorrect/i.test(e.message)?' ตรวจ Username/Password ในช่อง QRZ แล้วกด "ทดสอบเชื่อมต่อ" (แอปหยุดค้น QRZ จนกว่าจะแก้รหัส)':'')}
+ if(e&&e.http)return'QRZ ตอบกลับผิดปกติ ('+e.message+')';
+ return'เบราว์เซอร์เรียก QRZ ตรงๆ ไม่ได้ (อาจถูกบล็อกโดย CORS หรือไม่มีอินเทอร์เน็ต) กรอกชื่อ/QTH/GRID เองได้'}
+async function qrzLookup0(c){
+ if(!qzOn()||(qzDead&&Date.now()-qzDead<=30000))return undefined;
+ if(c in QZ)return QZ[c];
+ try{
+  if(!qzKey)await qrzLogin();
+  let g=await qrzReq('s='+qzKey+';callsign='+encodeURIComponent(c)),e=g('Error');
+  if(e&&/session|key/i.test(e)&&!/not found/i.test(e)){qzKey='';await qrzLogin();g=await qrzReq('s='+qzKey+';callsign='+encodeURIComponent(c));e=g('Error')}
+  if(!g('call')){if(/not found/i.test(e)){return QZ[c]={nf:1}}throw Object.assign(new Error(e||'ไม่พบข้อมูล'),{login:1})}
+  const up=v=>v.trim().toUpperCase(),la=parseFloat(g('lat')),lo=parseFloat(g('lon')),gl=g('geoloc').toLowerCase();
+  let gr=up(g('grid')),src='';
+  if(!gr&&isFinite(la)&&isFinite(lo)&&(la||lo)){gr=maiden(la,lo,/^(user|grid)$/.test(gl)?6:4);src='พิกัด'}
+  const z=QZ[c]={n:[g('fname'),g('name')].filter(Boolean).join(' ').trim(),q:(g('addr2')||g('state')||g('country')).replace(/[,\s]+$/,'').trim(),a2:g('addr2').replace(/[,\s]+$/,'').trim(),st:g('state').trim(),g:gr,gs:src,c:up(g('country')),co:g('country').trim(),dx:g('dxcc').trim(),im:g('image').trim(),fl:[...new Set([...g.x.getElementsByTagName('Callsign')[0].children].map(e=>e.localName))].join(',')};
+  console.log('QRZ',c,'fields:',[...new Set([...g.x.getElementsByTagName('Callsign')[0].children].map(e=>e.localName))].join(','),'SubExp:',qzSub);
+  qzNote='';$('#qzst').textContent='';return z
+ }catch(e){qzDead=e&&e.login?Infinity:Date.now();qzKey='';qzNote=qrzWhy(e);$('#qzst').textContent=qzNote;upd();return undefined}}
+// ---- HamQTH.com (optional fallback for lat/lon/grid; API v2, JSON, CORS enabled) ----
+const HQ={};let hqTok='',hqExp=0,hqPw=S.hp||'',hqDead=0,hqNote='';
+const hqOn=()=>!!(S.hu&&hqPw);
+async function hqLogin(){
+ const r=await fetch('https://www.hamqth.com/api/v2/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({callsign:S.hu,password:hqPw})});
+ if(r.status===401)throw Object.assign(new Error('Username/Password HamQTH ไม่ถูกต้อง'),{hqlogin:1});
+ if(r.status===429)throw Object.assign(new Error('HamQTH จำกัดการล็อกอินชั่วคราว (ใส่รหัสผิดหลายครั้ง) รอสักพัก'),{hqwait:(+r.headers.get('Retry-After')||600)*1000});
+ if(!r.ok)throw new Error('HamQTH ตอบกลับ HTTP '+r.status);
+ const j=await r.json();if(!j.token)throw new Error('HamQTH ไม่ส่ง token');hqTok=j.token;hqExp=Date.now()+Math.max(60,(j.expiresIn||3600)-120)*1000}
+async function hqLookup(c){
+ if(!hqOn()||(hqDead&&Date.now()<hqDead))return undefined;
+ if(c in HQ)return HQ[c];
+ try{
+  if(!hqTok||Date.now()>hqExp)await hqLogin();
+  const get=()=>fetch('https://www.hamqth.com/api/v2/callbook/'+encodeURIComponent(c)+'?app=CWConsole',{headers:{Authorization:'Bearer '+hqTok}});
+  let r=await get();if(r.status===401){hqTok='';await hqLogin();r=await get()}
+  if(r.status===404)return HQ[c]={nf:1};
+  if(!r.ok)throw new Error('HamQTH ตอบกลับ HTTP '+r.status);
+  const j=await r.json(),l=j.location||{},la=parseFloat(l.lat),lo=parseFloat(l.lon);
+  let g=(l.grid||'').trim();if(!g&&isFinite(la)&&isFinite(lo)&&(la||lo))g=maiden(la,lo,6);
+  if(g)g=g.slice(0,4).toUpperCase()+g.slice(4).toLowerCase();
+  hqNote='';$('#hqst').textContent='';
+  return HQ[c]={g,n:(j.name||j.nick||'').trim(),q:(j.qth||'').trim(),co:(j.country||'').trim(),dx:j.dxcc?String(j.dxcc):'',im:(j.picture||'').trim()}
+ }catch(e){hqDead=e&&e.hqlogin?Date.now()+3.6e6:e&&e.hqwait?Date.now()+e.hqwait:Date.now()+30000;hqTok='';
+  hqNote=e&&e.hqlogin||e&&e.hqwait||(e&&e.message&&!/fetch|network/i.test(e.message))?e.message:'เชื่อมต่อ HamQTH ไม่ได้ (ไม่มีเน็ต หรือเว็บไม่อนุญาตการเรียกจากหน้านี้)';
+  $('#hqst').textContent=hqNote;upd();return undefined}}
+// ---- approximate grid from the QTH city name (when QRZ/HamQTH/RBN give no grid) ----
+const nz=t=>(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9฀-๿]/g,'');
+const THK=new Map();
+for(const[n,la,lo]of [["Bangkok|Krung Thep|Krungthep Mahanakhon|BKK|Bangkok Metropolis",13.75,100.5],["Samut Prakan|Samutprakan",13.6,100.6],["Nonthaburi",13.86,100.52],["Pathum Thani|Pathumthani",14.02,100.53],["Ayutthaya|Phra Nakhon Si Ayutthaya",14.35,100.57],["Ang Thong|Angthong",14.59,100.45],["Lop Buri|Lopburi",14.8,100.62],["Sing Buri|Singburi",14.89,100.4],["Chai Nat|Chainat",15.19,100.13],["Saraburi",14.53,100.91],["Chon Buri|Chonburi",13.36,100.98],["Pattaya|Banglamung|Bang Lamung|Na Kluea|Jomtien",12.93,100.88],["Sriracha|Si Racha",13.17,100.93],["Rayong",12.68,101.28],["Sattahip|Sattahib",12.67,100.9],["Chanthaburi|Chantaburi",12.61,102.1],["Trat",12.24,102.52],["Chachoengsao|Chachoengsau",13.69,101.07],["Prachin Buri|Prachinburi",14.05,101.37],["Nakhon Nayok|Nakhonnayok",14.21,101.21],["Sa Kaeo|Sakaeo|Sa Kaew",13.82,102.07],["Nakhon Ratchasima|Korat|Khorat",14.97,102.1],["Buri Ram|Buriram",14.99,103.1],["Surin",14.88,103.49],["Si Sa Ket|Sisaket|Sri Sa Ket",15.12,104.32],["Ubon Ratchathani|Ubon",15.24,104.85],["Yasothon",15.79,104.14],["Chaiyaphum",15.81,102.03],["Amnat Charoen",15.86,104.63],["Nong Bua Lam Phu|Nongbualamphu",17.2,102.44],["Khon Kaen|Khonkaen",16.44,102.84],["Udon Thani|Udonthani|Udon",17.41,102.79],["Loei",17.49,101.72],["Nong Khai|Nongkhai",17.88,102.74],["Maha Sarakham|Mahasarakham",16.18,103.3],["Roi Et|Roiet",16.05,103.65],["Kalasin",16.43,103.51],["Sakon Nakhon|Sakonnakhon",17.16,104.15],["Nakhon Phanom|Nakhonphanom",17.41,104.78],["Mukdahan",16.54,104.72],["Bueng Kan|Buengkan",18.36,103.65],["Chiang Mai|Chiangmai",18.79,98.98],["Lamphun|Lampoon",18.58,99.01],["Lampang",18.29,99.49],["Uttaradit",17.63,100.1],["Phrae",18.14,100.14],["Nan",18.78,100.78],["Phayao",19.17,99.9],["Chiang Rai|Chiangrai",19.91,99.83],["Mae Hong Son|Maehongson",19.3,97.97],["Nakhon Sawan|Nakhonsawan",15.7,100.14],["Uthai Thani|Uthaithani",15.38,100.03],["Kamphaeng Phet|Kamphaengphet",16.48,99.52],["Tak",16.88,99.13],["Sukhothai",17.01,99.82],["Phitsanulok|Pitsanulok",16.82,100.26],["Phichit|Pichit",16.44,100.35],["Phetchabun|Petchabun",16.42,101.16],["Suphan Buri|Suphanburi",14.47,100.12],["Nakhon Pathom|Nakhonpathom",13.82,100.06],["Samut Sakhon|Samutsakhon",13.55,100.27],["Samut Songkhram|Samutsongkhram",13.41,100.0],["Ratchaburi|Rajburi",13.53,99.81],["Kanchanaburi",14.02,99.53],["Phetchaburi|Petchaburi|Phetburi",13.11,99.94],["Prachuap Khiri Khan|Prachuap",11.81,99.8],["Hua Hin|Huahin",12.57,99.96],["Cha-am|Cha am|Chaam",12.8,99.97],["Chumphon|Chumporn",10.49,99.18],["Ranong",9.96,98.64],["Surat Thani|Suratthani",9.14,99.33],["Koh Samui|Ko Samui|Samui",9.51,100.01],["Nakhon Si Thammarat|Nakhonsithammarat",8.43,99.96],["Krabi",8.09,98.91],["Phang Nga|Phangnga",8.45,98.53],["Phuket",7.88,98.39],["Trang",7.56,99.61],["Phatthalung|Pattalung",7.62,100.08],["Songkhla|Songkhala",7.19,100.6],["Hat Yai|Hatyai",7.01,100.47],["Satun",6.62,100.07],["Pattani",6.87,101.25],["Yala",6.54,101.28],["Narathiwat",6.43,101.82]])for(const a of n.split('|')){const k=nz(a);if(k&&!THK.has(k))THK.set(k,[n.split('|')[0],la,lo])}
+const thClean=t=>nz((t||'').replace(/\b(amphoe|amphur|ampher|mueang|muang|changwat|province|city|district|tambon|khet|khwaeng)\b/gi,' '));
+function thaiFind(t){
+ const segs=(t||'').split(/[,;\/]/).map(thClean).filter(Boolean);
+ for(const x of segs){const h=THK.get(x);if(h)return h}
+ const all=segs.join('');let b=null;
+ for(const[k,v]of THK)if(k.length>=5&&all.includes(k)&&(!b||k.length>b[0].length))b=[k,v];
+ return b&&b[1]}
+let GEOC={};try{GEOC=JSON.parse(localStorage.getItem('cwgeo')||'{}')}catch(e){}
+const GEOF={};let geoQ=Promise.resolve();
+function geoNet(q,co){
+ const key=(q+'|'+co).toLowerCase();
+ if(GEOC[key])return Promise.resolve(GEOC[key]);
+ if(GEOF[key]&&Date.now()-GEOF[key]<6e5)return Promise.resolve(null);
+ const job=geoQ.then(async()=>{
+  const tf=async u=>{const c=new AbortController(),t=setTimeout(()=>c.abort(),6000);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw 0;return await r.json()}finally{clearTimeout(t)}};
+  let pt=null;
+  try{const j=await tf('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&accept-language=en&q='+encodeURIComponent(q+(co?', '+co:'')));if(j&&j[0])pt=[+j[0].lat,+j[0].lon]}catch(e){}
+  if(!pt||!isFinite(pt[0])||!isFinite(pt[1])){pt=null;try{const j=await tf('https://geocoding-api.open-meteo.com/v1/search?count=8&language=en&format=json&name='+encodeURIComponent(q.split(',')[0].trim())),c0=(co||'').toLowerCase(),rs=(j&&j.results)||[],r=rs.find(x=>c0&&(x.country||'').toLowerCase()===c0)||(c0?null:rs[0]);if(r)pt=[r.latitude,r.longitude]}catch(e){}}
+  if(pt&&isFinite(pt[0])&&isFinite(pt[1])){GEOC[key]=pt;const k=Object.keys(GEOC);if(k.length>400)delete GEOC[k[0]];try{localStorage.setItem('cwgeo',JSON.stringify(GEOC))}catch(e){}}
+  else{pt=null;GEOF[key]=Date.now()}
+  return pt});
+ geoQ=job.then(()=>sleep(1100),()=>sleep(1100));return job}
+async function geoApprox(z,c){
+ if(S.geo===0||z.g||z.ga)return;
+ const co=(z.co||'').trim(),a2=(z.a2||(z.q&&z.q.toLowerCase()!==co.toLowerCase()?z.q:'')||'').replace(/[,\s]+$/,'').trim(),st=(z.st||'').trim();
+ if(!a2&&!st)return;
+ let pt=null,lab='';
+ if(/thai/i.test(co)||/^(HS|E2)/.test(c)){const h=thaiFind(a2)||thaiFind(st);if(h){pt=[h[1],h[2]];lab=h[0]}}
+ if(!pt){const q=[a2,st].filter(Boolean).join(', ');pt=await geoNet(q,co);lab=a2||st}
+ if(pt){const g=maiden(pt[0],pt[1],6);z.ga=g.slice(0,4)+g.slice(4).toLowerCase();z.gal=lab}}
+const gOf=(z,c)=>(z&&z.g)||(rbz(c)||{}).g||(S.mg&&S.mg[c])||(z&&z.ga)||'';
+const gAp=(z,c)=>!!(z&&!z.g&&!rbz(c)&&!(S.mg&&S.mg[c])&&z.ga);
+const gSrc=(z,c)=>z.g?(z.gs==='พิกัด'?'จากพิกัด QRZ':z.gs==='RBN'?'RBN · ข้อมูลจาก QRZ':z.gs||'QRZ'):rbz(c)?'RBN · ข้อมูลจาก QRZ':S.mg&&S.mg[c]?'กรอกเอง':z.ga?'ประมาณ จาก '+(z.gal||'ชื่อเมือง'):'';
+function pxQ(c){const z=QZ[c];if(!z)return'';if(z.nf)return'QRZ: ไม่พบ Callsign นี้';
+ const g=gOf(z,c);
+ return'QRZ: '+[...new Set([z.n,z.q,z.c].filter(Boolean))].join(' · ')+(g?' · Grid '+g+' ('+gSrc(z,c)+')':' · ไม่มี Grid')+(!g&&hqNote?' [HamQTH: '+hqNote+']':'')}
+async function qrzLookup(c){
+ let z=await qrzLookup1(c);let g=rbz(c);
+ if(!g&&!(z&&z.g)&&CRW.test(c)){await rbGridAsk(c);g=rbz(c)}
+ if(g){
+  if(z&&!z.nf){if(!z.g){z.g=g.g;z.gs='RBN'}}
+  else if(qzOn()||hqOn())z=QZ[c]={n:'',q:'',g:g.g,gs:'RBN',c:g.co.toUpperCase(),co:g.co,dx:'',im:'',fl:'(RBN)'}}
+ if(z&&!z.nf&&!z.g&&!z.ga&&!z.gat){z.gat=1;await geoApprox(z,c)}
+ return z}
+async function qrzLookup1(c){
+ const z=await qrzLookup0(c);
+ if(!hqOn()||(z&&z.g))return z;
+ const h=await hqLookup(c);if(!h||h.nf)return z;
+ if(z&&!z.nf){if(h.g){z.g=h.g;z.gs='HamQTH'}if(!z.n&&h.n)z.n=h.n;if(!z.q&&h.q)z.q=h.q;if(!z.dx&&h.dx)z.dx=h.dx;if(!z.im&&h.im)z.im=h.im;return z}
+ return QZ[c]={n:h.n,q:h.q,g:h.g,gs:h.g?'HamQTH':'',c:h.co.toUpperCase(),co:h.co,dx:h.dx,im:h.im,fl:'(HamQTH)'}}
+// ---- profile picture (top-right): QRZ 'image' of our own callsign, else HamQTH 'picture'; hidden when neither has one ----
+let avT=0,avC='';
+function setAv(u,t){const a=$('#av');
+ if(u&&/^https?:\/\//i.test(u)){a.onerror=()=>{a.hidden=true};a.onload=()=>{a.hidden=false};a.title=t||'';a.src=u.replace(/^http:/i,'https:')}
+ else{a.hidden=true;a.removeAttribute('src')}}
+async function avGo(){
+ const c=((S.my&&S.my.call)||S.qu||S.hu||'').trim().toUpperCase();
+ if(!c||!CRW.test(c)||!(qzOn()||hqOn())){setAv('');avC='';return}
+ let z=await qrzLookup(c),u=z&&z.im;
+ if(!u&&hqOn()){const h=await hqLookup(c);u=h&&h.im}
+ if(c===avC&&!u)return;avC=c;setAv(u||'',c)}
+function avQ(){clearTimeout(avT);avT=setTimeout(()=>avGo().catch(()=>{}),1200)}
+// ---- hover a found-callsign chip (above the partner box): show QRZ/HamQTH name, QTH, grid, distance ----
+const tipEl=E('div',{id:'tip',hidden:true});document.body.append(tipEl);let tipC='',tipT=0;
+function tipInfo(c){
+ let z=QZ[c];if(!z&&!(qzOn()||hqOn()))z=rbz(c)||undefined;const g0=z&&gOf(z,c),km=g0&&gridKm((S.my&&S.my.loc)||'',g0);
+ if(z&&z.nf)return c+'\nไม่พบ Callsign นี้ใน QRZ';
+ if(z)return [c,[z.n,z.q].filter(Boolean).join(' · '),g0?'Grid '+g0+' ('+gSrc(z,c)+')'+(km?' · '+(gAp(z,c)?'~':'')+km.toLocaleString('en-US')+' km':''):'ไม่มี Grid ใน QRZ'+(hqOn()?(HQ[c]&&HQ[c].nf?' · HamQTH: ไม่พบ Callsign นี้':HQ[c]?' · HamQTH: ไม่มี Grid ของสถานีนี้':' · HamQTH: '+(hqNote||'ยังไม่ได้ค้น')):' (ไม่ได้ตั้ง HamQTH)'),z.co].filter(Boolean).join('\n');
+ if(!(qzOn()||hqOn()))return c+'\nใส่ QRZ ที่ตั้งค่า เพื่อค้นชื่อ / QTH / Grid';
+ return null}
+function tipShow(el,c){
+ tipC=c;clearTimeout(tipT);const r=el.getBoundingClientRect();
+ const put=t=>{tipEl.textContent=t;tipEl.hidden=false;const w=tipEl.offsetWidth;tipEl.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';tipEl.style.top=(r.bottom+6)+'px'};
+ const t=tipInfo(c);if(t){put(t);return}
+ put(c+'\nกำลังค้นข้อมูล ...');
+ tipT=setTimeout(()=>{if(tipC!==c)return;
+  if(!CRW.test(c)){put(c+'\nยังไม่ใช่ Callsign ที่ครบ');return}
+  qrzLookup(c).then(()=>{if(tipC===c&&!tipEl.hidden)put(tipInfo(c)||c+'\n'+(qzNote||hqNote||'ค้นไม่สำเร็จ'))})},250)}
+$('#chips').addEventListener('mouseover',e=>{const b=e.target.closest('button.chip');if(b&&!b.classList.contains('pend'))tipShow(b,b.textContent.trim())});
+$('#chips').addEventListener('mouseout',e=>{if(e.target.closest('button.chip')){tipC='';clearTimeout(tipT);tipEl.hidden=true}});
+$('#chips').addEventListener('click',()=>{tipC='';tipEl.hidden=true});
+document.addEventListener('mouseover',e=>{if(!e.target.closest('#chips')){tipC='';tipEl.hidden=true}});
+function qzQueue(c){clearTimeout(qzT);qzT=setTimeout(()=>qrzLookup(c).then(z=>{if(z!==undefined)upd()}),600)}
+
+$('#geo').checked=S.geo!==0;$('#geo').onchange=()=>{S.geo=$('#geo').checked?1:0;save();for(const k in QZ){delete QZ[k].ga;delete QZ[k].gat}upd()};
+$('#qzu').value=S.qu||'';$('#qzp').value=qzPw;$('#qzr').checked=!!S.qp;
+const qzReset=()=>{qzKey='';qzDead=0;qzNote='';$('#qzst').textContent='';for(const k in QZ)delete QZ[k]};
+$('#qzu').oninput=e=>{S.qu=e.target.value.trim();qzReset();save();avQ()};
+$('#qzp').oninput=e=>{qzPw=e.target.value;qzReset();if($('#qzr').checked){S.qp=qzPw;save()}};
+$('#qzr').onchange=e=>{if(e.target.checked)S.qp=qzPw;else delete S.qp;save()};
+$('#hqu').value=S.hu||'';$('#hqp').value=hqPw;$('#hqr').checked=!!S.hp;
+const hqReset=()=>{hqTok='';hqDead=0;hqNote='';$('#hqst').textContent='';for(const k in HQ)delete HQ[k];for(const k in QZ)if(QZ[k].gs==='HamQTH'||QZ[k].fl==='(HamQTH)')delete QZ[k]};
+$('#hqu').oninput=e=>{S.hu=e.target.value.trim();hqReset();save();avQ()};
+$('#hqp').oninput=e=>{hqPw=e.target.value;hqReset();if($('#hqr').checked){S.hp=hqPw;save()}};
+$('#hqr').onchange=e=>{if(e.target.checked)S.hp=hqPw;else delete S.hp;save()};
+$('#hqt').onclick=async()=>{
+ const o=$('#hqst');if(!hqOn()){o.textContent='กรอก Username และ Password ก่อน';return}
+ o.textContent='กำลังเชื่อมต่อ ...';hqReset();
+ try{await hqLogin();o.textContent='เชื่อมต่อ HamQTH สำเร็จ';avQ()}
+ catch(e){hqDead=e&&e.hqlogin?Date.now()+3.6e6:0;o.textContent=e&&e.message&&!/fetch|network/i.test(e.message)?e.message:'เชื่อมต่อ HamQTH ไม่ได้ (ไม่มีเน็ต หรือเว็บไม่อนุญาตการเรียกจากหน้านี้)'}};
+$('#qzt').onclick=async()=>{
+ const o=$('#qzst');if(!qzOn()){o.textContent='กรอก Username และ Password ก่อน';return}
+ o.textContent='กำลังเชื่อมต่อ ...';qzReset();
+ try{const g=await qrzLogin();o.textContent='เชื่อมต่อ QRZ สำเร็จ'+(/non/i.test(qzSub)?' (บัญชีไม่ได้สมัครสมาชิก XML อาจไม่ได้ GRID)':'');upd();avQ()}
+ catch(e){qzDead=e&&e.login?Infinity:Date.now();o.textContent=qrzWhy(e)}};
+
+// ---- Radio: frequency / band (CI-V over the same USB serial port) ----
+const BANDS=[['160m',1.8,2],['80m',3.5,4],['60m',5.06,5.45],['40m',7,7.3],['30m',10.1,10.15],['20m',14,14.35],['17m',18.068,18.168],['15m',21,21.45],['12m',24.89,24.99],['10m',28,29.7],['6m',50,54],['2m',144,148],['70cm',420,450]];
+const BCOL={'160m':['#c96a6a','#fff'],'80m':['#e68ae6','#111'],'60m':['#5cc7b8','#111'],'40m':['#8f9cf5','#111'],'30m':['#8fd68f','#111'],'20m':['#ffcf4d','#111'],'17m':['#6fd3e8','#111'],'15m':['#d9b98c','#111'],'12m':['#b5654f','#fff'],'10m':['#ff9ec4','#111'],'6m':['#ff9f5a','#111'],'2m':['#ff5fa8','#111'],'70cm':['#b8bb4a','#111']};
+function bcol(el,b){const c=BCOL[(b||'').trim()];if(c){el.style.background=c[0];el.style.color=c[1];el.style.borderColor='#2b2b2b'}else{el.style.background='';el.style.color='';el.style.borderColor=''}}
+const bandOf=m=>{const b=isFinite(m)&&BANDS.find(x=>m>=x[1]&&m<=x[2]);return b?b[0]:''};
+const MODES={0:'LSB',1:'USB',2:'AM',3:'CW',4:'RTTY',5:'FM',7:'CW-R',8:'RTTY-R'};
+const rig={hz:0,mode:'',live:false,t:0};let cat=null,rigNote='';
+const civA=()=>parseInt(S.civ||'94',16)||0x94;
+const fmtMHz=hz=>(hz/1e6).toFixed(6).replace(/0{1,3}$/,'');
+function curFreq(){if(rig.live)return fmtMHz(rig.hz);const v=(S.fq||'').trim().replace(',','.');return /^\d+(\.\d+)?$/.test(v)&&parseFloat(v)>0?v:''}
+function rigMsg(m){rigNote=m;updRig()}
+function updRig(){
+ const f=$('#fq'),conn=!!txPort;
+ if(rig.live&&Date.now()-rig.t>6000){rig.live=false;rigNote='ไม่ได้รับข้อมูลจากวิทยุแล้ว กรอกความถี่เองได้'}
+ if(document.activeElement!==f)f.value=rig.live?fmtMHz(rig.hz):(S.fq||'');
+ const fr=curFreq(),bn=bandOf(parseFloat(fr));
+ drawThb();$('#bd').textContent=bn||'--';$('#bd').classList.toggle('on',!!bn);bcol($('#bd'),bn);
+ $('#md').textContent=rig.live&&rig.mode?'โหมด '+rig.mode:'';
+ $('#rigst').textContent=rigNote||(rig.live?'ได้รับความถี่จากวิทยุแล้ว (อ่านต่อเนื่อง) · พิมพ์ความถี่ในช่องแล้วกด Enter เพื่อสั่งวิทยุ':conn?'เชื่อมต่อพอร์ตแล้ว รอข้อมูลจากวิทยุ ...':'ยังไม่เชื่อมต่อ กรอกความถี่เองได้ ย่านจะคำนวณให้')}
+function parseMHz(v){v=(v||'').trim().replace(',','.');if(!/^\d+(\.\d+)?$/.test(v))return 0;let n=parseFloat(v);if(n>=1000)n/=1000;return n>=0.03&&n<=450?n:0} // 14074 or 14074.0 = kHz, 14.074 = MHz
+$('#fq').oninput=e=>{if(rig.live)return;S.fq=e.target.value.trim();save();updRig()};
+$('#fq').onkeydown=e=>{
+ if(e.key==='Escape'){e.target.blur();return}
+ if(e.key!=='Enter')return;e.preventDefault();
+ const m=parseMHz(e.target.value);
+ if(!m){rigMsg('ความถี่ไม่ถูกต้อง พิมพ์เป็น MHz เช่น 14.074 หรือ kHz เช่น 14074');return}
+ if(rig.live){tuneHz(Math.round(m*1e6),'พิมพ์เอง');e.target.blur()}
+ else{S.fq=fmtMHz(Math.round(m*1e6));save();e.target.blur();rigMsg('ตั้งความถี่ '+S.fq+' MHz ในแอป'+(txPort?' (ยังไม่ได้รับข้อมูลจากวิทยุ จึงไม่ได้สั่งวิทยุ)':' ไม่ได้ต่อวิทยุ'));updRig()}};
+$('#fq').onblur=()=>{if(rig.live)$('#fq').value=fmtMHz(rig.hz);updRig()};
+function catFeed(c,v){
+ for(const x of v){c.buf.push(x);
+  if(x!==0xFD){if(c.buf.length>40)c.buf=[];continue}
+  const b=c.buf;c.buf=[];let i=-1;for(let k=b.length-2;k>=0;k--)if(b[k]===0xFE&&b[k+1]===0xFE){i=k;break}
+  if(i<0)continue;const f=b.slice(i+2,-1);if(f.length<4)continue;
+  const[to,from,cmd,...d]=f;if(from!==civA()||(to!==0xE0&&to!==0x00))continue;
+  if((cmd===0x03||cmd===0x00)&&d.length>=5){let hz=0,m=1,ok=true;
+   for(let k=0;k<5;k++){const lo=d[k]&15,hi=d[k]>>4;if(lo>9||hi>9){ok=false;break}hz+=(hi*10+lo)*m;m*=100}
+   if(ok&&hz>0){rig.hz=hz;rig.live=true;rig.t=Date.now();rigNote='';updRig()}}
+  else if(cmd===0xFA){rigMsg('วิทยุไม่รับความถี่นี้ (อาจอยู่นอกช่วงของเครื่อง เช่น 70cm บน IC-7300)')}
+  else if((cmd===0x04||cmd===0x01)&&d.length>=1){rig.mode=MODES[d[0]]||('0x'+d[0].toString(16));rig.t=Date.now();updRig()}}}
+async function catStart(port){
+ if(!port.readable||!port.writable)return;
+ const c={w:port.writable.getWriter(),r:port.readable.getReader(),buf:[],n:0,alive:true};cat=c;
+ c.iv=setInterval(()=>{if(!c.alive||tx.on)return;c.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,(c.n++%2)?0x04:0x03,0xFD])).catch(()=>{})},700);
+ (async()=>{try{for(;;){const{value,done}=await c.r.read();if(done)break;if(value)catFeed(c,value)}}catch(e){}})();
+ setTimeout(()=>{if(cat===c&&!rig.live)rigMsg('ไม่ได้รับข้อมูลจากวิทยุ ตรวจว่า CI-V USB Baud Rate ในวิทยุ = '+(S.baud||9600)+' และ CI-V Address = '+(S.civ||'94')+' (ตั้งค่า > การเชื่อมต่อวิทยุ) หรือกรอกความถี่เอง')},4500)}
+async function catStop(){
+ const c=cat;cat=null;rig.live=false;rig.mode='';rigNote='';
+ if(c){c.alive=false;clearInterval(c.iv);try{await c.r.cancel()}catch(e){}try{c.r.releaseLock()}catch(e){}try{c.w.releaseLock()}catch(e){}}
+ updRig()}
+setInterval(updRig,2000);
+
+// ---- Amateur bands in Thailand (reference) ----
+const THB=[['160m','1.800–2.000*','—'],['80m','3.500–3.600*','—'],['40m','7.000–7.200','7.000–7.040'],['30m','10.100–10.150','10.100–10.130'],['20m','14.000–14.350','14.000–14.070'],['17m','18.068–18.168','18.068–18.095'],['15m','21.000–21.450','21.000–21.070'],['12m','24.890–24.990','24.890–24.915'],['10m','28.000–29.700','28.000–28.070'],['6m','50.000–54.000*','50.000–50.100'],['2m','144.000–147.000','144.000–144.150'],['70cm','430.000–440.000*','430.000–430.100*']];
+function drawThb(){
+ const cur=bandOf(parseFloat(curFreq())),f=[];
+ for(const h of['ย่าน','ช่วง (MHz)','ส่วน CW (MHz)'])f.push(E('span',{className:'h',textContent:h}));
+ for(const r of THB){const sp=[];r.forEach((v,k)=>{const x=E('span',{className:(k?'':'bc ')+'r'+(r[0]===cur?' on':''),textContent:v,});
+  if(!k)bcol(x,r[0]);f.push(x)})}
+ $('#thb').replaceChildren(...f);
+ $('#bch').replaceChildren(...THB.map(r=>{const b=E('button',{textContent:r[0],title:'กดเพื่อตั้งความถี่ '+r[0]+(r[0]===cur?' (ย่านปัจจุบัน)':''),className:r[0]===cur?'cur':''});bcol(b,r[0]);b.onclick=()=>pickBand(r);return b}))}
+// click a band row: set the frequency to the start of its CW segment (and tune the radio over CI-V when connected)
+function tuneHz(hz,label){
+ if(cat&&txPort&&rig.live){
+  if(S.civset===false){rigMsg('ปิดการสั่งวิทยุอยู่ (เปิดได้ที่ตั้งค่า) ความถี่จึงยังเป็นค่าจากวิทยุ');return}
+  if(tx.on){rigMsg('กำลังส่งอยู่ รอส่งเสร็จก่อนค่อยเปลี่ยนความถี่');return}
+  const d=[];let v=hz;for(let k=0;k<5;k++){d.push(((Math.floor(v/10)%10)<<4)|(v%10));v=Math.floor(v/100)}
+  cat.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,0x05,...d,0xFD])).then(()=>rigMsg('สั่งวิทยุไปที่ '+fmtMHz(hz)+' MHz ('+label+') แล้ว รอวิทยุตอบกลับ ...')).catch(()=>rigMsg('ส่งคำสั่งไปวิทยุไม่สำเร็จ'));
+  return}
+ S.fq=fmtMHz(hz);save();rigMsg('ตั้งความถี่ '+fmtMHz(hz)+' MHz ('+label+') ในแอป'+(txPort?' (ยังไม่ได้รับข้อมูลจากวิทยุ จึงไม่ได้สั่งวิทยุ)':' ไม่ได้ต่อวิทยุ'));updRig()}
+function pickBand(r){
+ const seg=r[2]&&r[2]!=='—'?r[2]:r[1],mhz=parseFloat(seg),hz=Math.round(mhz*1e6);if(!(mhz>0))return;
+ tuneHz(hz,r[0])}
+
+// ---- RBN: live CQ spots from the Reverse Beacon Network (via the local bridge: rbn-bridge.py) ----
+const BRV='1.4';let rbBV=null,rbVT=0,rbOld=false;
+const RB=new Map();let rbWs=null,rbT=0,rbWant=false,rbMsg='',rbN=0,rbRT=0,rbOk=false;
+const RBRE=/^DX de\s+([A-Z0-9\/]+?)(?:-#)?:\s+(\d+(?:\.\d+)?)\s+([A-Z0-9\/]+)\s+(\S+)\s+(-?\d+)\s+dB\s+(\d+)\s+(?:WPM|BPS)\s+(.+?)\s+(\d{4})Z/i;
+const HM=new Map(),isMe=c=>{const m=((S.my&&S.my.call)||'').toUpperCase();return!!m&&(c===m||c.split('/').includes(m))};
+function rbAdd(call,f,by,snr,wpm,ty,t){
+ const b=bandOf(f/1000);if(!b||!call)return;const k=call+'|'+b;rbN++;
+ if(isMe(call)){const hk=by+'|'+b,o=HM.get(hk);if(!o||t>=o.t){HM.set(hk,{c:call,by,b,f,snr,w:wpm,t,ty});if(HM.size>200)HM.delete(HM.keys().next().value)}}
+ let r=RB.get(k);if(!r){r={call,b,by:new Set(),snr:-99,n:0,t:0};RB.set(k,r)}
+ if(t>=r.t){r.f=f;r.t=t;r.w=wpm;r.ty=ty}
+ r.by.add(by);r.n++;if(snr>r.snr||t-(r.ts||0)>600000){r.snr=snr;r.ts=t}
+ if(RB.size>4000){const cut=Date.now()-864e5;for(const [kk,v] of RB)if(v.t<cut)RB.delete(kk)}}
+function rbLine(l){
+ const m=RBRE.exec(l);if(!m||m[4].toUpperCase()!=='CW')return;
+ const call=m[3].toUpperCase(),f=parseFloat(m[2]),ty=m[7].trim().toUpperCase(),now=Date.now(),b=bandOf(f/1000),prev=b&&RB.get(call+'|'+b);
+ rbAdd(call,f,m[1].toUpperCase(),+m[5],+m[6],ty,now);
+ if(b&&(ty==='CQ'||ty==='DX')&&isTh(call)&&!isMe(call)&&(!prev||now-prev.t>6e5))rbAlert(call,f,b,+m[5]);
+ rbDraw()}
+// ---- alert when a Thai (HS/E2) station is spotted calling CQ (live spots only) ----
+let RBAL=null,rbAC=null,rbTT=0;const rbTitle=document.title;
+function rbBeep(){try{rbAC=rbAC||new(window.AudioContext||window.webkitAudioContext)();if(rbAC.state==='suspended')rbAC.resume();
+ const t0=rbAC.currentTime;[[988,0],[1318,.14]].forEach(([fr,d])=>{const o=rbAC.createOscillator(),g=rbAC.createGain();o.type='sine';o.frequency.value=fr;
+  g.gain.setValueAtTime(0,t0+d);g.gain.linearRampToValueAtTime(.18,t0+d+.01);g.gain.exponentialRampToValueAtTime(.001,t0+d+.12);o.connect(g).connect(rbAC.destination);o.start(t0+d);o.stop(t0+d+.13)})}catch(e){}}
+function rbAlert(call,f,b,snr){
+ const mode=S.rbal==null?'1':String(S.rbal);if(mode==='0')return;
+ const r=RB.get(call+'|'+b);if(r)r.al=Date.now();
+ RBAL={call,f,b,snr,t:Date.now()};
+ if(mode==='1')rbBeep();
+ document.title='● '+call+' CQ · '+rbTitle;clearTimeout(rbTT);rbTT=setTimeout(()=>{document.title=rbTitle},30000);
+ rbAlShow();setTimeout(()=>rbDraw(1),31000)}
+window.addEventListener('focus',()=>{document.title=rbTitle});
+function rbAlShow(){const el=$('#rbal2');
+ if(!RBAL||Date.now()-RBAL.t>6e5){RBAL=null;el.hidden=true;return}
+ el.hidden=false;el.replaceChildren(E('span',{textContent:'● '+RBAL.call+' CQ  '+RBAL.f.toFixed(1)+' kHz · '+RBAL.b+' · '+RBAL.snr+' dB · '+rbAgo(Date.now()-RBAL.t)}),E('span',{className:'x',textContent:'✕',title:'ปิดแถบเตือน'}));
+ el.title=RBAL.test?'ตัวอย่างแถบเตือน':'กดเพื่อตั้งความถี่ '+RBAL.f.toFixed(1)+' kHz และใช้ '+RBAL.call+' เป็นคู่สถานี'}
+$('#rbal2').onclick=e=>{if(!RBAL)return;if(e.target.classList.contains('x')||RBAL.test){RBAL=null;rbAlShow();return}
+ tuneHz(Math.round(RBAL.f*1000),RBAL.b+' · '+RBAL.call);S.cur=CRW.test(RBAL.call)?RBAL.call:'';upd()};
+// ---- who hears us: RBN spots of our own callsign, one chip per skimmer ----
+function rbMeDraw(now,age){
+ const el=$('#rbme'),me=((S.my&&S.my.call)||'').toUpperCase(),a=[...HM.values()].filter(x=>isMe(x.c)&&now-x.t<=Math.max(age,18e5));
+ if(!me||!a.length){el.hidden=true;return}
+ a.sort((x,y)=>y.snr-x.snr);const best=a[0],last=a.reduce((x,y)=>y.t>x.t?y:x);
+ el.hidden=false;
+ el.replaceChildren(E('div',{innerHTML:'<b>RBN ได้ยินเรา</b> '+me+' · '+a.length+' ตัว · แรงสุด '+best.snr+' dB · '+rbAgo(now-last.t)}),
+  E('div',{className:'ch'},)
+ );
+ const ch=el.lastElementChild;
+ a.slice(0,4).forEach(x=>ch.append(E('span',{textContent:x.by+' '+x.b+' '+x.snr,title:x.by+': '+x.f.toFixed(1)+' kHz '+x.b+' · '+x.snr+' dB · '+x.w+' WPM · '+x.ty+' · '+rbAgo(now-x.t)+' ที่แล้ว'})));
+ if(a.length>4)ch.append(E('span',{textContent:'+'+(a.length-4),title:a.slice(4).map(x=>x.by+' '+x.b+' '+x.snr).join('\n')}))}
+// recent history + grids from the RBN website's own JSON (fetched by the bridge): spot = [spotter,kHz,spotted,snr,wpm,'hhmmz d M',age,..,epoch]
+const RBG={};try{Object.assign(RBG,JSON.parse(localStorage.getItem('cwrbg')||'{}'))}catch(e){}
+const rbz=c=>{const g=RBG[c];return g&&g[0]&&g[1]==='qrz'?{g:g[0].slice(0,4)+g[0].slice(4).toLowerCase(),gs:'RBN',n:'',q:'',co:g[2]||''}:null}; // only grids RBN took from QRZ
+let rbHW=0,rbHn=0;
+function rbHist(){
+ if(!rbWs||rbWs.readyState!==1){rbSt('ต้องเชื่อมต่อ RBN ก่อน แล้วค่อยกดดึงย้อนหลัง');return}
+ if(rbOld){rbStale(rbBV||'');return}
+ if(Date.now()-rbHn<30000){rbSt('เพิ่งดึงไป รอสักครู่แล้วกดใหม่');return}
+ rbHn=Date.now();const cdx=($('#rbhp').value||'HS*,E2*').toUpperCase().replace(/[^A-Z0-9*,\/]/g,'').split(',').filter(Boolean).map(t=>t.includes('*')?t:t+'*').join(',').slice(0,60)||'HS*,E2*'; // RBN answers error 888 to a pattern without a wildcard: HS -> HS*, E25YNH -> E25YNH*
+ $('#rbhp').value=cdx;
+ S.rbhp=cdx;save();rbSt('กำลังดึงสปอตย้อนหลังจากเว็บ RBN ('+cdx+') ...');
+ {const me=((S.my&&S.my.call)||'').toUpperCase().replace(/[^A-Z0-9\/]/g,''),w=me+'*',q=me&&!cdx.split(',').includes(w)&&!cdx.split(',').some(t=>t.endsWith('*')&&me.startsWith(t.slice(0,-1)))?cdx.slice(0,58-w.length)+','+w:cdx;rbWs.send(JSON.stringify({hist:{cdx:q,ma:Math.min(86400,Math.max(30,+S.rba||15)*60),r:100}}))}
+ clearTimeout(rbHW);rbHW=setTimeout(()=>rbSt('ไม่มีคำตอบ ตัวเชื่อมอาจเป็นรุ่นเก่า (บน Mac ไฟล์ใหม่อาจถูกตั้งชื่อ rbn-bridge (1).py แล้วคำสั่งเดิมยังรันไฟล์เก่า) ดูขั้นตอนที่ ตั้งค่า > RBN'),25000)}
+let rbQ=0;const RBW=new Set(),RBA=new Map();
+const rbAskDone=()=>{for(const f of [...RBW])f()};
+function rbGridAsk(c){ // ask the bridge for the RBN website's data on one callsign (its call_info carries the grid RBN took from QRZ)
+ return new Promise(res=>{
+  if(!rbWs||rbWs.readyState!==1||rbOld||!rbOk||rbz(c)){res();return}
+  const t=RBA.get(c);if(t&&Date.now()-t<3e5){res();return}RBA.set(c,Date.now());
+  const tm=setTimeout(()=>done(),5000),done=()=>{clearTimeout(tm);RBW.delete(done);res()};RBW.add(done);rbQ++;
+  try{rbWs.send(JSON.stringify({hist:{cdx:c+'*',ma:86400,r:8}}))}catch(e){rbQ=Math.max(0,rbQ-1);done()}})}
+function rbHistIn(d){
+ const quiet=rbQ>0;if(quiet)rbQ--;
+ clearTimeout(rbHW);let n=0;
+ for(const r of Object.values(d.spots||{})){if(!Array.isArray(r)||r.length<11)continue;const f=parseFloat(r[1]);if(!(f>0))continue;rbAdd(String(r[2]).toUpperCase(),f,String(r[0]).toUpperCase().replace(/-#$/,''),+r[3],+r[4],'HIS',+r[10]*1000);n++}
+ for(const [c,v] of Object.entries(d.call_info||{}))if(Array.isArray(v)&&v[8])RBG[c.toUpperCase()]=[String(v[8]).toUpperCase(),String(v[9]||''),String(v[1]||'')];
+ try{const k=Object.keys(RBG);if(k.length>400)for(const x of k.slice(0,k.length-400))delete RBG[x];localStorage.setItem('cwrbg',JSON.stringify(RBG))}catch(e){}
+ if(!quiet)rbSt('ดึงย้อนหลังแล้ว '+n+' สปอต');rbAskDone();upd();rbDraw(1)}
+function rbStale(v){rbOld=true;$('#rbh').open=true;
+ rbSt('ตัวเชื่อมที่รันอยู่เป็นรุ่นเก่า'+(v?' ('+v+')':' (ไม่มีเลขรุ่น)')+' แอปต้องการรุ่น '+BRV+' · ปิดหน้าต่างตัวเชื่อมเดิม ดาวน์โหลดตัวใหม่ที่ ตั้งค่า > RBN แล้วรันใหม่ (Mac: ใช้คำสั่งในขั้นตอนที่ 3 ซึ่งเลือกไฟล์ใหม่ล่าสุดให้เอง; Windows: รันตัวติดตั้งทับ) ตอนนี้ยังรับสปอตสดได้ แต่ดึงย้อนหลังไม่ได้')}
+function rbSt(m){rbMsg=m;for(const i of['#rbst','#rbst2']){const o=$(i);if(o)o.textContent=m}}
+function rbThai(m){
+ let x;
+ if(m==='connected')return'เชื่อมต่อ RBN แล้ว กำลังเข้าระบบ ...';
+ if((x=/^logged in as (.+)$/.exec(m)))return'เข้าระบบ RBN ด้วย '+x[1]+' แล้ว รอสปอต ...';
+ if(/^connecting/.test(m))return'ตัวเชื่อมกำลังต่อไปที่ RBN ...';
+ if((x=/^cannot reach RBN: (.+)$/.exec(m)))return'ตัวเชื่อมต่อ RBN ไม่ได้ ('+x[1]+') ตรวจอินเทอร์เน็ตของเครื่อง';
+ if(m==='RBN closed the connection')return'RBN ตัดการเชื่อมต่อ';
+ if(m==='bad callsign')return'Callsign ไม่ถูกต้อง ตรวจที่ตั้งค่า > สถานีของเรา';
+ return m}
+function rbConn(){
+ clearTimeout(rbT);if(rbWs)return;
+ const call=((S.my&&S.my.call)||'').trim().toUpperCase();
+ if(!call){rbSt('ใส่ Callsign ของคุณที่ ตั้งค่า > สถานีของเรา ก่อน แล้วกดเชื่อมต่อ');return}
+ rbWant=true;S.rbOn=true;save();$('#rbc').textContent='ตัดการเชื่อมต่อ';rbSt('กำลังเชื่อมต่อตัวเชื่อม ...');
+ let w;try{w=new WebSocket('ws://localhost:7373')}catch(e){rbSt('เบราว์เซอร์ไม่ให้เชื่อมต่อ ws://localhost (ลองเปิดแอปจากไฟล์ในเครื่อง)');rbWant=false;return}
+ rbWs=w;let got=false;
+ w.onopen=()=>{got=true;rbBV=null;rbOld=false;clearTimeout(rbVT);rbVT=setTimeout(()=>{if(rbWs===w&&!rbBV)rbStale('')},2500);w.send(JSON.stringify({call}))};
+ w.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch(_){return}
+  if(m.t==='v'){rbBV=String(m.v||'');clearTimeout(rbVT);const a=rbBV.split('.').map(Number),b=BRV.split('.').map(Number);if(a[0]<b[0]||(a[0]===b[0]&&(a[1]||0)<b[1]))rbStale(rbBV)}
+  else if(m.t==='st'&&(rbQ>0||RBW.size)&&/^history failed/.test(m.m)){if(rbQ>0)rbQ--;rbAskDone()}
+  else if(m.t==='st'){rbSt(rbThai(m.m));if(/^logged in/.test(m.m)){rbOk=true;if(!rbOld)$('#rbh').open=false;setTimeout(rbHist,800)}}else if(m.t==='s')rbLine(m.l);else if(m.t==='h')rbHistIn(m.d)};
+ w.onclose=()=>{if(rbWs===w)rbWs=null;
+  if(!rbWant){$('#rbc').textContent='เชื่อมต่อ';return}
+  rbSt(got?'หลุดการเชื่อมต่อ ลองใหม่ใน 12 วินาที ...':'ยังไม่ได้เปิดตัวเชื่อม RBN (ดูที่ ตั้งค่า > RBN) จะลองต่อให้เองทุก 12 วินาที');
+  rbT=setTimeout(rbConn,12000)};
+ w.onerror=()=>{}}
+function rbDisc(){rbWant=false;S.rbOn=false;save();clearTimeout(rbT);if(rbWs){rbWs.onclose=null;rbWs.close();rbWs=null}$('#rbc').textContent='เชื่อมต่อ';rbSt('ตัดการเชื่อมต่อแล้ว')}
+function gridLL(g){g=(g||'').toUpperCase();const m=/^([A-R]{2})(\d\d)([A-X]{2})?$/.exec(g);if(!m)return null;
+ const A=c=>c.charCodeAt(0)-65;let lo=A(m[1][0])*20-180+(+m[2][0])*2,la=A(m[1][1])*10-90+(+m[2][1]);
+ if(m[3]){lo+=A(m[3][0])*2/24+1/24;la+=A(m[3][1])/24+1/48}else{lo+=1;la+=.5}return[la,lo]}
+function gridKm(a,b){const x=gridLL(a),y=gridLL(b);if(!x||!y)return 0;const r=Math.PI/180,d=Math.sin((y[0]-x[0])*r/2)**2+Math.cos(x[0]*r)*Math.cos(y[0]*r)*Math.sin((y[1]-x[1])*r/2)**2;return Math.round(12742*Math.asin(Math.sqrt(d)))}
+function rbSel(){return S.rbbs||[]}
+function rbBands(){
+ const bx=$('#rbb');bx.classList.toggle('sel',rbSel().length>0);bx.replaceChildren(...BANDS.map(([b])=>{const e=E('button',{textContent:b,className:rbSel().includes(b)?'on':'',title:'กดเพื่อเลือก/ยกเลิกย่านนี้ (ไม่เลือกเลย = ทุกย่าน)',onclick(){const a=new Set(rbSel());a.has(b)?a.delete(b):a.add(b);S.rbbs=[...a];save();rbBands();rbDraw()}});bcol(e,b);return e}))}
+function rbAgo(ms){const s=Math.max(0,Math.round(ms/1000));return s<60?s+'s':s<3600?Math.floor(s/60)+'m':Math.floor(s/3600)+'h'}
+try{const o=JSON.parse(localStorage.getItem('cwrb')||'[]'),cut=Date.now()-864e5;for(const r of o)if(r&&r.t>cut&&r.call&&r.b){r.by=new Set(r.by||[]);RB.set(r.call+'|'+r.b,r)}}catch(e){}
+function rbKeep(){try{const cut=Date.now()-864e5,a=[...RB.values()].filter(r=>r.t>cut).sort((x,y)=>y.t-x.t).slice(0,600).map(r=>Object.assign({},r,{by:[...r.by].slice(0,6)}));localStorage.setItem('cwrb',JSON.stringify(a))}catch(e){}}
+setInterval(rbKeep,60000);window.addEventListener('beforeunload',rbKeep);
+const isTh=c=>/^(HS|E2)/.test(c);
+function rbDraw(force){
+ const now=Date.now();if(!force&&now-rbRT<250){clearTimeout(rbDraw.t);rbDraw.t=setTimeout(()=>rbDraw(1),260);return}rbRT=now;
+ const age=(+S.rba||15)*60000,mn=S.rbs==null?-99:+S.rbs,bs=rbSel(),cq=S.rbq!==false,toks=($('#rbq').value||'').toUpperCase().split(/[\s,;]+/).filter(Boolean),th=!!S.rbth,me=((S.my&&S.my.call)||'').toUpperCase();
+ let a=[...RB.values()].filter(r=>now-r.t<=age&&r.snr>=mn&&(!bs.length||bs.includes(r.b))&&(!cq||th||r.ty==='CQ'||r.ty==='HIS')&&(!th||isTh(r.call))&&(!toks.length||toks.some(t=>r.call.startsWith(t)||(t[0]==='*'&&r.call.includes(t.slice(1))))));
+ const o=S.rbo||'t';a.sort(o==='s'?(x,y)=>y.snr-x.snr:o==='f'?(x,y)=>x.f-y.f:(x,y)=>y.t-x.t);
+ const h=E('div',{className:'rr h'});['อายุ','ย่าน','kHz','Callsign','SNR'].forEach(t=>h.append(E('span',{textContent:t})));
+ const rows=a.slice(0,12).map(r=>{
+  const z=QZ[r.call]||rbz(r.call),gg=z&&gOf(z,r.call),km=gg&&gridKm((S.my&&S.my.loc)||'',gg),d=E('div',{className:'rr'+(r.call===me?' me':'')+(r.al&&now-r.al<30000?' new':''),title:'กดเพื่อตั้งความถี่ '+r.f.toFixed(1)+' kHz และใช้ '+r.call+' เป็นคู่สถานี · '+r.w+' WPM · ผู้ฟัง '+r.by.size+': '+[...r.by].join(', ')+(z&&!z.nf?'\n'+[z.n,z.q,gg&&('Grid '+gg+(gAp(z,r.call)?' (ประมาณ)':'')+(km?' · '+(gAp(z,r.call)?'~':'')+km.toLocaleString('en-US')+' km':''))].filter(Boolean).join(' · '):(qzOn()||hqOn()?'\nชี้ที่ป้าย Callsign เหนือช่องพิมพ์ เพื่อค้น Grid':''))}),bc=E('span',{className:'bc',textContent:r.b}),cs=E('span',{className:'c',textContent:r.call});
+  bcol(bc,r.b);if(gg)cs.append(E('span',{className:'ty',textContent:(gAp(z,r.call)?'~':'')+gg}));if(r.ty!=='CQ'&&r.ty!=='HIS')cs.append(E('span',{className:'ty',textContent:r.ty}));
+  d.append(E('span',{className:'mu',textContent:rbAgo(now-r.t)}),bc,E('span',{textContent:r.f.toFixed(1)}),cs,E('span',{textContent:String(r.snr)}));
+  d.onclick=()=>{tuneHz(Math.round(r.f*1000),r.b+' · '+r.call);S.cur=CRW.test(r.call)?r.call:'';upd()};
+  return d});
+ $('#rbl').replaceChildren(h,...(rows.length?rows:[E('div',{className:'mu',style:'padding:14px 16px',textContent:rbWs&&rbOk?'ยังไม่มีสถานี CQ ตามตัวกรอง รอสปอตจาก RBN สักครู่ ...':'ยังไม่ได้เชื่อมต่อ RBN ไปที่ ตั้งค่า > RBN'})]));
+ rbAlShow();rbMeDraw(now,age);
+ let k=rows.length;const pn=$('#rbl').closest('.pn');
+ const xt=!$('#rbme').hidden||!$('#rbal2').hidden;
+ while(k>(xt?3:5)&&pn.clientHeight>0&&pn.scrollHeight>pn.clientHeight+1){$('#rbl').lastElementChild.remove();k--}
+ const tha=[...RB.values()].filter(r=>now-r.t<=age&&isTh(r.call));
+ $('#rbth').classList.toggle('pri',th);
+ const thAll=[...RB.values()].filter(r=>isTh(r.call)).sort((x,y)=>y.t-x.t)[0];
+ $('#rbn').textContent='แสดง '+k+' จาก '+a.length+' สถานี · สปอตทั้งหมด '+rbN+' · HS/E2 ในช่วงอายุที่เลือก '+tha.length+(thAll?' · ล่าสุด '+thAll.call+' ('+rbAgo(now-thAll.t)+' ที่แล้ว)':' · ยังไม่เคยได้ยิน HS/E2 ตั้งแต่เปิดแอป')}
+$('#rbc').onclick=()=>rbWs?rbDisc():rbConn();
+$('#ver').textContent=VER;
+$('#bk').onclick=()=>{const o={app:'cw-console',ver:VER,t:new Date().toISOString(),settings:Object.assign({},S),log:LOG};delete o.settings.qp;delete o.settings.hp;
+ const a=E('a',{href:URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:'application/json'})),download:'cw-console-backup-'+new Date().toISOString().slice(0,10)+'.json'});document.body.append(a);a.click();a.remove();
+ $('#bkst').textContent='สำรองแล้ว: การตั้งค่า + Log '+LOG.length+' รายการ (ไม่รวมรหัสผ่าน)'};
+$('#bki').onclick=()=>$('#bkf').click();
+$('#bkf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const o=$('#bkst');
+ try{const j=JSON.parse(await f.text());if(j.app!=='cw-console'||typeof j.settings!=='object'||!Array.isArray(j.log))throw 0;
+  const keep={qp:S.qp,hp:S.hp},k=r=>[r.d,r.t,r.c,r.f].join('|'),have=new Set(LOG.map(k));let add=0;
+  for(const r of j.log)if(r&&typeof r==='object'&&!have.has(k(r))){LOG.push(r);add++}
+  for(const x in S)delete S[x];Object.assign(S,j.settings);for(const x in keep)if(keep[x]!==undefined)S[x]=keep[x];
+  save();saveLog();o.textContent='นำเข้าแล้ว: เพิ่ม Log ใหม่ '+add+' รายการ กำลังโหลดหน้าใหม่ ...';setTimeout(()=>location.reload(),900)}
+ catch(_){o.textContent='ไฟล์นี้ไม่ใช่ไฟล์สำรองของ CW Console'}};
+$('#thm').value=S.theme||'auto';$('#thm').onchange=e=>{S.theme=e.target.value;save();applyTheme()};
+$('#rbs').value=S.rbs==null?-99:S.rbs;$('#rba').value=S.rba||15;$('#rbo').value=S.rbo||'t';$('#rbcq').checked=S.rbq!==false;
+$('#rbs').onchange=e=>{S.rbs=+e.target.value;save();rbDraw(1)};$('#rba').onchange=e=>{S.rba=+e.target.value;save();rbDraw(1)};$('#rbo').onchange=e=>{S.rbo=e.target.value;save();rbDraw(1)};
+$('#rbcq').onchange=e=>{S.rbq=e.target.checked;save();rbDraw(1)};
+$('#rbal').value=S.rbal==null?'1':String(S.rbal);$('#rbal').onchange=e=>{S.rbal=e.target.value;save();if(e.target.value==='0')RBAL=null;rbAlShow()};
+$('#rbalt').onclick=()=>{if((S.rbal==null?'1':String(S.rbal))!=='2')rbBeep();RBAL={call:'HS0XXX',f:14030.1,b:'20m',snr:20,t:Date.now(),test:1};rbAlShow()};$('#rbq').oninput=()=>rbDraw(1);$('#rbhp').value=S.rbhp||'HS*,E2*';$('#rbhb').onclick=rbHist;$('#rbth').onclick=()=>{S.rbth=!S.rbth;save();rbDraw(1)};
+const rbSave=(name,txt,type)=>{const a=E('a',{href:URL.createObjectURL(new Blob([txt],{type:type||'text/plain'})),download:name});document.body.append(a);a.click();a.remove()};
+const rbPy=()=>$('#rbpy').textContent.replace(/^\n/,'').replace(/\r/g,'');
+$('#rbpy2').onclick=()=>rbSave('rbn-bridge.py',rbPy(),'text/x-python');
+$('#rbdl').onclick=()=>{ // single-file Windows installer: unpacks the bridge, adds a cwbridge:// launcher, optional autostart
+ const b64=btoa(rbPy()),L=['@echo off','setlocal','title CW Console RBN bridge installer','set "D=%LOCALAPPDATA%\\CWConsole"','mkdir "%D%" 2>nul','set "B=%D%\\rbn.b64"','> "%B%" echo -----BEGIN CERTIFICATE-----'];
+ for(let i=0;i<b64.length;i+=64)L.push('>> "%B%" echo '+b64.slice(i,i+64));
+ L.push('>> "%B%" echo -----END CERTIFICATE-----','certutil -f -decode "%B%" "%D%\\rbn-bridge.py" >nul','del "%B%"',
+  'where py >nul 2>nul && (set "PY=py -3") || (where python >nul 2>nul && (set "PY=python") || (set "PY="))',
+  'if "%PY%"=="" (echo Python 3 was not found. Install it from python.org ^(tick Add python.exe to PATH^) and run this file again. & start https://www.python.org/downloads/ & pause & exit /b 1)',
+  '> "%D%\\run-rbn-bridge.bat" echo @echo off','>> "%D%\\run-rbn-bridge.bat" echo start "CW Console RBN bridge" /min %PY% "%D%\\rbn-bridge.py"',
+  'reg add "HKCU\\Software\\Classes\\cwbridge" /ve /d "URL:CW Console Bridge" /f >nul','reg add "HKCU\\Software\\Classes\\cwbridge" /v "URL Protocol" /d "" /f >nul',
+  'reg add "HKCU\\Software\\Classes\\cwbridge\\shell\\open\\command" /ve /d "\\"%D%\\run-rbn-bridge.bat\\"" /f >nul',
+  'echo.','echo Installed in %D%','choice /m "Start the bridge automatically when Windows starts"',
+  'if errorlevel 2 (reg delete "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v CWConsoleRBN /f >nul 2>nul) else (reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v CWConsoleRBN /d "\\"%D%\\run-rbn-bridge.bat\\"" /f >nul)',
+  'call "%D%\\run-rbn-bridge.bat"','echo.','echo Done. Go back to CW Console: Settings ^> RBN ^> Connect.','pause');
+ rbSave('install-rbn-bridge.bat',L.join('\r\n')+'\r\n','application/octet-stream')};
+$('#rbrun').onclick=()=>{
+ if(/Mac|iPhone|iPad/i.test(navigator.platform||'')){rbSt('ปุ่มนี้ใช้ได้เฉพาะ Windows บน Mac เปิด Terminal แล้วพิมพ์ cd ~/Downloads && python3 "$(ls -t rbn-bridge*.py | head -1)" (ดูขั้นตอนด้านล่าง)');return}
+ rbSt('กำลังสั่ง Windows เปิดตัวเชื่อม ... (ถ้าเบราว์เซอร์ถาม ให้กดอนุญาต ถ้าไม่มีอะไรเกิดขึ้น แปลว่ายังไม่ได้ติดตั้ง)');
+ const a=E('a',{href:'cwbridge://start'});document.body.append(a);a.click();a.remove();
+ setTimeout(()=>{if(!rbWs)rbConn()},3500)};
+setInterval(()=>rbDraw(1),5000);rbBands();rbDraw(1);if(S.rbOn&&S.my&&S.my.call)rbConn();
+
+// ---- keep the last 30 s of input audio so a bad decode can be saved as .wav and examined ----
+let recBuf=[],recN=0;
+function recStart(src){
+ recBuf=[];recN=0;const sp=ac.createScriptProcessor(4096,1,1),z=ac.createGain();z.gain.value=0;
+ sp.onaudioprocess=e=>{const d=e.inputBuffer.getChannelData(0);recBuf.push(new Float32Array(d));recN+=d.length;
+  const mx=ac.sampleRate*30;while(recBuf.length>1&&recN-recBuf[0].length>=mx)recN-=recBuf.shift().length};
+ src.connect(sp);sp.connect(z);z.connect(ac.destination)}
+$('#rec').onclick=()=>{
+ if(!recN||!ac){st('ยังไม่มีเสียง กด เริ่มฟัง ก่อน');return}
+ const sr=ac.sampleRate,n=recN,o=new DataView(new ArrayBuffer(44+n*2)),w=(i,t)=>[...t].forEach((c,j)=>o.setUint8(i+j,c.charCodeAt(0)));
+ w(0,'RIFF');o.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');o.setUint32(16,16,true);o.setUint16(20,1,true);o.setUint16(22,1,true);o.setUint32(24,sr,true);o.setUint32(28,sr*2,true);o.setUint16(32,2,true);o.setUint16(34,16,true);w(36,'data');o.setUint32(40,n*2,true);
+ let k=44;for(const b of recBuf)for(const v of b){o.setInt16(k,Math.max(-1,Math.min(1,v))*32767,true);k+=2}
+ dl('cw-audio-'+utcNow().slice(0,19).replace(/[-:T]/g,'')+'.wav','audio/wav',new Blob([o.buffer],{type:'audio/wav'}));
+ st('บันทึกเสียง '+Math.round(n/sr)+' วินาทีแล้ว (โทน '+S.tone+' Hz)')};
+
+// ---- QSO log (UTC date/time, partner callsign, RST sent) ----
+let LOG=[];try{LOG=JSON.parse(localStorage.getItem('cwlog')||'[]')}catch(e){}
+LOG.forEach(r=>{r.m=r.m||'CW';for(const k of['co','dx','cm','rr','n','q','g'])r[k]=r[k]||''});
+const saveLog=()=>{try{localStorage.setItem('cwlog',JSON.stringify(LOG))}catch(e){}};
+let lgT=0;function lmsg(m){$('#lgst').textContent=m;clearTimeout(lgT);lgT=setTimeout(()=>$('#lgst').textContent='',7000)}
+const utcNow=()=>new Date().toISOString();
+const pad=n=>String(n).padStart(2,'0');
+const mhzS=m=>m.toFixed(6).replace(/0{1,3}$/,'');
+const kHz=f=>{const v=parseFloat(f);return isFinite(v)?String(+(v*1000).toFixed(3)):''};
+const dtShow=r=>{const m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(r.d||''),t=/^(\d\d):(\d\d)(?::(\d\d))?$/.exec(r.t||'');return m&&t?m[2]+'/'+m[3]+'/'+m[1]+' '+t[1]+':'+t[2]+':'+(t[3]||'00'):''};
+const dtParse=v=>{const m=/^(\d\d?)\/(\d\d?)\/(\d{4})\s+(\d\d?):(\d\d)(?::(\d\d))?$/.exec(v.trim());return m?{d:m[3]+'-'+pad(m[1])+'-'+pad(m[2]),t:pad(m[4])+':'+m[5]+':'+(m[6]||'00')}:null};
+const PFX=[[/^(HS|E2)/,'Thailand','387']];
+const adifMode=m=>({'CW':'CW','CW-R':'CW','RTTY':'RTTY','RTTY-R':'RTTY','AM':'AM','FM':'FM','USB':'SSB','LSB':'SSB'})[m]||'CW';
+// columns as in Log4OM: Qso Date | Callsign | Freq | Band | Mode | Name | Country | (QTH) | Rst | Rst | Gridsquare | Dxcc
+const LC=[['dt','Qso Date (UTC)'],['c','Callsign'],['f','Freq (kHz)'],['b','Band'],['m','Mode'],['n','Name'],['co','Country'],['q','QTH'],['rs','Rst (S)'],['rr','Rst (R)'],['g','Gridsquare'],['dx','Dxcc']];
+function renderLog(){
+ const lt=$('#lt'),hd=E('div',{className:'lr h'});
+ LC.forEach(([k,n])=>hd.append(E('span',{textContent:n})));hd.append(E('span'));
+ const rows=[];
+ for(let i=LOG.length-1;i>=0;i--){
+  const r=LOG[i],d=E('div',{className:'lr'}),ins={};
+  for(const[k,w]of LC){
+   const x=E('input',{value:k==='dt'?dtShow(r):k==='f'?kHz(r.f):(r[k]||''),className:k==='c'?'cl':'',spellcheck:false});x.setAttribute('aria-label',w);x.dataset.k=k;
+   if(k==='f'||k==='b')x.classList.toggle('need',!r[k]);if(k==='b')bcol(x,r.b);
+   x.oninput=()=>{
+    if(k==='dt'){const q=dtParse(x.value);x.classList.toggle('need',!q);if(q){r.d=q.d;r.t=q.t}}
+    else if(k==='f'){const v=parseFloat(x.value.replace(',','.'));
+     if(isFinite(v)&&v>0){r.f=mhzS(v<1000?v:v/1000);const bb=bandOf(parseFloat(r.f));if(bb){r.b=bb;ins.b.value=bb;ins.b.classList.remove('need');bcol(ins.b,bb)}x.classList.remove('need')}else{r.f='';x.classList.add('need')}}
+    else{r[k]=x.value;if(k==='b'){x.classList.toggle('need',!x.value);bcol(x,x.value)}}
+    saveLog()};
+   ins[k]=x;d.append(x)}
+  const b=E('button',{textContent:'✕',title:'ลบรายการนี้'});b.onclick=()=>{LOG.splice(i,1);saveLog();renderLog()};
+  d.append(b);rows.push(d)}
+ lt.replaceChildren(hd,...(rows.length?rows:[E('div',{className:'e',textContent:'ยังไม่มีรายการ กด "บันทึก QSO" เมื่อติดต่อกับคู่สถานีเสร็จ'})]))}
+async function addLog(){
+ const p=partner(),q=p.c?p:lastP;
+ if(!q||!q.c){lmsg('ยังไม่มี Callsign คู่สถานี พิมพ์ในช่อง "คู่สถานี" หรือกดเลือกจาก Callsign ที่พบ');return}
+ let z=QZ[q.c];
+ if(z===undefined&&(qzOn()||hqOn())){lmsg('กำลังค้น QRZ ...');z=await Promise.race([qrzLookup(q.c),sleep(4000).then(()=>undefined)])}
+ if(z&&z.nf)z=null;
+ const i=utcNow(),d=i.slice(0,10),t=i.slice(11,19),l=LOG[LOG.length-1];
+ if(l&&l.c===q.c&&l.d===d&&(l.t||'').slice(0,5)===t.slice(0,5)){lmsg('บันทึก '+q.c+' เวลา '+t.slice(0,5)+' UTC ไปแล้ว');return}
+ const fr=curFreq(),bn=bandOf(parseFloat(fr)),pf=PFX.find(x=>x[0].test(q.c)),
+  md=rig.live&&rig.mode?adifMode(rig.mode):'CW';
+ LOG.push({d,t,c:q.c,f:fr,b:bn,m:md,n:(z&&z.n)||q.n||'',co:(z&&z.co)||(pf?pf[1]:''),q:q.q||(z&&z.q)||'',rs:S.rs||'599',rr:q.r||'599',g:gOf(z,q.c),dx:(z&&z.dx)||(pf?pf[2]:''),cm:''});
+ if(!p.c)lastP=null;else loggedFor=p.c;
+ saveLog();renderLog();upd();lmsg('บันทึกแล้ว: '+q.c+'  '+d+' '+t+' UTC  '+(fr?kHz(fr)+' kHz '+bn:'')+'  RST '+(S.rs||'599')+(fr&&bn?'':'  ⚠ ยังไม่มีความถี่/ย่าน เติมในตารางก่อนส่งออก ADIF'));
+ const lt=$('#lt');lt.scrollTop=0}
+function dl(name,mime,text){const a=E('a',{href:URL.createObjectURL(text instanceof Blob?text:new Blob([text],{type:mime})),download:name});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000)}
+function expAdif(){
+ if(!LOG.length){lmsg('ยังไม่มีรายการให้ส่งออก');return}
+ const n=v=>new TextEncoder().encode(v).length,f=(k,v)=>v?`<${k}:${n(v)}>${v}`:'',me=S.my||{},
+  grid=/^[A-R]{2}[0-9]{2}([A-X]{2})?$/i.test(me.loc||'')?me.loc.toUpperCase():'',
+  tm=t=>{const a=(t||'').replace(/:/g,'');return a.length===4?a+'00':a},
+  recs=LOG.map(r=>[f('STATION_CALLSIGN',me.call),f('MY_GRIDSQUARE',grid),f('CALL',(r.c||'').trim()),f('QSO_DATE',(r.d||'').replace(/-/g,'')),f('TIME_ON',tm(r.t)),f('MODE',adifMode(r.m)),f('FREQ',r.f),f('BAND',r.b),f('RST_SENT',(r.rs||'').replace(/N/gi,'9')),f('RST_RCVD',(r.rr||'').replace(/N/gi,'9')),f('NAME',r.n),f('COUNTRY',r.co),f('QTH',r.q),f('GRIDSQUARE',(r.g||'').toUpperCase()),f('DXCC',r.dx),f('COMMENT',r.cm),'<EOR>'].filter(Boolean).join(' '));
+ dl('cw-log-'+utcNow().slice(0,10).replace(/-/g,'')+'.adi','text/plain','ADIF export from CW Console\n<ADIF_VER:5>3.1.4 <PROGRAMID:10>CW Console <EOH>\n\n'+recs.join('\n')+'\n');
+ const miss=LOG.filter(r=>!r.f||!r.b).length;lmsg('ส่งออก ADIF '+LOG.length+' รายการ'+(miss?'  ⚠ '+miss+' รายการยังไม่มีความถี่/ย่าน Log4OM อาจนำเข้าไม่ได้':''))}
+function expCsv(){
+ if(!LOG.length){lmsg('ยังไม่มีรายการให้ส่งออก');return}
+ const q=v=>'"'+String(v||'').replace(/"/g,'""')+'"';
+ dl('cw-log-'+utcNow().slice(0,10).replace(/-/g,'')+'.csv','text/csv','﻿'+LC.map(x=>x[1]).join(',')+'\n'+LOG.map(r=>LC.map(([k])=>k==='dt'?dtShow(r):k==='f'?kHz(r.f):r[k]).map(q).join(',')).join('\n')+'\n');
+ lmsg('ส่งออก CSV '+LOG.length+' รายการ')}
+$('#lgadd').onclick=addLog;$('#lgadi').onclick=expAdif;$('#lgcsv').onclick=expCsv;
+const clk=()=>{const i=utcNow();$('#utc').textContent='UTC '+i.slice(0,10)+' '+i.slice(11,19)};clk();setInterval(clk,1000);
+const dxin=$('#dxin');
+dxin.oninput=()=>{S.cur=dxin.value.trim().toUpperCase();upd()};
+dxin.onkeydown=e=>{if(e.key==='Enter'){const v=dxin.value.trim().toUpperCase();if(v&&!S.cur)S.cur=v;dxin.blur()}else if(e.key==='Escape')dxin.blur()};
+dxin.onblur=upd;
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){abortTx();return}
+ // works everywhere (also while typing, and on laptops without a numpad): Alt/Option+1..6 = macro, Ctrl/Cmd+Enter = log QSO
+ if(!$('#p1').hidden&&!e.repeat){
+  const d=/^Digit([1-6])$/.exec(e.code);
+  if(d&&e.altKey&&!e.ctrlKey&&!e.metaKey){const b=document.querySelector('#mac .mc button[data-n="'+d[1]+'"]');if(b){e.preventDefault();b.click()}return}
+  if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)&&!e.altKey){e.preventDefault();$('#lgadd').click();return}}
+ const t=e.target,typing=t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable||(t.tagName==='INPUT'&&!['range','checkbox','radio','button'].includes(t.type));
+ if(typing||e.ctrlKey||e.altKey||e.metaKey||e.repeat||$('#p1').hidden)return;
+ if(e.key==='Delete'||(MAC&&e.key==='Backspace')){e.preventDefault();$('#clr').click();return}
+ if(e.code==='KeyC'){e.preventDefault();$('#cp').click();return}
+ if(e.code==='NumpadEnter'){e.preventDefault();$('#lgadd').click();return}
+ const m=/^Numpad([1-6])$/.exec(e.code);
+ if(m){const b=document.querySelector('#mac .mc button[data-n="'+m[1]+'"]');if(b){e.preventDefault();b.click()}}});
+document.addEventListener('input',e=>{const t=e.target;if(t.tagName==='INPUT'&&t.type==='text'&&!['n','co','q','cm'].includes(t.dataset.k)){const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.toUpperCase();try{t.setSelectionRange(a,b)}catch(_){}}},true);
+$('#gr').value=S.gr;$('#rs').value=S.rs;
+$('#gr').onchange=e=>{S.gr=e.target.value;save();upd()};
+$('#rs').onchange=e=>{S.rs=e.target.value;save();upd()};
+document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{S.mode=b.dataset.m;save();upd()});
+document.querySelectorAll('#lvl button').forEach(b=>b.onclick=()=>{S.lvl=b.dataset.v;save();upd()});
+$('#txs').value=S.txs||'DTR';$('#txw').value=S.txw||'';
+$('#txw').onchange=e=>{S.txw=e.target.value;save();if(!tx.on)$('#txst').textContent=txInfo()};$('#side').checked=S.side!==false;
+$('#txs').onchange=e=>{S.txs=e.target.value;save();if(txPort&&!tx.on)txPort.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{});upd()};
+$('#side').onchange=e=>{S.side=e.target.checked;save()};
+$('#txstop').onclick=abortTx;
+if(!('serial' in navigator)){$('#txc').disabled=true;rigNote='เบราว์เซอร์นี้ไม่รองรับ Web Serial (ใช้ Chrome หรือ Edge) กรอกความถี่เองได้'}
+const discon=async()=>{abortTx();await catStop();if(txPort){try{await txPort.close()}catch(e){}}txPort=null;$('#txc').textContent='เชื่อมต่อวิทยุ (คีย์ / CAT)';updRig();upd()};
+$('#txc').onclick=async()=>{
+ if(txPort){await discon();return}
+ try{const p=await navigator.serial.requestPort();await p.open({baudRate:+S.baud||9600});txPort=p;rigNote='';
+  await p.setSignals({dataTerminalReady:false,requestToSend:false});
+  $('#txc').textContent='ตัดการเชื่อมต่อวิทยุ';catStart(p);updRig();upd()}
+ catch(e){const n=e&&e.name;
+  rigMsg(n==='NotFoundError'?'ยังไม่ได้เลือกพอร์ต':
+   n==='NetworkError'?'เปิดพอร์ตไม่ได้: พอร์ตนี้ถูกโปรแกรมอื่นใช้อยู่ (เช่น Log4OM, WSJT-X, โปรแกรมคุมวิทยุ) ให้ปิดหรือตัดการเชื่อมต่อพอร์ตนั้นก่อน แล้วลองใหม่':
+   n==='SecurityError'?'เบราว์เซอร์ไม่อนุญาตให้ใช้พอร์ตอนุกรม':
+   'เชื่อมต่อพอร์ตไม่ได้ ('+(n||e)+')');}};
+if(navigator.serial)navigator.serial.addEventListener('disconnect',e=>{if(e.target===txPort){txPort=null;catStop();$('#txc').textContent='เชื่อมต่อวิทยุ (คีย์ / CAT)';rigMsg('พอร์ตหลุด (ถอดสาย USB หรือปิดวิทยุ?)');upd()}});
+$('#baud').value=S.baud||'9600';$('#civ').value=S.civ||'94';
+$('#baud').onchange=e=>{S.baud=e.target.value;save()};
+$('#civ').oninput=e=>{S.civ=e.target.value.trim();save()};
+$('#civset').checked=S.civset!==false;$('#civset').onchange=e=>{S.civset=e.target.checked;save()};
+$('#alog').checked=S.alog!==false;$('#alog').onchange=e=>{S.alog=e.target.checked;save()};
+
+// ---- Manual (Thai / English) ----
+const MAN={
+th:{t:'คู่มือการใช้งาน',s:[
+['เริ่มต้นใช้งานเร็ว',[
+ 'เปิดไฟล์นี้ด้วย <b>Chrome หรือ Edge</b> (ต้องใช้เบราว์เซอร์ที่รองรับ Web Serial เพื่อคีย์และอ่านความถี่จากวิทยุ)',
+ 'ไปที่ <b>ตั้งค่า</b> กรอกข้อมูลสถานีของเรา (Callsign, ชื่อ, QTH, RIG, ANT, PWR, WX, TMP) ข้อมูลนี้จะถูกเติมในข้อความมาโครและบันทึก Log',
+ 'ที่หน้า <b>ตั้งค่า</b> การ์ด “เสียงเข้า” เลือกอุปกรณ์เสียงเข้า (ช่อง Mix/L/R ตามสาย) แล้วกลับหน้าหลักกด <b>เริ่มฟัง</b> ถ้ายังไม่มีวิทยุให้ลอง <b>เล่นโทนจำลอง</b> (อยู่ในการ์ดเดียวกัน)',
+ 'ถ้าต้องการคีย์และอ่านความถี่ กด <b>เชื่อมต่อวิทยุ (คีย์ / CAT)</b> แล้วเลือกพอร์ต USB ของวิทยุ']],
+['เสียงเข้าและการถอดรหัส',[
+ 'แอปถอดสัญญาณ CW จากเสียงที่โทนที่ตั้งไว้ (ค่าเริ่มต้น 700 Hz) ถ้าเปิด <b>ติดตามโทนอัตโนมัติ</b> (ตั้งค่า &gt; เสียงเข้า) แอปจะหาโทนที่แรงที่สุดในช่วง 400–1000 Hz เอง ถ้าปิดไว้ให้ปรับแถบโทน (ตั้งค่า) หรือคลิกบนกราฟ Audio ที่หน้าหลัก ให้ตรงกับเสียงในวิทยุ (ตั้ง CW Pitch ของวิทยุให้ใกล้กัน)',
+ 'ความเร็วที่แสดงคือความเร็วที่วัดได้จริงจากสัญญาณ ไม่ต้องตั้งเอง ถอดได้ประมาณ 10–40 WPM ถ้าสัญญาณอ่อนมาก ตัวอักษรอาจผิดหรือเป็น <b>*</b>',
+ 'ข้อความถอดแล้วแยกสี: Callsign, ชื่อ, QTH, RST, Prosign, Q-code',
+ 'ปุ่ม <b>บันทึกเสียง 30 วิ (.wav)</b> เก็บเสียงเข้าย้อนหลัง 30 วินาที ใช้ส่งให้ผู้พัฒนาตรวจเมื่อถอดผิดบ่อย']],
+['Callsign คู่สถานี',[
+ 'แอปเก็บ Callsign ที่รับได้บางส่วนมาแสดงในช่อง “คู่สถานี” ทันที (สีส้มตัวเอียง) เช่น <b>E25</b> แล้วต่อให้ยาวขึ้นจากหลายรอบ <b>E2</b> → <b>E27D</b> → <b>E27DPX</b> ตัวอักษรท้ายที่ถอดแยกห่างกัน (เช่น E25 M B P) แอปจะรวมให้ และเทียบหลายรอบโหวตทีละตัวอักษรเพื่อหาตัวที่น่าจะเป็นที่สุด ระหว่างนั้นมีป้ายประ “กำลังรับ …” กดป้ายนั้นเพื่อพิมพ์ต่อเองได้',
+ 'ถือว่า<b>ครบ</b>เมื่อรูปแบบเป็น Callsign เต็มและยาว ≥ 5 ตัว (หรือรับซ้ำได้เหมือนกัน 2 ครั้ง) เมื่อครบแล้วจะเติมลงข้อความมาโครให้เอง และกดส่งได้ ถ้ายังไม่ครบ ปุ่มส่งที่ต้องใช้ Callsign จะไม่ทำงาน',
+ 'จะพิมพ์ Callsign เองในช่อง “คู่สถานี” (พิมพ์ต่อจากที่รับได้แล้วกด Enter) หรือกดเลือกจากป้ายที่พบก็ได้ และจะถูกล็อกไว้จนกว่าจะจบการสนทนา (ส่งมาโครปิดท้าย หรือปุ่มล้าง)']],
+['ข้อความมาโครและการส่ง',[
+ 'แถบ <b>เริ่มต้น / กึ่งโปร / โปร</b> ข้างหัวข้อ “ข้อความมาโคร” เลือกระดับการติดต่อ <b>โปร</b> = ครบทุกข้อความ (ค่าเริ่มต้น) · <b>กึ่งโปร</b> = ไม่มี M4 (ชุดเรียก CQ) หรือ M3 (ชุดตอบ CQ) คือไม่ส่งอุปกรณ์/สภาพอากาศ · <b>เริ่มต้น</b> = เหมือนกึ่งโปร และข้อความทักทาย/รายงานส่งแค่ถึง RST 599 ไม่มีชื่อกับ QTH หมายเลข M และปุ่ม Num ยังเป็นเลขเดิมของข้อความนั้น',
+ 'เลือกชุด <b>เราเรียก CQ</b> (M1 QRL?, M2 CQ, M3 ทักทาย/รายงาน/ชื่อ/QTH, M4 อุปกรณ์/สภาพอากาศ, M5 ปิดการติดต่อ, M6 ปิดท้าย E E) หรือ <b>เราตอบ CQ</b> (M1 ตอบ CQ, M2–M4 ตามลำดับ, M5 ปิดท้าย) ข้อความอ้างอิงตามคู่มือโปรโตคอล CW',
+ 'ส่งด้วยปุ่ม “ส่ง” หรือคีย์ <kbd>Num 1</kbd>–<kbd>Num 6</kbd> (MacBook/โน้ตบุ๊กที่ไม่มีแป้นตัวเลข ใช้ <kbd>⌥ Option</kbd>/<kbd>Alt</kbd> + <kbd>1</kbd>–<kbd>6</kbd> แทน ใช้ได้ทุกเครื่อง แม้เคอร์เซอร์อยู่ในช่องพิมพ์) กด <kbd>Esc</kbd> เพื่อหยุดส่งทันที ความเร็วส่งตั้งเองหรือให้ตามความเร็วที่ถอดได้ ข้อความที่ส่งไปแล้วจะขีดสีต่างจากที่ยังไม่ส่ง',
+ 'ข้อความที่ยังมี ___ หมายถึงข้อมูลสถานีเรายังไม่ครบ ไปกรอกที่หน้าตั้งค่า',
+ 'การคีย์: ส่งสัญญาณคีย์ทางขา <b>DTR หรือ RTS</b> ของพอร์ต USB (เลือกที่ตั้งค่า) ใน IC-7300 ให้ตั้งเมนู USB Keying (CW) ให้ตรงกับขาที่เลือก (ชื่อเมนูอาจต่างตามเฟิร์มแวร์) ใช้โหมด CW และเปิด Break-in ถ้าต้องการให้วิทยุส่งขณะคีย์',
+ 'ถ้าไม่ได้เชื่อมต่อวิทยุ แอปจะส่งเป็นเสียงโทนอย่างเดียว (ใช้ฝึก)',
+ 'ถ้าเปิด <b>บันทึก QSO อัตโนมัติ</b> (ตั้งค่า) เมื่อส่งมาโครตัวสุดท้าย (ปิดท้าย) จบ แอปจะบันทึก QSO แล้วจบการสนทนาให้ ถ้ากด Esc กลางคันจะไม่บันทึก']],
+['วิทยุ / ความถี่ / ย่าน',[
+ 'เมื่อเชื่อมต่อ แอปอ่านความถี่และโหมดจากวิทยุผ่าน CI-V ต่อเนื่อง ค่า Baud และ CI-V Address (IC-7300 = 94) ต้องตรงกับที่ตั้งในวิทยุ',
+ 'พอร์ตเปิดได้ทีละโปรแกรม ถ้าใช้ Log4OM หรือโปรแกรมอื่นอยู่ ต้องปิดก่อน',
+ 'ไม่ได้ต่อวิทยุ: พิมพ์ความถี่ (MHz) เอง ย่านจะคำนวณให้',
+ '<b>พิมพ์ความถี่</b>ในช่องความถี่ (MHz เช่น 14.074 หรือ kHz เช่น 14074) แล้วกด Enter ถ้าต่อวิทยุอยู่ แอปจะสั่งวิทยุไปที่ความถี่นั้น (Esc ยกเลิก)',
+ '<b>กดป้ายย่านสี ๆ</b> บนหน้าหลักเพื่อตั้งความถี่เป็นจุดเริ่มช่วง CW ของย่านนั้น ถ้าต่อวิทยุและเปิดตัวเลือกไว้ แอปจะสั่งวิทยุเปลี่ยนความถี่ให้ด้วย (ไม่ได้ส่งสัญญาณออกอากาศ และไม่ได้เปลี่ยนโหมด)',
+ 'ตารางย่านความถี่สมัครเล่นในไทยอยู่ที่หน้าตั้งค่า เป็นข้อมูลอ้างอิงเท่านั้น (RAST 2014 / IARU R3) เครื่องหมาย * คือยังไม่ยืนยัน ให้ตรวจกับประกาศ กสทช. ล่าสุด']],
+['บันทึก QSO และส่งออก',[
+ 'กด <b>บันทึก QSO</b> (หรือ <kbd>Num Enter</kbd> หรือ <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>) ระบบเติมวันที่-เวลา UTC, Callsign, ความถี่ (kHz), ย่าน, โหมด, ชื่อ, ประเทศ, QTH, RST, Grid, DXCC ให้ แก้ไขในตารางได้ทุกช่อง',
+ 'ตารางเรียงเหมือน Log4OM: Qso Date, Callsign, Freq, Band, Mode, Name, Country, QTH, Rst (S), Rst (R), Gridsquare, Dxcc, Comment รายการใหม่อยู่บนสุด',
+ 'ช่องที่ขอบสีส้มคือยังไม่มีความถี่/ย่าน ต้องเติมก่อนส่งออกเพื่อให้ Log4OM นำเข้าได้',
+ 'ส่งออก <b>ADIF</b> (.adi) แล้วนำเข้าใน Log4OM ส่วน CSV เปิดด้วย Excel ได้',
+ 'ข้อมูลถูกเก็บในเบราว์เซอร์เครื่องนี้ ควรส่งออกสำรองเป็นระยะ']],
+['QRZ.com',[
+ 'ที่ตั้งค่า ใส่ Username/Password ของ QRZ.com ของตัวเอง แล้วกด “ทดสอบเชื่อมต่อ” รหัสจะถูกเก็บไว้ก็ต่อเมื่อติ๊ก “จำรหัส” เท่านั้น',
+ 'แอปค้นชื่อ (ชื่อ+นามสกุล), QTH, ประเทศ, DXCC และ Grid ของคู่สถานีมาเติมใน Log ถ้า QRZ ไม่ให้ Grid จะคำนวณจาก Latitude/Longitude (ทศนิยม) ให้',
+ 'อย่ากรอกรหัสผิดซ้ำ ๆ เพราะ QRZ จะบล็อกการล็อกอินชั่วคราว']],
+['Grid ของคู่สถานี',[
+ 'แอปขอ Grid จาก QRZ ก่อน ถ้า QRZ ไม่ให้ Grid แต่ให้ <b>Latitude/Longitude</b> มา จะคำนวณ Grid จากพิกัดให้เอง ถ้าตั้ง <b>HamQTH.com</b> (บัญชีฟรี) ไว้ที่หน้าตั้งค่า แอปจะถาม HamQTH ต่อเมื่อ QRZ ไม่มี Grid (มีเฉพาะคนที่ลงทะเบียนและเปิดเผยตำแหน่งไว้)',
+ 'ถ้าเชื่อมต่อ RBN อยู่ แอปใช้ <b>Grid ที่เว็บ RBN เก็บจาก QRZ</b> (ตรงกับที่เห็นบนหน้า QRZ เช่น OK04it) ก่อนค่าประมาณ ข้อมูลนี้มีเฉพาะสถานีที่ RBN รู้จัก แอปจะถามตัวเชื่อมให้เองเมื่อชี้ที่ Callsign',
+ 'ถ้ายังไม่มี Grid จริง แอปจะ<b>ประมาณจากชื่อเมือง (QTH)</b> ที่ QRZ/HamQTH ให้มา (ตารางจังหวัดไทยอยู่ในแอป ที่อื่นถาม OpenStreetMap เฉพาะชื่อเมือง) ค่าที่ประมาณจะมีเครื่องหมาย ~ นำหน้าระยะทาง และลงช่อง Gridsquare ของ Log ครบ 6 ตัวอักษร ปิดได้ที่ตั้งค่า > สถานีของเรา',
+ 'Grid ที่ได้จะถูกใส่ในช่อง Gridsquare ของ Log และจำไว้สำหรับ Callsign นั้น']],
+['RBN: ดูสถานีที่กำลัง CQ',[
+ 'หน้าหลักมีรายการ <b>สถานีที่กำลังเรียก CQ</b> ใต้ป้ายย่าน ตามที่เครือข่าย Reverse Beacon Network ได้ยิน แสดง อายุสปอต, ย่าน (สีเดียวกับป้ายย่าน), ความถี่ kHz, Callsign และ SNR (เอาเมาส์ชี้เพื่อดู WPM และสถานีที่ได้ยิน) <b>กดแถว</b> เพื่อตั้งความถี่ (สั่งวิทยุผ่าน CI-V ถ้าเชื่อมต่ออยู่) และใช้ Callsign นั้นเป็นคู่สถานี แถวสีเหลืองคือสปอตของ Callsign เราเอง',
+ 'ตั้งค่าทั้งหมดอยู่ที่หน้า <b>ตั้งค่า &gt; RBN</b>: ปุ่มเชื่อมต่อ/เปิดตัวเชื่อม, กรองตามย่าน (กดป้ายสี, ไม่เลือก = ทุกย่าน), SNR ขั้นต่ำ, อายุสปอต, การเรียง, ค้น Callsign และเลือกแสดงเฉพาะ CQ',
+ 'เว็บ reversebeacon.net ไม่เปิดให้หน้าเว็บอื่นอ่านข้อมูลโดยตรง จึงต้องมี <b>ตัวเชื่อม</b> (Python 3) บนเครื่อง Windows ของคุณ ติดตั้งครั้งเดียว: ที่ตั้งค่า &gt; RBN กด “ดาวน์โหลดตัวติดตั้ง” แล้วดับเบิลคลิก <code>install-rbn-bridge.bat</code> จากนั้นกด “เปิดตัวเชื่อม” แล้ว “เชื่อมต่อ” ตัวเชื่อมอ่านฟีดสดของ RBN แล้วส่งให้แอปผ่าน ws://localhost:7373 เข้าระบบ RBN ด้วย Callsign ของคุณ (ไม่ใช้รหัสผ่าน)',
+ 'ตอนเชื่อมต่อ (และเมื่อกด “ดึงย้อนหลัง”) ตัวเชื่อมจะดึงสปอตย้อนหลังของ Callsign ที่ตั้งไว้ (ค่าเริ่มต้น HS*,E2*) จากเว็บ RBN มารวมในรายการ พร้อมกริดของสถานีที่ RBN มีข้อมูล (ใช้เป็นกริดสำรองเมื่อ QRZ/HamQTH ไม่มี) ต้องใช้ตัวเชื่อมรุ่นล่าสุด ติดตั้งทับได้จากตัวติดตั้งในแอป',
+ 'ใช้ได้ทั้ง Windows และ Mac: บน Mac ไม่มีไฟล์ .bat ให้ติดตั้ง Python 3 ดาวน์โหลด rbn-bridge.py จากแอป แล้วเปิด Terminal พิมพ์ <code>cd ~/Downloads &amp;&amp; python3 "$(ls -t rbn-bridge*.py | head -1)"</code> (เลือกไฟล์ใหม่ล่าสุดให้เอง) เปิดหน้าต่างค้างไว้แล้วกด “เชื่อมต่อ” ในแอป ถ้าแอปบอกว่าตัวเชื่อมเป็นรุ่นเก่า ให้กด Ctrl+C ปิดตัวเดิม ดาวน์โหลดใหม่ แล้วรันคำสั่งนี้อีกครั้ง',
+ '<b>RBN ได้ยินเรา:</b> เมื่อ Callsign ของเรา (ตั้งที่ “สถานีของเรา”) ถูก Skimmer ถอดได้ จะมีกรอบใต้รายการ แสดงจำนวน Skimmer, SNR ที่แรงที่สุด และรายชื่อพร้อมย่านและ dB (ชี้ที่ชื่อเพื่อดูความถี่/WPM) ใช้เช็กว่าเรียก CQ แล้วสัญญาณไปถึงไหน ตอนเชื่อมต่อแอปจะดึงสปอตย้อนหลังของ Callsign เราด้วย',
+ '<b>เตือนสถานีไทย:</b> เมื่อมีสถานี HS/E2 เรียก CQ (หรือ CQ DX) แอปจะขึ้นแถบเขียวเหนือรายการ (กดเพื่อตั้งความถี่) ส่งเสียงปี๊บสองจังหวะ และเปลี่ยนชื่อแท็บเป็น “● Callsign CQ” 30 วินาที เตือนเฉพาะสปอตสด ไม่เตือนซ้ำสถานีเดิมในย่านเดิมภายใน 10 นาที เลือกเสียง/เงียบ/ปิดได้ที่ ตั้งค่า > RBN (เสียงเตือนต้องเคยกดอะไรในหน้านี้ก่อน เบราว์เซอร์จึงยอมให้เล่นเสียง)',
+ 'สปอตของ RBN คือสิ่งที่ตัว Skimmer ถอดได้ อาจผิดพลาด และอาจไม่ตรงกับสิ่งที่คุณได้ยินจริง ใช้เป็นแนวทางเท่านั้น']],
+['รูปโปรไฟล์มุมซ้ายล่าง',[
+ 'แอปค้นรูปของ Callsign เราเองจาก QRZ (ฟิลด์ image) ถ้าไม่มีจะลอง HamQTH แล้วแสดงเป็นรูปกลมที่มุมซ้ายล่าง (ใต้เมนู) ไม่มีรูปก็ไม่แสดงอะไร บัญชี QRZ ฟรีมักไม่ส่งรูปมาให้']],
+['สำรองข้อมูล และเลขเวอร์ชัน',[
+ 'การตั้งค่าและ Log เก็บในเบราว์เซอร์เครื่องนี้ ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่องจะหาย ที่ <b>ตั้งค่า &gt; สำรองข้อมูล</b> กด “สำรองการตั้งค่า + Log” เพื่อได้ไฟล์ .json (ไม่มีรหัสผ่าน QRZ/HamQTH) และ “นำเข้าจากไฟล์สำรอง” เพื่อกู้คืน Log ที่นำเข้าจะรวมกับของเดิม ไม่ซ้ำรายการเดิม',
+ 'เลขเวอร์ชันอยู่ที่ ตั้งค่า &gt; เกี่ยวกับ เวลาแจ้งปัญหาให้บอกเลขนี้ด้วย']],
+['ติดตั้งเป็นแอป (Chrome / Edge)',[
+ 'ถ้าเปิดแอปจากที่อยู่เว็บ (https://...) แทนไฟล์ในเครื่อง Chrome/Edge จะมีไอคอนติดตั้งที่แถบที่อยู่ (หรือเมนู ⋮ > บันทึกและแชร์ > ติดตั้ง / Edge: แอป > ติดตั้งเว็บไซต์นี้เป็นแอป) กดแล้วได้ไอคอนและหน้าต่างของตัวเอง ใช้ได้ทั้ง Windows และ Mac',
+ 'แอปที่ติดตั้งอัปเดตเองเมื่อเปิดครั้งถัดไป ถ้ามีเวอร์ชันใหม่ขณะเปิดอยู่จะมีแถบแจ้งมุมซ้ายล่าง กดเพื่อโหลดใหม่',
+ 'ข้อมูลที่ตั้งค่าไว้ (การตั้งค่า, Log) เก็บแยกตามที่อยู่เว็บ ย้ายจากไฟล์ในเครื่องมาใช้ที่อยู่เว็บ ให้ “สำรองข้อมูล” ที่เดิมก่อน แล้ว “นำเข้า” ที่ใหม่',
+ 'ตัวเชื่อม RBN ยังใช้ได้เหมือนเดิม Chrome รุ่นใหม่อาจถามสิทธิ์ติดต่อกับโปรแกรมในเครื่องตัวเอง ให้กดอนุญาต']],
+['ปุ่มลัด',[
+ '<kbd>Num 1</kbd>–<kbd>Num 6</kbd> หรือ <kbd>⌥/Alt</kbd>+<kbd>1</kbd>–<kbd>6</kbd> ส่งมาโคร M1–M6 · <kbd>Esc</kbd> หยุดส่ง · <kbd>Num Enter</kbd> หรือ <kbd>Ctrl/⌘</kbd>+<kbd>Enter</kbd> บันทึก QSO · <kbd>Del</kbd> (Mac: <kbd>⌫</kbd>) ล้างข้อความที่ถอด · <kbd>C</kbd> คัดลอกข้อความที่ถอด (Del และ C ใช้ตอนเคอร์เซอร์ไม่ได้อยู่ในช่องพิมพ์)',
+ 'ปุ่มลัดไม่ทำงานเมื่อกำลังพิมพ์ในช่องกรอก หรืออยู่ที่หน้าตั้งค่า/คู่มือ']],
+['แก้ปัญหาเบื้องต้น',[
+ 'ไม่ถอดข้อความ: ตรวจว่าเลือกอุปกรณ์/ช่องเสียงถูก, โทนตรงกับเสียง (ดูกราฟ Audio), ระดับเสียงเข้าไม่เบาหรือแตก, ปิด AGC/NR/Noise Blanker ที่ทำให้เสียงเพี้ยน',
+ 'ตัวอักษรผิดบ่อย: ปรับ CW Filter ในวิทยุให้แคบพอ (ประมาณ 250–500 Hz) และลองเก็บเสียง .wav ส่งตรวจ',
+ 'เชื่อมต่อวิทยุไม่ได้ (NetworkError): พอร์ตถูกโปรแกรมอื่นใช้อยู่ ปิดโปรแกรมนั้นก่อน',
+ 'ไม่ได้รับความถี่: ตรวจ CI-V Baud และ Address ให้ตรงกับวิทยุ',
+ 'คีย์ไม่ออก: ตรวจขา DTR/RTS ให้ตรงกับเมนู USB Keying ในวิทยุ, โหมดต้องเป็น CW']]
+]},
+en:{t:'User guide',s:[
+['Quick start',[
+ 'Open this file in <b>Chrome or Edge</b> (Web Serial is needed for keying and for reading the radio frequency).',
+ 'Go to <b>Settings</b> and fill in your station (callsign, name, QTH, rig, antenna, power, weather, temperature). These are used in the macro texts and the log.',
+ 'In <b>Settings</b>, card “Audio input”, choose the audio input (Mix/L/R channel), then go back to the main page and press <b>Start listening</b>. With no radio, try <b>Play test tone</b> (same card).',
+ 'To key the radio and read its frequency press <b>Connect radio (key / CAT)</b> and choose the radio\'s USB port.']],
+['Audio input and decoding',[
+ 'The app decodes CW at the set tone (default 700 Hz). With <b>auto tone</b> on (Settings &gt; Audio input), it follows the strongest tone between 400 and 1000 Hz. With it off, move the tone slider (Settings) or click the Audio graph on the main page to match the radio\'s pitch (set the radio\'s CW pitch close to it).',
+ 'The speed shown is measured from the signal, there is no speed setting. It copes with roughly 10–40 WPM. Very weak signals can give wrong letters or <b>*</b>.',
+ 'Decoded text is colour-coded: callsign, name, QTH, RST, prosign, Q-code.',
+ 'The <b>record last 30 s (.wav)</b> button saves the last 30 seconds of input audio, so a bad decode can be sent for analysis.']],
+['Partner callsign',[
+ 'A partly received callsign is shown in the partner box at once (orange italic), e.g. <b>E25</b>, and extended over several repeats <b>E2</b> → <b>E27D</b> → <b>E27DPX</b>. Trailing letters that were decoded far apart (e.g. E25 M B P) are joined, and several copies are voted letter by letter to find the most probable callsign. A dashed "receiving …" chip is shown meanwhile; click it to type the rest yourself.',
+ 'It counts as <b>complete</b> when it looks like a full callsign and has ≥ 5 characters (or the same callsign was copied twice). Then it is put into the macro texts automatically and you can send. Until then, macros that need the callsign refuse to send.',
+ 'You can also type the callsign in the partner box or click a found chip. It stays locked until the QSO ends (closing macro sent, or Clear).']],
+['Macros and sending',[
+ 'The <b>Beginner / Semi-pro / Pro</b> switch next to the "Macro messages" title sets the contact level. <b>Pro</b> = every message (default) · <b>Semi-pro</b> = without M4 (I call CQ) or M3 (I answer CQ), i.e. no rig/weather exchange · <b>Beginner</b> = as semi-pro, and the greeting/report message stops at RST 599 with no name or QTH. M numbers and Num keys keep their original numbers.',
+ 'Choose <b>I call CQ</b> (M1 QRL?, M2 CQ, M3 greeting/report/name/QTH, M4 rig/weather, M5 closing, M6 final E E) or <b>I answer CQ</b> (M1 answer CQ, M2–M4 in order, M5 final). The texts follow the CW protocol sheet.',
+ 'Send with the "Send" button or <kbd>Num 1</kbd>–<kbd>Num 6</kbd> (on a MacBook / laptop without a numpad use <kbd>⌥ Option</kbd>/<kbd>Alt</kbd> + <kbd>1</kbd>–<kbd>6</kbd>, which works everywhere, even while typing in a box); <kbd>Esc</kbd> stops at once. Speed is manual or follows the decoded speed. Sent text is marked differently from unsent text.',
+ '___ in a text means your station info is incomplete; fill it in under Settings.',
+ 'Keying: the <b>DTR or RTS</b> line of the USB port (choose in Settings). On the IC-7300 set the USB Keying (CW) menu to the same line (menu names may differ by firmware). Use CW mode and enable break-in if you want the radio to transmit while keying.',
+ 'Without a connected radio the app only plays the sidetone (practice).',
+ 'With <b>auto-log</b> on (Settings), when the last macro (final) has been sent the QSO is logged and ended for you. Pressing Esc half-way does not log.']],
+['Radio / frequency / band',[
+ 'When connected, the app reads frequency and mode from the radio continuously over CI-V. Baud rate and CI-V address (IC-7300 = 94) must match the radio.',
+ 'Only one program can hold the port; close Log4OM or others first.',
+ 'Without a radio, type the frequency (MHz) yourself; the band is worked out for you.',
+ '<b>Click a coloured band chip</b> on the main page to set the frequency to the start of that band\'s CW segment. If a radio is connected and the option is on, the app also tunes the radio (no transmission, mode unchanged).',
+ 'The table of Thai amateur bands is under Settings. It is reference only (RAST 2014 / IARU R3); * = unconfirmed, check the latest NBTC notice.']],
+['QSO log and export',[
+ 'Press <b>Log QSO</b> (or <kbd>Num Enter</kbd> or <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>). UTC date/time, callsign, frequency (kHz), band, mode, name, country, QTH, RST, grid and DXCC are filled in. Every cell is editable.',
+ 'Columns follow Log4OM: Qso Date, Callsign, Freq, Band, Mode, Name, Country, QTH, Rst (S), Rst (R), Gridsquare, Dxcc, Comment; newest first.',
+ 'An orange border means frequency/band is missing; fill it before exporting so Log4OM can import it.',
+ 'Export <b>ADIF</b> (.adi) and import it in Log4OM; CSV opens in Excel.',
+ 'The log is kept in this browser only; export backups regularly.']],
+['QRZ.com',[
+ 'In Settings enter your own QRZ.com username/password and press "Test connection". The password is stored only if "remember" is ticked.',
+ 'The app looks up name (first + last), QTH, country, DXCC and grid of the partner for the log. If QRZ gives no grid it is calculated from latitude/longitude.',
+ 'Do not enter a wrong password repeatedly: QRZ temporarily blocks the login.']],
+['Partner grid square',[
+ 'The app asks QRZ for the grid first. If QRZ gives no grid but does give <b>latitude/longitude</b>, the grid is calculated from them. If you set up <b>HamQTH.com</b> (free account) under Settings, the app asks HamQTH when QRZ has no grid (only for stations that registered there and show their location).',
+ 'While RBN is connected the app uses <b>the grid the RBN website took from QRZ</b> (the same value as on the QRZ page, e.g. OK04it) before any estimate. Only stations RBN knows are covered; the app asks the bridge for it when you hover a callsign.',
+ 'With no real grid the app <b>estimates one from the QTH city name</b> that QRZ/HamQTH returned (a Thai province table is built in; elsewhere only the city name is sent to OpenStreetMap). Estimated values show a ~ before the distance and go into the log as the full 6 characters; switch it off under Settings > Our station.',
+ 'The result is put in the Gridsquare column of the log and remembered for that callsign.']],
+['RBN: who is calling CQ',[
+ 'The main page has a list of <b>stations calling CQ</b> under the band chips, as heard by the Reverse Beacon Network: spot age, band (same colours as the chips), frequency in kHz, callsign and SNR (hover for WPM and the skimmers that heard it). <b>Click a row</b> to set the frequency (the radio is tuned via CI-V if connected) and use that callsign as the partner. A yellow row is a spot of your own callsign.',
+ 'All settings are in <b>Settings &gt; RBN</b>: connect / start bridge, band filter (click the coloured chips; none = all bands), minimum SNR, spot age, sort order, callsign search, and CQ only.',
+ 'reversebeacon.net does not let other web pages read its data directly, so a <b>bridge</b> (Python 3) must run on your Windows PC. One-time install: in Settings &gt; RBN press "Download installer" and double-click <code>install-rbn-bridge.bat</code>, then press "Start bridge" and "Connect". The bridge reads RBN\'s live feed and passes it to the app over ws://localhost:7373. It logs in to RBN with your callsign (no password).',
+ 'On connect (and when you press "Fetch history") the bridge fetches recent spots for the prefixes you set (default HS*,E2*) from the RBN website and merges them into the list, with the grid of stations RBN has data for (used as a fallback when QRZ/HamQTH have none). This needs the latest bridge; install it over the old one with the installer from the app.',
+ 'Works on Windows and Mac: on a Mac there is no .bat; install Python 3, download rbn-bridge.py from the app, open Terminal and type <code>cd ~/Downloads &amp;&amp; python3 "$(ls -t rbn-bridge*.py | head -1)"</code> (it picks the newest download, so an old file with the same name is never run; press Ctrl+C first if an old bridge is still running), keep that window open and press "Connect" in the app.',
+ '<b>Heard by RBN:</b> when skimmers decode your own callsign (set under “Our station”) a box under the list shows how many skimmers, the strongest SNR and a chip per skimmer with band and dB (hover for frequency/WPM). On connect the app also fetches the recent spots of your callsign.',
+ '<b>Thai CQ alert:</b> when an HS/E2 station is spotted calling CQ (or CQ DX) a green bar appears above the list (click to tune), a two-tone beep plays and the tab title shows “● Callsign CQ” for 30 s. Live spots only; the same station on the same band is not announced again within 10 minutes. Sound / silent / off under Settings > RBN (the browser only plays sound after you have clicked something on the page).',
+ 'RBN spots are what the skimmers decoded; they can be wrong and may differ from what you hear. Use them as a guide only.']],
+['Profile picture (bottom left)',[
+ 'The app looks up the picture of your own callsign on QRZ (the image field), then HamQTH, and shows it as a round picture at the bottom left, under the menu. With no picture nothing is shown. Free QRZ accounts usually do not return one.']],
+['Backup and version',[
+ 'Settings and the log live in this browser; clearing browser data or changing computer loses them. In <b>Settings &gt; Backup</b> press "Backup settings + log" to get a .json file (no QRZ/HamQTH passwords) and "Import from backup file" to restore it. Imported log entries are merged with the existing ones without duplicates.',
+ 'The version number is under Settings &gt; About; please quote it when reporting a problem.']],
+['Install as an app (Chrome / Edge)',[
+ 'When the app is opened from a web address (https://...) instead of a local file, Chrome/Edge shows an install icon in the address bar (or menu ⋮ > Save and share > Install / Edge: Apps > Install this site as an app). You get your own icon and window, on Windows and Mac.',
+ 'An installed app updates itself the next time it opens. If a new version is published while it is open, a bar at the bottom left offers to reload.',
+ 'Settings and log are stored per web address. To move from the local file to the web address, use “Backup” in the old one and “Import” in the new one.',
+ 'The RBN bridge works as before. Recent Chrome versions may ask for permission to talk to a program on your own computer; allow it.']],
+['Keyboard shortcuts',[
+ '<kbd>Num 1</kbd>–<kbd>Num 6</kbd> or <kbd>⌥/Alt</kbd>+<kbd>1</kbd>–<kbd>6</kbd> send macro M1–M6 · <kbd>Esc</kbd> stop sending · <kbd>Num Enter</kbd> or <kbd>Ctrl/⌘</kbd>+<kbd>Enter</kbd> log QSO · <kbd>Del</kbd> (Mac: <kbd>⌫</kbd>) clear decoded text · <kbd>C</kbd> copy decoded text (Del and C only when the cursor is not in a text box)',
+ 'Shortcuts are ignored while typing in a field, or on the Settings / Guide pages.']],
+['Troubleshooting',[
+ 'Nothing decoded: check the audio device/channel, that the tone matches the audio (see the Audio graph), that the level is neither too low nor clipping, and switch off AGC/NR/noise blanker artefacts.',
+ 'Many wrong letters: narrow the radio\'s CW filter (about 250–500 Hz) and record a .wav for analysis.',
+ 'Cannot connect (NetworkError): another program holds the port; close it.',
+ 'No frequency: check that CI-V baud rate and address match the radio.',
+ 'No keying: DTR/RTS must match the radio\'s USB Keying menu; the radio must be in CW mode.']]
+]}};
+function drawMan(){
+ const L=MAN[S.lang==='en'?'en':'th'];$('#mtitle').textContent=L.t;
+ $('#mbody').replaceChildren(...L.s.flatMap(([h,it])=>[E('h3',{textContent:h}),E('ul',{innerHTML:it.map(x=>'<li>'+x+'</li>').join('')})]));
+ document.querySelectorAll('#mlang button').forEach(b=>b.classList.toggle('pri',b.dataset.l===(S.lang==='en'?'en':'th')))}
+document.querySelectorAll('#mlang button').forEach(b=>b.onclick=()=>{S.lang=b.dataset.l;save();drawMan()});
+drawMan();
+// ---- tabs ----
+function tab(id){for(const t of['p1','p2','p3'])$('#'+t).hidden=t!==id;document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('pri',b.dataset.t===id));if(id==='p1')setTimeout(()=>{fit();rbDraw(1)},0)}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+
+window.addEventListener('beforeunload',()=>{tx.abort=true;if(txPort)txPort.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{})});
+window.addEventListener('resize',fit);window.addEventListener('resize',()=>rbDraw(1));
+if(window.ResizeObserver){const ro=new ResizeObserver(fit);ro.observe($('#cv'));ro.observe($('#sp'))}
+fit();
+S.cur='';rS();upd();renderLog();updRig();avQ();
+if(navigator.mediaDevices)devs();
+
+;['qzst','hqst'].forEach(id=>{const o=document.getElementById(id);if(o)new MutationObserver(()=>{o.title=o.textContent}).observe(o,{childList:true,characterData:true,subtree:true})});
+</script>
+<script>
+/* PWA: register service worker (http/https only) + update toast */
+(function(){
+if(!('serviceWorker' in navigator)||!/^https?:$/.test(location.protocol))return;
+var reloading=false;
+function toast(reg){
+  if(document.getElementById('pwaup'))return;
+  var d=document.createElement('div');d.id='pwaup';d.setAttribute('role','status');
+  d.style.cssText='position:fixed;left:12px;bottom:12px;z-index:99;display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;background:#121a2b;color:#e7edf7;border:1px solid #5b9cff;font:14px "IBM Plex Sans Thai",system-ui,sans-serif;box-shadow:0 6px 24px #0008';
+  var t=document.createElement('span');t.textContent='มีเวอร์ชันใหม่ / New version available';
+  var b=document.createElement('button');b.textContent='โหลดใหม่ / Reload';
+  b.style.cssText='font:inherit;padding:5px 12px;border-radius:7px;border:0;background:#5b9cff;color:#06142e;cursor:pointer';
+  b.onclick=function(){var w=reg.waiting;if(w)w.postMessage('SKIP_WAITING');else location.reload();};
+  var x=document.createElement('button');x.textContent='✕';x.setAttribute('aria-label','close');
+  x.style.cssText='font:inherit;border:0;background:none;color:#8fa0bb;cursor:pointer';x.onclick=function(){d.remove()};
+  d.append(t,b,x);document.body.appendChild(d);
+}
+navigator.serviceWorker.addEventListener('controllerchange',function(){if(reloading)return;reloading=true;location.reload();});
+window.addEventListener('load',function(){
+  navigator.serviceWorker.register('sw.js').then(function(reg){
+    if(reg.waiting&&navigator.serviceWorker.controller)toast(reg);
+    reg.addEventListener('updatefound',function(){
+      var n=reg.installing;if(!n)return;
+      n.addEventListener('statechange',function(){if(n.state==='installed'&&navigator.serviceWorker.controller)toast(reg);});
+    });
+    setInterval(function(){reg.update().catch(function(){})},3600000);
+  }).catch(function(){});
+});
+})();
+</script>
+</body>
+</html>
