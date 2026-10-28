@@ -253,6 +253,7 @@ header{border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac
 #pm{display:grid;place-items:center}.pmt{max-width:520px;text-align:center;gap:8px;justify-items:center;padding:34px 28px}.pmt h2{margin:0;color:var(--amb)}.pmt p{margin:0;line-height:1.6}.pmi{font-size:44px;line-height:1}
 #rgq{max-width:150px;padding:4px 8px}
 #kbl{display:none}#lgadd{white-space:nowrap}
+#nav button.lk{opacity:.6}#nav button.lk{position:relative}#nav button.lk::after{content:'🔒';position:absolute;top:2px;right:4px;font-size:10px;line-height:1}.edt{display:grid;gap:6px;margin-bottom:8px}.edr{display:grid;grid-template-columns:84px 1fr;gap:2px 10px;padding:7px 10px;border:1px solid var(--bd,#8884);border-radius:9px;font-size:13px}.edr b{grid-row:span 2;align-self:center}.edr span{opacity:.75}.edr i{font-style:normal;font-size:12px;opacity:.9}.edr u{display:none}.edr.on{border-color:var(--amb);box-shadow:0 0 0 1px var(--amb) inset}.edr.on u,.edr u:not(:empty){display:block;text-decoration:none;grid-column:2;font-size:12px;color:var(--amb)}#eds.bad{color:#e5534b}
 #nav button[data-t="g:DIGITAL"],#nav button[data-t="g:SAT"]{opacity:.55}#nav button.pri[data-t="g:DIGITAL"],#nav button.pri[data-t="g:SAT"]{opacity:1}#pm{align-content:start;padding-top:12vh}
 </style>
 </head>
@@ -380,7 +381,7 @@ header{border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac
  </div>
 </section>
 <section id="pm" class="tab" hidden>
- <div class="pn pmt"><div class="pmi" aria-hidden="true">🛠</div><h2 id="pmh">กำลังปรับปรุงและอัปเดต</h2><p id="pmp">โหมดนี้ปิดใช้งานชั่วคราวระหว่างปรับปรุง เร็วๆ นี้</p><p class="mu">ข้อมูล QSO เดิมที่เคยบันทึกไว้ยังอยู่ครบ และยังแสดงใน Dashboard / ส่งออกได้ตามปกติ</p></div>
+ <div class="pn pmt"><div class="pmi" aria-hidden="true">🛠</div><h2 id="pmh">กำลังปรับปรุงและอัปเดต</h2><p id="pmp">โหมดนี้ปิดใช้งานชั่วคราวระหว่างปรับปรุง เร็วๆ นี้</p><button id="pmb" class="pri" hidden>ไปที่ ตั้งค่า &gt; รุ่นของโปรแกรม</button><p id="pmm" class="mu">ข้อมูล QSO เดิมที่เคยบันทึกไว้ยังอยู่ครบ และยังแสดงใน Dashboard / ส่งออกได้ตามปกติ</p></div>
 </section>
 <section id="p2" class="tab setw" hidden>
  <div class="svc pn">
@@ -444,6 +445,13 @@ header{border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac
  <div class="pn"><h2>ธีมหน้าจอ</h2>
   <label>โหมดสี<select id="thm"><option value="auto">อัตโนมัติ ตามเวลา (06:00–18:00 สว่าง นอกนั้นมืด)</option><option value="sys">อัตโนมัติ ตามระบบของเครื่อง</option><option value="light">สว่างตลอด</option><option value="dark">มืดตลอด</option></select></label>
   <div class="mu" style="font-size:12.5px">โหมดตามเวลาใช้นาฬิกาของเครื่อง และสลับให้เองโดยไม่ต้องรีเฟรช</div>
+ </div>
+ <div class="pn" id="edp"><h2>รุ่นของโปรแกรม <span id="edc" class="mu" style="font-weight:400"></span></h2>
+  <div id="edt" class="edt"></div>
+  <label>รหัสปลดล็อก<input id="edk" data-k="lic" style="text-transform:none" autocomplete="off" spellcheck="false" placeholder="วางรหัส HLD1.… ที่ได้รับ"></label>
+  <div class="row"><button id="eda" class="pri">เปิดใช้งานรหัส</button><button id="edx" class="sm" hidden>ลบรหัส</button></div>
+  <div id="eds" class="mu"></div>
+  <div id="edd" class="mu" style="font-size:12.5px;line-height:1.5"></div>
  </div>
  <div class="pn"><h2>เกี่ยวกับ</h2>
   <img id="abl" class="logo" alt="HAM LOG DATA" style="width:96px;height:96px;border-radius:16px;margin-bottom:10px">
@@ -748,8 +756,37 @@ const R={};for(const k in M)R[M[k]]=k;
 let S={tone:700,auto:true,ch:'mix',dev:'',my:{},ps:[],cur:'',mode:'cq',gr:'',rs:'599',tt:'CQ CQ DE HS0ABC K'};
 try{Object.assign(S,JSON.parse(localStorage.getItem('cwc')||'{}'))}catch(e){}
 if(S.my&&S.my.wx==='RAIN')S.my.wx='RAINY';
-const VER='3.1 · 2026-10-28';
+const VER='3.2 · 2026-10-28';
 const save=()=>{try{localStorage.setItem('cwc',JSON.stringify(S))}catch(e){}};
+// ---- editions (รุ่น): Standard=VOICE · Plus=+CW · Pro=+DIGITAL · Ultimate=+SATELLITE ; unlocked by a signed key bound to the callsign ----
+const ED_PUB={"kty":"EC","x":"hkg1ObxqZdpiZk-OK94gIz_Dpkas1auP51b0hriWZDI","y":"uPCAm2i8pWxZ1l1G1659VyDVwU3OmZixiiDqeWo5VqU","crv":"P-256"};
+const EDS=[{n:'Standard',d:'รุ่นเริ่มต้น',m:['VOICE']},{n:'Plus',d:'ขั้นกลาง',m:['VOICE','CW']},{n:'Pro',d:'ขั้นสูง',m:['VOICE','CW','DIGITAL']},{n:'Ultimate',d:'รุ่นท็อป',m:['VOICE','CW','DIGITAL','SAT']}];
+const DONATE={who:'E25YNH',price:{}}; // price e.g. {2:'฿xxx',3:'฿xxx',4:'฿900-1000'}; shown in Settings when set
+const ED={t:1,call:'',d:'',err:''};
+const edHas=m=>EDS[ED.t-1].m.includes(m);
+const edMode=id=>id==='p1'?'CW':(id&&id.startsWith('g:')?id.slice(2):'');
+const edNeed=m=>EDS.findIndex(e=>e.m.includes(m))+1;
+const edU8=x=>Uint8Array.from(atob(x.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+async function edVerify(key){
+ const p=String(key||'').replace(/\s+/g,'').split('.');
+ if(p.length!==3||p[0]!=='HLD1')return{err:'รูปแบบรหัสไม่ถูกต้อง'};
+ if(!(window.crypto&&crypto.subtle))return{err:'เบราว์เซอร์นี้ตรวจรหัสไม่ได้ (ต้องเปิดผ่าน https หรือเปิดไฟล์ในเครื่อง)'};
+ try{
+  const pk=await crypto.subtle.importKey('jwk',ED_PUB,{name:'ECDSA',namedCurve:'P-256'},false,['verify']),msg=edU8(p[1]);
+  if(!await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},pk,edU8(p[2]),msg))return{err:'รหัสไม่ถูกต้อง'};
+  const a=new TextDecoder().decode(msg).split('|'),t=+a[1];
+  return a[0]&&t>=1&&t<=4?{call:a[0],t,d:a[2]||''}:{err:'รหัสไม่ถูกต้อง'}
+ }catch(e){return{err:'รหัสไม่ถูกต้อง'}}}
+async function edApply(){
+ const my=((S.my&&S.my.call)||'').toUpperCase().split('/').filter(Boolean);let r={t:1,call:'',d:'',err:''};
+ if(S.lic){const v=await edVerify(S.lic);
+  if(v.err)r.err=v.err;
+  else if(!my.includes(v.call))r={t:1,call:v.call,d:'',err:'รหัสนี้ออกให้ Callsign '+v.call+' ซึ่งไม่ตรงกับ Callsign ในตั้งค่า'};
+  else r=Object.assign(v,{err:''})}
+ Object.assign(ED,r);ED.ready=true;
+ if(window.edAfter)edAfter();
+ return ED.t}
+let edTm=0;const edSoon=()=>{clearTimeout(edTm);edTm=setTimeout(edApply,700)};
 // ---- theme: auto = light 06:00-18:00, dark otherwise (device clock); or follow system / fixed ----
 function applyTheme(){
  const m=S.theme||'auto',h=new Date().getHours(),r=document.documentElement;
@@ -1054,7 +1091,7 @@ function rS(){
   const l=E('label',{textContent:n});let i;
   if(f==='wx'){i=E('select');i.append(E('option',{value:'',textContent:'ไม่ระบุ'}),...WX.map(([v,t])=>E('option',{value:v,textContent:v,title:t})));i.value=S.my.wx||'';
    i.onchange=()=>{S.my.wx=i.value;save();upd()}}
-  else{i=E('input',{value:S.my[f]||''});i.oninput=()=>{S.my[f]=i.value.toUpperCase();save();upd();avQ()}}
+  else{i=E('input',{value:S.my[f]||''});i.oninput=()=>{S.my[f]=i.value.toUpperCase();save();upd();avQ();if(f==='call')edSoon()}}
   l.appendChild(i);return l}));}
 const tv=()=>{$('#tv').textContent=S.tone};
 $('#tone').value=S.tone;$('#ch').value=S.ch;$('#tt').value=S.tt;tv();
@@ -1457,7 +1494,7 @@ function rbThai(m){
  if(m==='bad callsign')return'Callsign ไม่ถูกต้อง ตรวจที่ตั้งค่า > สถานีของเรา';
  return m}
 function rbConn(){
- clearTimeout(rbT);if(rbWs)return;
+ clearTimeout(rbT);if(rbWs||!edHas('CW'))return;
  const call=((S.my&&S.my.call)||'').trim().toUpperCase();
  if(!call){rbSt('ใส่ Callsign ของคุณที่ ตั้งค่า > สถานีของเรา ก่อน แล้วกดเชื่อมต่อ');return}
  rbWant=true;S.rbOn=true;save();$('#rbc').textContent='ตัดการเชื่อมต่อ';rbSt('กำลังเชื่อมต่อตัวเชื่อม ...');
@@ -1515,9 +1552,9 @@ $('#bk').onclick=()=>{const o={app:'cw-console',ver:VER,t:new Date().toISOString
 $('#bki').onclick=()=>$('#bkf').click();
 $('#bkf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const o=$('#bkst');
  try{const j=JSON.parse(await f.text());if(j.app!=='cw-console'||typeof j.settings!=='object'||!Array.isArray(j.log))throw 0;
-  const keep={qp:S.qp,hp:S.hp},k=r=>[r.d,r.t,r.c,r.f].join('|'),have=new Set(LOG.map(k));let add=0;
+  const keep={qp:S.qp,hp:S.hp,lic:S.lic},k=r=>[r.d,r.t,r.c,r.f].join('|'),have=new Set(LOG.map(k));let add=0;
   for(const r of j.log)if(r&&typeof r==='object'&&!have.has(k(r))){LOG.push(r);add++}
-  for(const x in S)delete S[x];Object.assign(S,j.settings);for(const x in keep)if(keep[x]!==undefined)S[x]=keep[x];
+  for(const x in S)delete S[x];Object.assign(S,j.settings);for(const x in keep)if(keep[x]!==undefined)S[x]=keep[x];if(j.settings.lic)S.lic=j.settings.lic;
   save();saveLog();o.textContent='นำเข้าแล้ว: เพิ่ม Log ใหม่ '+add+' รายการ กำลังโหลดหน้าใหม่ ...';setTimeout(()=>location.reload(),900)}
  catch(_){o.textContent='ไฟล์นี้ไม่ใช่ไฟล์สำรองของ HAM LOG DATA'}};
 // ---- ADIF import (Settings) ----
@@ -1608,7 +1645,7 @@ $('#rbrun').onclick=()=>{
  rbSt('กำลังสั่ง Windows เปิดตัวเชื่อม ... (ถ้าเบราว์เซอร์ถาม ให้กดอนุญาต ถ้าไม่มีอะไรเกิดขึ้น แปลว่ายังไม่ได้ติดตั้ง)');
  const a=E('a',{href:'cwbridge://start'});document.body.append(a);a.click();a.remove();
  setTimeout(()=>{if(!rbWs)rbConn()},3500)};
-setInterval(()=>rbDraw(1),5000);rbBands();rbDraw(1);if(S.rbOn&&S.my&&S.my.call)rbConn();
+setInterval(()=>rbDraw(1),5000);rbBands();rbDraw(1);
 
 // ---- keep the last 30 s of input audio so a bad decode can be saved as .wav and examined ----
 let recBuf=[],recN=0;
@@ -2036,7 +2073,7 @@ document.addEventListener('keydown',e=>{
  if(e.code==='NumpadEnter'){e.preventDefault();$('#lgadd').click();return}
  const m=/^Numpad([1-6])$/.exec(e.code);
  if(m){const b=document.querySelector('#mac .mc button[data-n="'+m[1]+'"]');if(b){e.preventDefault();b.click()}}});
-document.addEventListener('input',e=>{const t=e.target;if(t.tagName==='INPUT'&&t.type==='text'&&!['n','co','q','cm'].includes(t.dataset.k)){const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.toUpperCase();try{t.setSelectionRange(a,b)}catch(_){}}},true);
+document.addEventListener('input',e=>{const t=e.target;if(t.tagName==='INPUT'&&t.type==='text'&&!['n','co','q','cm','lic'].includes(t.dataset.k)){const a=t.selectionStart,b=t.selectionEnd;t.value=t.value.toUpperCase();try{t.setSelectionRange(a,b)}catch(_){}}},true);
 $('#gr').value=S.gr;$('#rs').value=S.rs;
 $('#gr').onchange=e=>{S.gr=e.target.value;save();upd()};
 $('#rs').onchange=e=>{S.rs=e.target.value;save();upd()};
@@ -2119,6 +2156,7 @@ th:{t:'คู่มือการใช้งาน',s:[
  'ถ้าไม่ได้เชื่อมต่อวิทยุ แอปจะส่งเป็นเสียงโทนอย่างเดียว (ใช้ฝึก)',
  'ถ้าเปิด <b>บันทึก QSO อัตโนมัติ</b> (ตั้งค่า) เมื่อส่งมาโครตัวสุดท้าย (ปิดท้าย) จบ แอปจะบันทึก QSO แล้วจบการสนทนาให้ ถ้ากด Esc กลางคันจะไม่บันทึก']],
 ['วิทยุ / ความถี่ / ย่าน',[
+ '<b>รุ่นของโปรแกรม:</b> <b>Standard</b> (รุ่นเริ่มต้น) ใช้โหมด VOICE · <b>Plus</b> เพิ่มโหมด CW · <b>Pro</b> เพิ่มโหมด DIGITAL · <b>Ultimate</b> (รุ่นท็อป) เพิ่มโหมด SATELLITE ทุกรุ่นใช้ Dashboard, ตั้งค่า, แผนที่, Log QSO และนำเข้า/ส่งออกได้ครบ ถ้าต้องการอัปเกรดให้โดเนทผู้พัฒนาแล้วแจ้ง Callsign จะได้รับรหัสปลดล็อก นำไปวางที่ ตั้งค่า &gt; รุ่นของโปรแกรม (ใส่ Callsign ของคุณที่ ตั้งค่า &gt; สถานีของเรา ก่อน) รหัสใช้ได้กับ Callsign ที่ระบุเท่านั้น และอยู่ในไฟล์สำรองข้อมูลด้วย โหมดที่ยังไม่ปลดล็อกจะมีเครื่องหมาย 🔒 ที่เมนู',
  '<b>วิทยุและเสียงเข้าแยกรายโหมด:</b> ที่ ตั้งค่า &gt; การเชื่อมต่อวิทยุ กด “เพิ่มวิทยุ” สร้างโปรไฟล์ของแต่ละเครื่อง (ชื่อ, CI-V Baud, CI-V Address, ขาคีย์ DTR/RTS และอุปกรณ์เสียง) แล้วเลือกว่า <b>โหมด CW</b> กับ <b>โหมด VOICE</b> ใช้เครื่องไหน (เลือกที่ตั้งค่า หรือที่ช่องข้างปุ่มเชื่อมต่อของแต่ละหน้า) เช่น CW ต่อ IC-7300 (19200) และ VOICE ต่อ IC-9700 (115200) <b>เชื่อมต่อพร้อมกันได้</b> แต่ละโหมดอ่านความถี่/มิเตอร์และสั่งวิทยุของตัวเอง เมนู “ตั้งค่า Address ตามรุ่น” ใส่ Address มาตรฐานให้ (IC-7300 = 94, IC-9700 = A2, IC-705 = A4, IC-7610 = 98, IC-7100 = 88 ตรวจกับเมนู CI-V ในวิทยุอีกครั้ง) ถ้าสองโหมดเลือกวิทยุเครื่องเดียวกัน เมื่อกดเชื่อมต่อหรือสั่งส่ง CW จะมีป๊อปอัพให้ตัดการเชื่อมต่ออีกโหมดก่อน (กด “ตัดการเชื่อมต่อ … แล้วเชื่อมต่อ …” เพื่อสลับโดยไม่ต้องเลือกพอร์ตใหม่) เสียงเข้าก็เช่นกัน: CW ใช้ถอดรหัส VOICE ใช้ Audio Scope ถ้าสองโหมดใช้อุปกรณ์เสียงตัวเดียวกันจะมีป๊อปอัพให้หยุดอีกโหมดก่อน แต่ถ้าเป็นคนละอุปกรณ์ (ตามโปรไฟล์วิทยุ) ฟังพร้อมกันได้',
  '<b>ส่งออกไป Log4OM / QRZ เฉพาะบางรายการ:</b> ตารางบันทึก QSO มีช่องติ๊กหน้าทุกแถว (ช่องบนหัวตาราง = เลือกทั้งหมดในตารางนั้น) และปุ่ม “เลือกทั้งหมด / เลือกหน้านี้ / ล้างที่เลือก” ถ้ามีรายการที่ติ๊กไว้ ปุ่ม “ส่งออก ADIF / CSV” จะส่งออกเฉพาะรายการนั้น (ปุ่มแสดงจำนวนที่เลือก) ถ้าไม่ได้เลือกเลยจะส่งออกทั้งหมดเหมือนเดิม',
  'ตารางของหน้า VOICE / DIGITAL / SATELLITE แสดงหน้าละ <b>10 QSO</b> เรียงล่าสุดไว้หน้าแรก ใช้ปุ่ม « ‹ › » เปลี่ยนหน้า การติ๊กเลือกคงอยู่ข้ามหน้า',
@@ -2205,6 +2243,7 @@ en:{t:'User guide',s:[
  'Without a connected radio the app only plays the sidetone (practice).',
  'With <b>auto-log</b> on (Settings), when the last macro (final) has been sent the QSO is logged and ended for you. Pressing Esc half-way does not log.']],
 ['Radio / frequency / band',[
+ '<b>Editions:</b> <b>Standard</b> (starter) includes the VOICE mode · <b>Plus</b> adds CW · <b>Pro</b> adds DIGITAL · <b>Ultimate</b> (top) adds SATELLITE. Every edition has the Dashboard, Settings, map, QSO log and import/export. To upgrade, donate to the developer and tell them your callsign; you get an unlock key to paste in Settings &gt; Edition (enter your callsign in Settings &gt; My station first). A key works only for the callsign it was issued to and is included in the backup file. Modes that are not unlocked show a 🔒 in the menu.',
  '<b>Radio and audio input are separate per mode:</b> in Settings &gt; Radio connection press "Add radio" to create a profile per radio (name, CI-V baud, CI-V address, keying pin DTR/RTS and audio device), then choose which radio the <b>CW mode</b> and the <b>VOICE mode</b> use (in Settings or with the selector next to each page\'s Connect button). E.g. CW on an IC-7300 (19200) and VOICE on an IC-9700 (115200) can be <b>connected at the same time</b>; each mode reads its own frequency/meters and controls its own radio. "Set address by model" fills the standard address (IC-7300 = 94, IC-9700 = A2, IC-705 = A4, IC-7610 = 98, IC-7100 = 88; double-check with the CI-V menu in your radio). If both modes pick the same radio, pressing Connect (or sending CW) opens a popup asking you to disconnect the other mode first ("Disconnect ... and connect ..." switches without choosing the port again). The audio input works the same way: CW uses it to decode, VOICE for the Audio Scope; if both modes use the same audio device a popup asks you to stop the other one, but different devices (per radio profile) can listen at the same time.',
  '<b>Exporting only some QSOs to Log4OM / QRZ:</b> the QSO tables have a tick box on every row (the header box selects everything in that table) and buttons "Select all / Select this page / Clear selection". If any rows are ticked, "Export ADIF / CSV" exports only those (the button shows the count); with nothing ticked it exports everything as before.',
  'The VOICE / DIGITAL / SATELLITE tables show <b>10 QSOs per page</b>, newest first; use the « ‹ › » buttons to change page. Ticks are kept across pages.',
@@ -2274,8 +2313,12 @@ document.querySelectorAll('#mlang button').forEach(b=>b.onclick=()=>{S.lang=b.da
 drawMan();
 // ---- tabs ----
 const MAINT={DIGITAL:1,SAT:1}; // modes closed while being updated (remove a key to re-open it)
-function tab(id){let pg=id;
- if(id.startsWith('g:')&&MAINT[id.slice(2)]){pg='pm';$('#pmh').textContent=GN[id.slice(2)]+' · กำลังปรับปรุงและอัปเดต'}
+const PMP0=$('#pmp').textContent;let CURTAB='p0';
+const EDLB={CW:'CW',VOICE:'VOICE',DIGITAL:'DIGITAL',SAT:'SATELLITE'};
+function tab(id){let pg=id;CURTAB=id;const em=edMode(id);$('#pmb').hidden=true;$('#pmp').textContent=PMP0;$('#pm .pmi').textContent=em&&!edHas(em)?'🔒':'🛠';
+ if(em&&!edHas(em)){pg='pm';const n=EDS[edNeed(em)-1];$('#pmh').textContent='🔒 '+EDLB[em]+' · ต้องใช้รุ่น '+n.n+' ขึ้นไป';
+  $('#pmp').textContent='รุ่นของคุณตอนนี้คือ '+EDS[ED.t-1].n+' ('+EDS[ED.t-1].d+') · ใส่รหัสปลดล็อกที่ ตั้งค่า > รุ่นของโปรแกรม เพื่อใช้โหมดนี้';$('#pmb').hidden=false}
+ else if(id.startsWith('g:')&&MAINT[id.slice(2)]){pg='pm';$('#pmh').textContent=GN[id.slice(2)]+' · กำลังปรับปรุงและอัปเดต'}
  else if(id.startsWith('g:')){pg='p4';QG=id.slice(2);QM=(S.qm&&S.qm[QG])||(GR[QG].modes[0]||[''])[0]}
  for(const t of['p0','p1','p2','p3','p4','pm'])$('#'+t).hidden=t!==pg;
  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('pri',b.dataset.t===id));
@@ -2290,12 +2333,29 @@ function tab(id){let pg=id;
  if(pg==='p0')dash();
  if(pg==='p4'){PG.qlt=0;if(vx)rigVoice();qSetup();renderLog();if(vx){$('#vmi').textContent='';requestAnimationFrame(vShow)}setTimeout(()=>$('#qc').focus(),0)}}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+$('#pmb').onclick=()=>{tab('p2');const e=$('#edp');if(e)e.scrollIntoView({block:'start'})};
+// ---- editions UI ----
+function edUI(){
+ document.querySelectorAll('#nav button').forEach(b=>{const m=edMode(b.dataset.t);const lk=!!m&&!edHas(m);b.classList.toggle('lk',lk);if(m)b.title=lk?'ต้องใช้รุ่น '+EDS[edNeed(m)-1].n+' ขึ้นไป':(MAINT[m]?'กำลังปรับปรุงและอัปเดต':'')});
+ const c=ED.t,e=EDS[c-1];
+ $('#edc').textContent=e.n+' · '+e.d+(ED.call?' · ออกให้ '+ED.call:'');
+ $('#edt').replaceChildren(...EDS.map((x,i)=>E('div',{className:'edr'+(i+1===c?' on':''),innerHTML:'<b>'+x.n+'</b><span>'+x.d+'</span><i>'+x.m.map(k=>EDLB[k]).join(' + ')+'</i><u>'+(i+1===c?'รุ่นของคุณ':(DONATE.price[i+1]||''))+'</u>'}))); 
+ const st=$('#eds');st.textContent=ED.err?ED.err:(S.lic?'ใช้งานรหัสแล้ว'+(ED.d?' · ออกเมื่อ 20'+ED.d.slice(0,2)+'-'+ED.d.slice(2,4)+'-'+ED.d.slice(4,6):''):'ยังไม่ได้ใส่รหัส · ใช้รุ่น Standard (VOICE)');st.classList.toggle('bad',!!ED.err);
+ $('#edx').hidden=!S.lic;
+ $('#edd').textContent='อัปเกรดรุ่น: โดเนทให้ผู้พัฒนา ('+DONATE.who+') แล้วแจ้ง Callsign ของคุณ จะได้รับรหัสปลดล็อกที่ใช้ได้กับ Callsign นั้น ข้อมูล QSO ของคุณอยู่ครบทุกรุ่น'}
+window.edAfter=()=>{edUI();if(edMode(CURTAB))tab(CURTAB);if(S.rbOn&&S.my&&S.my.call&&edHas('CW')&&!rbWs)rbConn()};
+$('#eda').onclick=async()=>{const k=$('#edk').value.replace(/\s+/g,'');if(!k){return}
+ const c=((S.my&&S.my.call)||'').trim();if(!c){const st=$('#eds');st.textContent='ใส่ Callsign ของคุณที่ ตั้งค่า > สถานีของเรา ก่อน แล้วค่อยใส่รหัส';st.classList.add('bad');return}
+ const old=S.lic;S.lic=k;await edApply();
+ if(ED.err){const m=ED.err;S.lic=old;await edApply();const st=$('#eds');st.textContent=m;st.classList.add('bad');return}
+ save();$('#edk').value='';edUI()};
+$('#edx').onclick=async()=>{S.lic='';save();await edApply()};
 
 window.addEventListener('beforeunload',()=>{tx.abort=true;if(RC.CW.port)RC.CW.port.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{})});
 window.addEventListener('resize',fit);window.addEventListener('resize',()=>rbDraw(1));
 if(window.ResizeObserver){const ro=new ResizeObserver(fit);ro.observe($('#cv'));ro.observe($('#sp'))}
 fit();
-S.cur='';rS();upd();renderLog();updRig();avQ();dash();
+S.cur='';rS();upd();renderLog();updRig();avQ();dash();edUI();window.EDREADY=edApply();
 if(navigator.mediaDevices)devs();
 
 ;['qzst','hqst'].forEach(id=>{const o=document.getElementById(id);if(o)new MutationObserver(()=>{o.title=o.textContent}).observe(o,{childList:true,characterData:true,subtree:true})});

@@ -1,5 +1,5 @@
-/* HAM LOG DATA service worker — build 3.1 · 2026-10-28 b8fddb00 */
-const CACHE='cwc-Xb8fddb00';
+/* HAM LOG DATA service worker — build 3.2 · 2026-10-28 d432f386 */
+const CACHE='cwc-Xd432f386';
 const CORE=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE&&k.startsWith('cwc-')).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
