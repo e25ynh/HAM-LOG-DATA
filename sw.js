@@ -1,6 +1,6 @@
-/* CW Console service worker — build 1.1 · 2026-10-28 f3e12d82 */
-const CACHE='cwc-f3e12d82';
-const CORE=['./','index.html','manifest.webmanifest','icons/icon.svg','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
+/* HAM LOG DATA service worker — build 2.9 · 2026-10-28 6294a567 */
+const CACHE='cwc-X6294a567';
+const CORE=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE&&k.startsWith('cwc-')).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('message',e=>{if(e.data==='SKIP_WAITING')self.skipWaiting();});
@@ -16,3 +16,5 @@ self.addEventListener('fetch',e=>{
     return res;
   }).catch(()=>caches.match(r,{ignoreSearch:true}).then(m=>m||(r.mode==='navigate'?caches.match('index.html'):Response.error()))));
 });
+
+// v2

@@ -3,30 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CW Console</title>
-<meta name="theme-color" content="#0b1220">
-<meta name="description" content="CW Console — โปรแกรมปฏิบัติการ CW (Morse) สำหรับนักวิทยุสมัครเล่น">
+<title>HAM LOG DATA</title>
+<meta name="theme-color" content="#04070e">
+<meta name="description" content="HAM LOG DATA — บันทึก Log และปฏิบัติการวิทยุสมัครเล่น (CW / Voice / Digital / Satellite)">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="CW Console">
+<meta name="apple-mobile-web-app-title" content="HAM LOG DATA">
 
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAbJklEQVR42u16d3jc1Znue86vTK8qoy6NulwkV4HlbjBgFgj2khASCNmEkoQke7PJ3t2UJ3s3uXtDQkjIhiyhbGgBGy+wsXE3LrjIyJaxJVuyutVHo2maPvMr5+wfMoQ1OBsS527u89zvr2nP/L73nO+c9/0KcPWMEPKhrwFQSvFnaISQyxwlhEiSVFBQ8EEMl729WvZHLQznnHM+u7qCILhcLs45Y6yysqqlpYVzLgiCIAhut3vFihXv/fLPAsDschYWFt55552MsdlPqqtrWlqW67re2nocwIYNN+u6rut6JpO55tpl99//AGNMEISrC0D4YwDY7fYbb7xJluXpaX8mk5mcnCgvr1iyZGl/f//IyIgg0E2bNrnd7mXLWnbv2hUMhcrKy8fHx/4sAMxaPB4nBKqmlpeVO5zOUDg8fHEoHApu3LjJ5XLn5ORKZkd5WenLL/96etrv90/V1dbPmTt/ZOTibOxdnXP4h4QdpYyxxYuXFBR4BgYG6uvrd+zY4XLYFy9alGKyrisV3qocp+Pc2fbDhw+Jonj9+hvOnD7tn/YDqKyuy6RTkxNjhJCrguEP2QGBUhBSUlxoMpkffPCLpSWF45PxeS03OMrrPEXeopKKV3/9zNG3DjjyyvILiqb9U6FIZGnLmkQilkolw6FAPB77bwshSinnnHHOOU/pck5eYVlxfnfPQGXD/BF/MJpi+7Y+09Xx9prb7srEA31dHSaSJplEJJYc6O1yGE2xRJwIAqGzD/2/G0KzYQNAlKQqb4UgmWrnLSnOd7js5rhufHnrbwJDpw1GU03T6p4Jt+7f5qlYPM1rmC0H+WbBrpq0aTreq4wOKv4JdunJFAA4+5PvwOyFwzk3GAz19XVM1z9x193zG5vaThx9q7X97k9u6u0b6vVFHS73THbO9OA+1D3InXMSF/ZwayWhCkGWm0ym0vLiljXizXezdZ+kBXUkFuKRqauyCeJ/SbSMMYvFUltbEwyGbrlt4/DI6Guv//vFgV5JkvI9BZLBLOkzwa63DHIOqq8hc37Ehn5J7tmJ4Zc5m0ACPKyhKxpVs1ElASFJqmrRuE745CPCTFI/+BQfOACmgxAw/SoDoIQwzo1GY0N9fSabXbV67fDI6PZtv7nQ3VVWVmEzixmV65oWDASar7nmmed2qc3fIsNP4b6/Jv/0OFYY+N4liJt50RyY3IhdJEREJsg1lY++g55nNOEXaFhN5t0H/0Vhplfns5TK/4A9Ea8UMza7vbq6mlKyaHFzKBTev29fd3dXhbfS4XCMjg4LnuUmI3HIEw6nU8ummB4l187FhIE3EsGSS8t0rbiCD6YgySAEpSu52QGDCY5iJH0kHkb3Hlw8zAe+TDJTjhv+lhMptvf/6CAgBB/xbhWuFDy6rjU2LSwqLOzs7DhwYL/L5ZZk4/jYKGMEc7/KdG2uyy8bzbXV1aXlZYqqdr+2TTBqqL+N7XuSr3wA258HN8NgAiUgAAhkMzqeRWSQRC5g7AAyAeQ1w1KWHn1bW/gFY+2trOdVzoGPqPnolVSapmq7du7YvHmzw+kqLSvv6+sNB6aIyaWufIJFe8jI67LR1NnZOembfOH5F+fNm4tIK/es41u3weDkrdN85DyMRmgZcI1wFaKIdJBMnyLdr+PkEwic55KEiQMgArE1aS/9ZWraR245BEH+qPR6RTHH3z3Ehw4emJqaogSK7OS3/Tt6X4TvpOheurBpXm5evslkVlTlXOcZyeRkCeCtf0T157HnZ5Bs4CrhCjgDV8nEIXQ8wTMRnolxk5sbcyDZkNcELcb1FKo+wVu/rQ0exLI3AAJCP8L9/nuoZUFVFCZbyF2HSPu/0uhFuFdU5KYtVpsoiulM2mQyzZ83r6ggH+d/QiyF8HVhcAcc3kuxyFQuGnn/TjJ6HONnkA4gG0diEtNnocaRCkDLInoRFZ9AzyMItGPuz8H1SyxxNeQ0YSAUXLp7B+/bCd9hUrQC/t8sXjS/r68/HotFo1G/f4px1FaVAZxqCfQ9AwCSjEg3z0Q4U9H2IygpnoxAMICKMDhBBIAj6YOWQqgTTMXEfpR+HH3fAbGh4K7fHwP9LxkYTDNu+Cc9qZDWh1GxTh94xWA0NTcvpYQqqrJi+YqSktInn3yqtLwcAM9GQESkg4iPY/QtMtmKyRMI95OcKjgqCBFBBBhcsBbBVgrJTCx5oALUOKiIyV0o3kS6v4LcjTBWEIBQgVI6mxVdKaH7nUxMBHDd7G3W1v5Qe24D8a4no29yJdY4f35BQeHeffsIiNfrHRsbc7lcdbW1XV1d6XSGgEGQkA6A6zDlENlEqjYgEybxceQ3QU9DiSHhQzYKNQEiAjq4CnMpUQIEMpdddHorOONa7FIQv6u9PxSD+LtzRokSacOTqT3fItYyHhkgShwgTU1Nr776ajab1TQtmUhs37Zt/Q03NDY2VlZWnj59moqyLtoJoaASEn5QAdHd4CpMbm4rJLIRkx0w2KgaA3Rkg1xLM84I41xyItpJ3S0s0w4Qa16pw2LKsZvcbldBQSGlfNeu/dHoDKC/nyquDIAKYDpr+FQsrODCNl54PZnYyUS7y2asrq7ZuWMnByildof9U5/+VDgc+f73v9/S0nL69GlwDj3LuQ4tDcFAp89DkHjVbXz+PUgFeKCLDB/lalYHAwA9DSmH6DPITsOYLyCtB99c2Lz6jk/fY5AFqqYzyTjnPByc2vLK9pmYQMA4J+8n7CsDYJxQyisf4kf/F7E18Mh5arDrqanFK67r6OhIJJOcM5vNvmTJkgvd3bt377bbHUaD0WCQFUUhnFECUMIFMCbCVgPXPIRGYS0gRatw8UixIbBk1fXFntxKb0Vf78BTT79I+QxlaZ3xqtqGr33jb0cGeiaGfYSAUiEej27e/G+xVBEhk5zx3+8MEAFgyGnhhnnoeRTWGsy0g0hET89rbDrZ1uZ0OvPz8+PxhMfjiSfiHk/B+PiYJEqqqs1EowDhjJvyissq53m8ZVaainbvJYkRkvCT6DgfPfzoI9/70gP31dV4izy5VeWFOw8czaQUpkRy8/KfemGrbLJSUXLl5Fntrrz8gjPtrZ3dgmCcYdnQB/nhd56B3E0YeQmGXCSHqCBCS+Tk5oRCIUEQUum0qmnJZOLAgQPt7adsNrsgCH39faqqFhYWxuLxhx768to1a10uV2VF2RtvbPv8A39NsyHuO8Z0WljmWbK0ORgMMMYAUlM358bVi7ds2Ww0Gl/a8m9zFy0e7B+QJDEeT2RVJvJM90CIiDpPjgIUYL8XAAJGBAMJ7eGhI0wqQGqEQQc4EaTBwcFYdEZVNUmWZVkymYx33HFHZWXlokWLdu3ctXnLZlEUN23a9MOHf6Cqajqd1jS9sWmhxW5Lxv2UUtlg2LD+prq6+vHxCRDoOnO5c+761F2vvLLl54//y7LlK8Z90y6XS5YNOTk5eTmud1r3D00KRIgwAIR/UK1+GABCOWdczyKwHyYntYiSMddpFosLPYHA9NjYhOgsEExSKjT+9FNP3LRhA2OsuKhoyyuvvLz5ZUVRbFbrj3/8Y13XVVWTZZkQta6+vqGmor39lCBI2XRqzepVM9FoZCYyez9qmuZyuh/50SNr166dGB5yulxDF4ebGhsFCpNB+tHBE4zaRNXP8OFC9cMAcFZYWFhaWubOL65aeI1NYFaR5efl1jc0fPUrXxkbG4OSzmaCxSWF111/PWNMU9Wx8fHvfOc7iqIA+OWTT+bn52ezWVEUFEXRdd1msy1cuKC9/ZSqaZ78Am9FRVtbm6IonHFCic1mczqd6667zjcx7vV6H3v0R3MaGpY0zWUMM5GZbW92ACldVS4trUCZrl+BiQkBINo81vqbc9yuZdc233zDuhKDKmkJVVN1xk6dPNV57hylVNBTAtTbbr3V6/UKgpDv8fT29o6NjQF44IEHTEbTCy+8aDAYOOevbN26ZfMWQRCqq2tm1VV9fW1n57n+/n5V1Uxmk6pqwWAwFAz29/cpivLkU08+99xzNbW1586dT6VS+/ft8w2NCeqYYLLJJivAL/P+P+8A5wDR0xGqk/PBmvP//OTCBQ1feuirsiQwzisrK59//vnZvD6bzQLYuHFjNBpNpVI2m23//v06Y+Xl5d/61rcfe+wxxpjH44lGo8ePHddUlQHTgYDZbE6lUgUFheMTE5RSiyX67LO/WrNmbSKRsFgsOW7X1NTUww8/vGbN2sB0AGBmk+G117cTpZeINsma48wtLKlZmGPR92x5igDv1ZTEywWopsT6d4q2St0wV1Ezzc1LkomEJMmEYPv27QAKCgpKSkqWLFlSUlLS39fHAVVVd+zYAc4fffTRdDodi8UdDvvjjz+hqlmXyxGLxTs7Op1OV0lJyeDgYGlpWTyRFAShq6vr4MGDpaVlomwIhkIaJy88+69M1+prKlqPHx2fCg0MjZ7p6ITBZhCIpISne4f/x4OfFV3eva88Q8CvBODdgkd2kqvKptvvqampicfjNpttbGz8H/7hH2pqahx2hyAKqWSqu6tbksS8vLzz58/39vZu2rRp7ty558+dC4dDbrcbXCkqKtBUTZCMbk+J1ZFTP7dRkqRSb83gQD9j2jvvnAGhrW+f/Itbb/dPTz33wuaxkVHZXvbrN9ojkSSUJJSw2WUvKC6x2J1Wi0WibMuLvzpz+iygX3KSsw8DQCjhTLdWyoLw8Ts2UkqZzkaGR+Lx+DXN1wRDoUmfL51OpVIpXdMJJQx4/vnnc3Jy7r33s4cPHxEFWlVVZTXLb7WPr7zW3ty8BJK1zOstLfcaZKHcW+v0lAsjY5lUdHA0DM4GeruPeeonwpovXkCrmgyIeArthZU8GRjS0mZPUfn8BUsWLmhMJZP7du88MzxhqljEDQWZ0Vak/QAB+Ad3gFMCXbRdM9+Vyep79+6VZVlTNcZZJqPouh6LRaPRaCaTicXjFAgGQ8ePH7v77s8Mj4xMjE/Y7PY8T3Hr8aNxVt/b2/9XX3hI4YLbYfdWlJTl3fKzx58KR2Mzsfhw//mZaJo4F8Ixp72fQJmkup/FVa4N/M1PX4OW3f3qr9VEyJ2TayaZtqFY54Q+faat1G0dvHjaWLjIfMtrqWPfJL5jnFDxcgbjnJvdEMkNyxdf6B3gTLdYLIqqdl/o7uvtHR4e7R/oX7d2XW1dfTyRzs3LHxufaGiY13xtS9f584IgHGtte7utLa7bSOm9kwN7+nq6RXOuqtPYuX4lEb7QfnjX7jf9CWsaJShZQLQQj5yjLMvjPZxpcNRniXV0yDcTDhw9eiA0OSZJstVuCluXwlxtpLZ4OMo0JT32tvilOoy1cN9REEG8vBrBOTMXlOZbLBbrhZ4LRoOhqKjozTf3bd36GmAFYqIgrL/hRovNrnChuMz7+ssvfvlrf6frWr6nwO8bP3TwiJKJ0LoVRMpJp1PnOjtkk33H1mfHp5IjM3Zmng9jDqxZkp7hvn08fg4At3q5nIuMn3rv0FC0h+TqPJNljTZDRDIYNDRKdR8jVNFNHvXCCzDY8NhLanYCZ14CAbh++S1ECOE0ty7f1HdxZGYmZrPZZFl6p6OfEKtshJoVlq+5ccE1K33TQW917YWunkXNq5e2LG879pbbbdu9t19Rcs3WpFj78dhwnEDbvevNmGkhNy6CNR/GKM0Mk5m3WTzAM35kxuScOTqx6Gk/ATgBIl2GCqO8etVUEur5GnSLqixIlXcVrVw/Me2jwV/f9YWvn1l3TV9fDN/7Os/6ZotI4mXxw8z5omzKsRvGJ/0CJSBkYGBocFQByaqZLONkQfOaM92DgiirgyNnT7W2rLv+V0//om9gbOBi8FyPDjYgymaLm8npVNbzVJTnIjtOQ8fQ/yJPRrlImZaCngKHsfovjDweHTwCWyWflQmx3szpxNj+e9PBBB34CYv3ZLkhHf1nMtWzcdO9n/vFlwK6rXvPOcMT38tEj4OwWV0kvj9+KOdMKC3PNVps1tBEQDYY51ZVvNM5wVWjCEXjJDev1G63njx50mwy9J45HEuTZ7YeC4+noIlgM3aP7Fh0H6m/MyOXJ0LnsgM7ycQuHvex2dUhBNolLUkbH+I8PnNuJ4x5IBSiTARBqLyTyKWSc3xyOKAPZEU+WeH1rl21dMWy4pB/87e/G33n5BGBj7LwxStkZJyDChALmxtLdZJx5eTXVJeJLHuqixIpxTMAeFlp/okTxzrOdIWzubpQDMkBkpE8EUuu3Trns2rp+rCC5Dubcf77mD4DPQYARAQ4uP6uFCPwrOLV92dfXwAxD1IxklPQwaGrg2fR5FrQcu2KJqYThQUlXecjQwOvd1ZHfCZZOJVnHguMXiRUANc/AGD2+Ir5Vpe5cU7ZRCBmNoVPtPUd6c/XkzGke3QAsqMz6NR4HWo2CohJ4TMIX2CGIl56Y9qzMD7t149/gwy9JuoJIpk1lp71VyAaISBEpAYHI5KWmiaF17GcJrLwWwgcJYLC65bTkuocj2VezfxVDjn/xO7+nrPHTu/r6R2Iz6Qg1grzdYNXKJ72CZIpQOhlBWDyHn8JYLq4+Obb165dVfX667vPXZQSah4iR6BfhLsB1mriKOW6gvA4IgOIDQASDLVwlgA6wpNQYwCH5IZkA6dwF8BoFQQRjMlmk2h1SrV12VAw+cYXUbSSzP827DVwMZ4bNOclSzJBTyCotO8aGUhO3fo9dKTw9v8G3gZxEvdqNH2dCzPW1s9xkkwmElfs0BAqU8fKWzbUtrYPBiYBHrMb+mrLCjuHggoXSDbBlZhNxtIli2SrWzA4QSnXs20njodCwWXL1xSXVVAqgjOm6xaLde++PVM+P5WkkiXXMdnEdEiiEUzRMzOpwMTMQDsHJKO7YO4yLZ1KhSMzU2dlV5E53yt66kgW2syglp4mkqjGNcGQI1h0LTrNYgE1k9J07YMACMBhKqemYpbygxuMUuC7//PBz/zVg+OTUytbmpnOGVBW4d21a/echjpV1QDGdN1gND37q1/19fX+4OEfgrNMJgPAaDS2tbXdvvFj0/4A51j06O7c629S4yAEHCAMENHxzc8ED79Y0Lym6fFDCQXpKLtwX3Xjw7vV8jolpIPojMqMgmmY+s7KolvvNSy/R2Oi/4m/UQ79PKYS8r7cnv4WieRiiYtEmSDZbi0dvPGWvywuKfnlE79QdS4ZjRy459OfntNQ9/LLL9fX11VWVm9/Y0cinohEZu644xOpVOpjGzeVlJbV1TdUeCuXr1g5NRXgoBCoYnVG06zn2Z8d++SCE1+8KTQdTjGoGUU0Sjlf+pdBP3zDyRioVH/92e99vvP+64InXklb5HDv+eHv3jbw0GK5oCLZfN/YhOyPCsnajxvMNlEU+IfkAwTEYgUyiPmoIC1tXqKr2t69+/bs2UMIURRFFMX5jY1nz3a89NJLQ0NDZrPZaDQdPXZ0cGhwWcuyffv2bd+27Zt//83GxkYAp9rbf/rTn4AzWlgzgYXkLJ058Lo+1kFFeWzGSUYS8dPb3Xf+YJg3pJ5+WkAUN3yD25frg08DSGa/HB+F1vpW9uwbhpx8tnr/WGuCHv07LPp7lp0v2eot2tmoivfazOKlWjoHnzoGUFmW3W73vHnzuy70HD92ZGpqarZM3dDQoGr67j1729vbKaULFiyYnJzs6enhHENDwwcPHgDQdrItLy+/sLCgq6uLcy4ALK8lfNqA6XOC7yShQMH6UCtF7w7rnLVx89eybww7/Oc157XJozGiLySiCUZT3NeAiQQ6jgsyNa38ZfgUERM75VQye2EIvDRpXOUx90QT6ofUhQgh4NzjKXA6c7w1DaPDw0o2U1HhnT9vfm1dXU1NDSGCb2qquKSkprautLQ0kUwNDQ5Y7fZQOKJks1VV1QA0XY/F4ocOHYxGY4QAFZ/BlN2QmnAV1LLCdRAXM58u0jNw3JwdhRh/lTtXZeKlCAwhzRA+DJubkFUID2PkMbH8pqx2PUJtgnFYk29nyTBNTHBudtILWjauqhq5jMg454JABcFocRenZefMzJRRdtg9LqMsRcP+o0feiszERFHMZDKqoiTiCWVoqL39VEWF11tZxXSdCoLRZA4Egh0dHROTPgLOTBYYixC/kFWFaX0hGEeagRzUcz2aT0Z2hzb4A03TYTRg7sNQ8uBoIlbGeYQoA8irUHNvR7QfwRfVziMAQ2ELz70fkAN6ud08mUpnZrUQeR+Pca+3Kie/LJnWLTkFSiadjEeTyXg2k4nFwnrS/9t2NyEA+W2PmtDZf6CUcP5u3m2pBktBJBAFqDrRdQ4KIkGLElMh5woyAaixS70gSyGoEdkYKKfmHJaOgkjUlicRLqUnDLJglGXJ5CSOuZxDS0xZxWjvhbOc4/KERlGV8jKPyWg0GIzg+kzUNOEj0wGFGvKl4uqpvlbGGCGzCfWlEisBOGezQkSfFT2Sk5sdWHIrfAPwxxE6DIC/r6jGlZnLk6ik771LnWXCorXM6bZxJWyQRHdhVV5ubqEnz2a1cF3JZjOhiGPoYvi9nPj3akUZZHHF6vXL1t/x80f+MRqYEgobuMkCoxkmA7EYicD1YJjaPKAit7lQkC+481BSjbTGQjH0nOQJBarMYkFCASaAMqgxiFFidfNEGlkF2QzSaZL0seT4hru+6rGLO159LhQK84/aZiWEUEGg7xohZLbTp+ns4lB/TWnu7Z9+sLN7MDHRy1NhHpvm0WmEp3hwAhE/j4yyWAJcEoxmiARE4IIFSpqPRcCtnIkkmkY6wiMXEbyAmR7E/IhM8cgEoj7EfEhNc8ZW3vqZpXOKX3vpyelAiBBKCAiZdYS+zyt6iXk/UkNz9pDU1dYuWnHz2yc7JgJxzkVNZZwRQIJkJya7IXYoE/UDIMY8NK0ngoPrVrT9jAslsM5DdPvsgtkKahOGFVoyBhYDT1HKqCxKgragoZwq08ffOvDe467ywJMgCLqum4yy21MaS+tM0zNZVdcZuECIAOdSR92deeZgovsX/pELzFoFPUNca7h/KxgHbCKJFFRfayy7JxQXowOvsvQwmAKWESVBMkiyRGWWCAQC782W/EkmtmZznit/bxErP+eZd6dNPx8588PA5EVGXWARCrgLKx3eT8ZREejfwQPbf/c+/2lHzi6tED4ws0Teu1gtQvUXPbW3GtKnQud/kkjDWnELSH5s/AQiBy4pR0L/U6mZXPLjDxhCu7rDqASEEq5zALDRyvvNxS0pXysLnsRMK8AIAQf944ec/uQDvSDCuwRpBTG8n+/+HzICIlyV+eD/bhhXOUr/v/252X8AXMIAC83K+NIAAAAASUVORK5CYII=">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg:#0b1220;--pn:#121a2b;--rs:#182236;--ln:#243048;--tx:#e7edf7;--mu:#8fa0bb;--ac:#5b9cff;--onac:#06142e;--scr:#080d16;--amb:#ffb454;--ok:#4ade80;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){color-scheme:light;--bg:#eef2f8;--pn:#ffffff;--rs:#f3f6fb;--ln:#d9e1ec;--tx:#0f1a2b;--mu:#566884;--ac:#2563eb;--onac:#ffffff;--ok:#15803d;--amb:#b45309}}
-:root[data-theme="light"]{color-scheme:light;--bg:#eef2f8;--pn:#ffffff;--rs:#f3f6fb;--ln:#d9e1ec;--tx:#0f1a2b;--mu:#566884;--ac:#2563eb;--onac:#ffffff;--ok:#15803d;--amb:#b45309}
+:root{color-scheme:dark;--bg:#04070e;--pn:#0a1019;--rs:#0f1826;--ln:#1a2c49;--tx:#e9f1fb;--mu:#8ea6c8;--ac:#2f8cff;--onac:#021227;--scr:#050a12;--amb:#ffb454;--ok:#4ade80;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){color-scheme:light;--bg:#ecf1f9;--pn:#ffffff;--rs:#f1f5fb;--ln:#d3deef;--tx:#0a1424;--mu:#51698c;--ac:#1d63e8;--onac:#ffffff;--ok:#15803d;--amb:#b45309}}
+:root[data-theme="light"]{color-scheme:light;--bg:#ecf1f9;--pn:#ffffff;--rs:#f1f5fb;--ln:#d3deef;--tx:#0a1424;--mu:#51698c;--ac:#1d63e8;--onac:#ffffff;--ok:#15803d;--amb:#b45309}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 "IBM Plex Sans Thai",system-ui,sans-serif;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
 header{flex:none;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:10px clamp(12px,2vw,32px);border-bottom:1px solid var(--ln);background:color-mix(in srgb,var(--pn) 86%,transparent);backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;gap:10px}
-.logo{display:flex;align-items:center;gap:3px}
-.logo i{display:block;height:6px;width:6px;border-radius:3px;background:var(--amb)}
-.logo i:nth-child(2){width:18px;background:var(--ac)}
+.logo{display:block;width:44px;height:44px;border-radius:10px;flex:none;box-shadow:0 0 0 1px var(--ln)}
 h1{font-size:18px;font-weight:600;margin:0}
 h2{font-size:15px;font-weight:600;margin:0}
 #av{margin-left:auto;height:38px;width:38px;border-radius:50%;object-fit:cover;border:1px solid var(--ln);background:var(--rs)}#av[hidden]{display:none}
@@ -45,11 +43,11 @@ input:not([type]),input[type=text]{text-transform:uppercase}
 button{font:inherit;color:var(--tx);background:var(--rs);border:1px solid var(--ln);border-radius:10px;padding:7px 14px;cursor:pointer;transition:border-color .15s,background .15s}
 button:hover{border-color:var(--ac)}
 button:active{transform:translateY(1px)}
-button.pri{background:var(--ac);color:var(--onac);border-color:var(--ac);font-weight:600}
+button.pri{background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 78%,#fff),var(--ac));color:var(--onac);border-color:var(--ac);font-weight:600}
 button.sm{padding:3px 10px;font-size:12.5px;border-radius:8px;white-space:nowrap;flex:none}
 .seg{display:inline-flex;width:fit-content;gap:2px;padding:3px;background:var(--rs);border:1px solid var(--ln);border-radius:12px}
 .seg button{border:0;background:transparent;padding:5px 14px;border-radius:9px}
-.seg button.on,.seg button.pri{background:var(--ac);color:var(--onac);font-weight:600}
+.seg button.on,.seg button.pri{background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 78%,#fff),var(--ac));color:var(--onac);font-weight:600}
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 .gr{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
 .gh{display:grid}.gh b{font-weight:600;font-size:14px}
@@ -89,7 +87,7 @@ kbd{font:500 11px "IBM Plex Mono",monospace;padding:1px 6px;border:1px solid var
 #utc{font:500 13px "IBM Plex Mono",monospace;color:var(--amb)}.lr:not(.h):nth-child(even){background:color-mix(in srgb,var(--rs) 55%,transparent)}
 #lgst{flex:1;min-width:120px;font-size:13px;color:var(--mu)}
 .lt{border:1px solid var(--ln);border-radius:12px;overflow:auto;height:clamp(84px,15vh,170px);background:var(--pn);color:var(--tx)}
-.lr{display:grid;grid-template-columns:162px 96px 84px 50px 48px minmax(150px,1.5fr) minmax(90px,1fr) minmax(90px,1fr) 52px 52px 78px 48px 28px;gap:4px;align-items:center;padding:1px 6px;min-width:1104px;border-bottom:1px solid var(--ln)}
+.lr{display:grid;grid-template-columns:26px 162px 96px 84px 50px 80px minmax(150px,1.5fr) minmax(90px,1fr) minmax(90px,1fr) 52px 52px 78px 48px 28px;gap:4px;align-items:center;padding:1px 6px;min-width:1166px;border-bottom:1px solid var(--ln)}
 .lr.h{position:sticky;top:0;z-index:1;background:var(--rs);color:var(--tx);font-size:12px;font-weight:600;padding-top:5px;padding-bottom:5px}
 .lr input{padding:3px 6px;border-radius:6px;font:13px "IBM Plex Mono",monospace;background:transparent;border-color:transparent}
 .lr input:hover,.lr input:focus{background:var(--rs);border-color:var(--ln)}
@@ -122,7 +120,7 @@ kbd{font:500 11px "IBM Plex Mono",monospace;padding:1px 6px;border:1px solid var
 .bch button:hover{transform:translateY(-1px)}.bch button.cur{outline:3px solid var(--tx);outline-offset:1px}
 .chip.pend{border-style:dashed;color:var(--amb)}
 #dxin.part{color:var(--amb);font-style:italic}
-.lr input[data-k=b]{text-align:center;font-weight:600}
+.lr input[data-k=b]{text-align:center;font-weight:600}.lr input[data-k=m]{text-align:center}
 .lr input.need{border-color:var(--amb)}
 .lr input[data-k=n],.lr input[data-k=co],.lr input[data-k=q],.lr input[data-k=cm]{text-transform:none}
 .rbf{display:flex;flex-wrap:wrap;gap:6px}
@@ -153,7 +151,8 @@ nav#nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentC
  body{flex-direction:row}
  header{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:16px;width:88px;padding:14px 8px;border-bottom:0;border-right:1px solid var(--ln)}
  .brand{flex-direction:column;gap:6px;align-items:center;text-align:center}
- .brand h1{font-size:12.5px;line-height:1.2}
+ .logo{width:72px;height:72px;border-radius:14px}
+ .brand h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
  header #nav{margin:0;flex:1;min-height:0;flex-direction:column;width:100%;gap:4px;padding:4px;border-radius:14px}
  header #nav button[data-t=p2]{margin-top:auto}
  header #nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px;font-size:12px;border-radius:11px;line-height:1.2}
@@ -161,20 +160,112 @@ nav#nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentC
  #av{margin:0 auto;flex:none}
  main{width:auto;min-width:0;margin:0 auto}
 }
+#p0{display:flex;flex-direction:column;gap:12px;height:100%;min-height:0;overflow:auto;padding-right:2px}
+.dh{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px 24px;padding:12px 18px;flex:none}.dh h2{margin:0;font-size:22px}.dh .mu{font-size:13.5px}.dh .bch{gap:6px;justify-content:center}.dh .bch button{width:auto;min-width:46px;font-size:11px;padding:3px 8px}.dh .vu{display:flex;justify-content:space-between;gap:16px}.dh .vl{font:500 13px "IBM Plex Mono",monospace;letter-spacing:0}
+@media (max-width:899px){.dh{grid-template-columns:1fr}.dh .bch{justify-content:flex-start}.dh .vclk{text-align:left;margin-left:0}}
+.dk{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.kt{background:var(--pn);border:1px solid var(--ln);border-radius:16px;padding:12px 16px;display:grid;gap:2px;align-content:start}
+.kt span{font-size:13px;color:var(--mu)}.kt b{font:600 30px/1.1 "IBM Plex Mono",monospace}.kt small{font-size:12px;color:var(--mu)}
+button.kt{text-align:left;color:var(--tx);font:inherit;cursor:pointer}button.kt:hover{border-color:var(--ac)}
+.kt i{display:block;height:6px;border-radius:3px;margin-top:6px}
+.dg{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))}.dg>.pn{align-content:start}.dg h2{margin:0}
+.bar{display:grid;grid-template-columns:52px minmax(0,1fr) 34px;gap:8px;align-items:center;font-size:13px}.bar i{display:block;height:12px;border-radius:6px;min-width:3px}.bar em{font-style:normal;text-align:right;font-family:"IBM Plex Mono",monospace}
+.bar b{font-weight:500;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+.sp{display:flex;align-items:flex-end;gap:4px;height:130px}.sp>div{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;font-size:10.5px;color:var(--mu);height:100%}.sp i{display:block;width:100%;border-radius:4px 4px 0 0;background:var(--ac);min-height:2px}.sp .td i{background:var(--amb)}.sp .z i{background:var(--ln)}
+.dt{display:grid;font-size:13px;overflow:auto}.dt .r{display:grid;grid-template-columns:130px 100px 56px 112px minmax(80px,1fr) minmax(80px,1fr);gap:6px;padding:4px 2px;border-bottom:1px solid var(--ln);align-items:center;min-width:570px}.dt .r.h{color:var(--mu);font-size:12px;font-weight:600}.dt .c{color:var(--ok);font-weight:600;font-family:"IBM Plex Mono",monospace}
+.gt{white-space:nowrap;justify-self:start;display:inline-block;padding:1px 8px;border-radius:99px;font-size:11.5px;font-weight:600;color:#111}
+.dem{color:var(--mu);padding:10px 2px}
+@media (max-width:899px){#p0{height:auto;overflow:visible}}
+#p4.vx{overflow:auto;padding-right:2px}#p4.vx>.qlw{flex:none;min-height:320px}
+.vsvg{width:100%;height:clamp(210px,34vh,340px);border-radius:12px;background:var(--rs);border:1px solid var(--ln);display:block;touch-action:none;cursor:grab;user-select:none}
+.vsvg.dr{cursor:grabbing}
+.vsvg .ld{fill:color-mix(in srgb,var(--mu) 30%,var(--pn));stroke:var(--mu);stroke-width:.5px;stroke-opacity:.55;vector-effect:non-scaling-stroke;fill-rule:evenodd}
+.vsvg .gl{stroke:var(--ln);stroke-width:1px;vector-effect:non-scaling-stroke;fill:none}
+.vsvg text{fill:var(--mu);font-family:"IBM Plex Mono",monospace;pointer-events:none}
+.vsvg .pin{stroke:#fff;stroke-width:1.2px;vector-effect:non-scaling-stroke;cursor:pointer}
+.vsvg .me{fill:var(--amb);stroke:#fff;stroke-width:1.2px;vector-effect:non-scaling-stroke}
+.vleg{display:inline-flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mu)}.vleg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.vc{display:inline-flex;gap:4px;margin-left:auto}.vc button{padding:3px 10px}
+#vmi{min-height:20px;font-size:13px}
+#p4{display:flex;flex-direction:column;gap:12px;height:100%;min-height:0}#p4>.pn{flex:none}
+#p4 label[hidden]{display:none}#p4 #qn,#p4 #qq{text-transform:none}
+.vstrip{display:grid!important;grid-template-columns:auto auto minmax(0,1fr) auto;align-items:center;gap:6px 14px;padding:10px 18px;flex:none}.vstrip[hidden]{display:none!important}
+.vc1,.vc2{display:contents}.vc1>h2,.vc2>h2{display:none}
+.vstrip .rig{grid-area:1/1}.vsep{grid-area:1/2;font-size:12px;color:var(--mu);line-height:1.3;max-width:120px}.vstrip .bch{grid-area:1/3}.vclk{grid-area:1/4/3/5}.vsm{width:260px;max-width:100%;display:grid;gap:3px}.vsh{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--mu);letter-spacing:.08em}.vsh b{font:600 17px "IBM Plex Mono",monospace;color:var(--tx);letter-spacing:0}
+.smt{display:flex;gap:2px;height:14px}.smt i{flex:1;background:var(--rs);border:1px solid var(--ln);border-radius:2px}.smt i.on{background:var(--ac);border-color:var(--ac);box-shadow:0 0 6px color-mix(in srgb,var(--ac) 70%,transparent)}.smt i.hi.on{background:#fb923c;border-color:#fb923c;box-shadow:0 0 6px #fb923c88}
+.sms{position:relative;height:12px;font-size:9.5px;color:var(--mu)}.sms span{position:absolute;transform:translateX(-50%)}
+.vstrip>.vc1 .row{grid-area:2/1}.vstrip #rigst{grid-area:2/2/3/4}
+.vc1 .rig input{font-size:22px;padding:3px 10px}.vc1 .rig .chip{font-size:12px;min-width:46px}.vc1 #rigst{font-size:12px;line-height:1.35}
+.vc2 .bch{gap:5px}.vc2 .bch button{font-size:11px;width:auto;min-width:44px;padding:3px 6px}
+.vclk{text-align:right;margin-left:auto;line-height:1.1}.vu{font-size:13px;color:var(--mu);letter-spacing:.1em}.vt{font:600 36px/1.1 "IBM Plex Mono",monospace;letter-spacing:2px}.vd{font:500 16px "IBM Plex Mono",monospace;color:var(--mu)}
+.vcards{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;flex:none;padding-top:8px}.vcards[hidden]{display:none}
+button.mc{position:relative;display:grid;gap:0;text-align:left;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-radius:14px;padding:20px 14px 8px;cursor:pointer;font:inherit}
+button.mc:hover{border-color:var(--ac)}button.mc.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+.mc .ml{position:absolute;left:8px;top:-11px;padding:2px 12px;border-radius:9px;background:var(--rs);border:1px solid var(--ln);font-size:13px;font-weight:500}
+.mc.on .ml{background:var(--ac);color:var(--onac);border-color:var(--ac);font-weight:600}
+.mc b{font:600 26px/1.15 "IBM Plex Mono",monospace}.mc small{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rscr{background:radial-gradient(120% 140% at 50% 0%,#0a2a55,#03070e 72%);border:1px solid #1b4a86;border-radius:14px;padding:12px 20px 14px;color:#9fe6ff;font-family:"IBM Plex Mono",monospace;box-shadow:inset 0 0 50px #0a4a9a55,0 0 0 1px #02050a;display:grid;gap:10px}
+.rs1{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.rsr{margin-left:auto;display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.rsu{font-size:15px;color:#7dd3fc;letter-spacing:1px}
+.rscr .vsh{color:#7dd3fc}.rscr .vsh b{color:#e8f6ff}.rscr .smt i{background:#0d2238;border-color:#17365a}.rscr .smt i.on{background:#38bdf8;border-color:#38bdf8;box-shadow:0 0 6px #38bdf8}.rscr .smt i.hi.on{background:#fb923c;border-color:#fb923c;box-shadow:0 0 6px #fb923c}.rscr .sms{color:#5ea8c9}
+.rsb{padding:2px 10px;border-radius:6px;border:1px solid #1d4a74;font-size:12.5px;color:#5e9fc4;white-space:nowrap}.rsb.on{background:#0e4a2f;border-color:#22c55e;color:#86efac}.rsb.tx{background:#7f1d1d;border-color:#f87171;color:#fecaca}.rsb.wn{border-color:#b45309;color:#fbbf24}
+.rs2{display:grid;grid-template-columns:auto minmax(220px,1fr);gap:10px 28px;align-items:center}
+.rsf{font-size:clamp(38px,6.6vw,96px);font-weight:600;letter-spacing:1px;color:#e8f6ff;text-shadow:0 0 20px #38bdf8aa;line-height:1.05;white-space:nowrap}.rsf small{font-size:.38em;color:#7dd3fc;margin-left:.3em;text-shadow:none}
+.rsm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}.rsb.big{font-size:clamp(14px,1.7vw,22px);padding:2px 12px;border-radius:8px}.rsb.big.on{background:#0b3d6e;border-color:#38bdf8;color:#e0f2fe}
+.rgov{position:fixed;inset:0;z-index:120;background:#000a;display:grid;place-items:center;padding:16px}.rgbx{max-width:440px;width:100%;background:var(--pn);color:var(--tx);border:1px solid var(--amb);border-radius:14px;padding:18px 20px;box-shadow:0 12px 40px #000a}.rgbx h3{margin:0 0 8px;font-size:17px;color:var(--amb)}.rgbx p{margin:0 0 14px;line-height:1.55}.rgbx .row{justify-content:flex-end}#txc.busy,#go.busy,#rsaf.busy{border-color:var(--amb);color:var(--amb)}.rsgw{display:grid;gap:9px;align-content:center;justify-self:end}.rsgw .vsm{margin-left:54px;width:260px}.rsg{display:grid;gap:7px;align-content:center}.rg{display:grid;grid-template-columns:44px 260px 64px;gap:10px;align-items:center;font-size:12px}.rg.dim .rgl,.rg.dim .rgv{opacity:.45}.rgl{color:#7dd3fc;letter-spacing:.06em}.rgb{height:8px;border-radius:4px;background:#0d2238;overflow:hidden}.rgb i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2f8cff,#38bdf8);transition:width .25s}.rgv{text-align:right;color:#e8f6ff}
+.rsc{display:grid;gap:6px}.rsh{font-size:12px;letter-spacing:.16em;color:#7dd3fc}.rsp2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.rsc1{display:grid;gap:4px;min-width:0;align-content:start}.rst{font-size:12px;color:#7dd3fc}.rst small{color:#5ea8c9;margin-left:6px}.rsc canvas{width:100%;height:max(110px,calc(clamp(170px,26vh,260px) - 56px));display:block;border-radius:8px;border:1px solid #17365a;background:#050d18}
+.rsn{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:#5ea8c9}
+@media (max-width:760px){.rs2{grid-template-columns:1fr}.rsgw{justify-self:stretch}.rsgw .vsm{width:auto;margin-right:74px}.rg{grid-template-columns:44px minmax(0,1fr) 64px}.rsp2{grid-template-columns:1fr}}
+.vpan{flex:none;align-content:start}.vpan[hidden]{display:none}#vgbox[hidden],#vmbox[hidden]{display:none}#vmbox{display:grid;gap:8px}
+.vgraph{height:clamp(210px,34vh,340px);width:100%}.vgraph svg{width:100%;height:100%;display:block}
+.vleg2{display:flex;flex-wrap:wrap;gap:6px 8px;margin-bottom:6px;align-items:center}
+.vleg2 button{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;font-size:12.5px;background:var(--rs);border:1px solid var(--ln);color:var(--tx);cursor:pointer}
+.vleg2 button i{width:10px;height:10px;border-radius:50%;display:inline-block}.vleg2 button.off{opacity:.42;text-decoration:line-through}.vleg2 button.sel{border-color:var(--ac);font-weight:600}
+.vleg2 span{font-size:12px;color:var(--mu)}
+.vgraph text{fill:var(--mu);font:11px "IBM Plex Mono",monospace}.vgraph .gy{stroke:var(--ln);stroke-width:1}.vgraph .ax{stroke:var(--mu);stroke-width:1}
+.vgraph .ln{fill:none;stroke-linejoin:round;stroke-linecap:round}.vgraph .pt{stroke:var(--pn);stroke-width:1.2}
+.qfp{flex:none;gap:12px}.qf1{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 18px}.qf1 label{min-width:0}
+.qcall{flex:1 1 260px;max-width:460px}.qfq{flex:0 1 190px}.qtt{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-left:auto}.qtt h2{margin:0}
+.qf2{display:grid;grid-template-columns:minmax(120px,1.4fr) minmax(120px,1.4fr) minmax(100px,.7fr) minmax(80px,.5fr) minmax(80px,.5fr) auto;gap:10px;align-items:end}
+.qfp input,.qfp select{padding:7px 9px}
+@media (max-width:899px){.vstrip{display:flex!important;flex-wrap:wrap}.vsm{width:100%}.vsep{max-width:none;width:100%}.vcards{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}.qf2{grid-template-columns:1fr 1fr}.qtt{margin-left:0}.vt{font-size:28px}}
+#p4 .qmodes{flex-wrap:wrap}#p4 .qmodes[hidden]{display:none}#p4 .qh{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px}#p4 .qh h2{margin:0}
+#p4>.qlw{flex:1;min-height:0;grid-template-rows:auto minmax(0,1fr);grid-auto-rows:auto}#qlt{height:auto;min-height:0}
+#qst{flex:1;min-width:120px;font-size:13px;color:var(--mu)}
+.lr.sat{grid-template-columns:26px 162px 96px 84px 50px 80px 92px minmax(150px,1.5fr) minmax(90px,1fr) minmax(90px,1fr) 52px 52px 78px 48px 28px;min-width:1266px}
+@media (max-width:899px){#nav{flex-wrap:wrap;max-width:100%}#qkb{display:none}#nav button{padding:4px 10px}#p4{height:auto}#qlt{height:50vh}}
+@media (min-width:900px){
+ header #nav{overflow-y:auto}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+body{background-image:radial-gradient(1100px 520px at 6% -12%,color-mix(in srgb,var(--ac) 16%,transparent),transparent),radial-gradient(900px 420px at 100% 0,color-mix(in srgb,var(--ac) 8%,transparent),transparent);background-attachment:fixed}
+.pn{box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ac) 14%,transparent)}
+header{border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac) 45%,transparent),transparent) 1}
+
+/* v2.7: VOICE page — compact radio screen, one-row log form, mode chips next to the tabs, paged log */
+.rscr{padding:8px 18px 9px;gap:5px}.rscr .vsh{font-size:10px}.rscr .sms{font-size:9px}.rg{font-size:11px}.rsf{font-size:clamp(34px,4.6vw,68px)}.rsm{margin-top:4px}.rsb.big{font-size:clamp(13px,1.4vw,18px);padding:1px 10px}.rsg{gap:3px}.rsgw{gap:5px}.rsc canvas{height:clamp(76px,10vh,104px)}
+#p4.vx .qfp{display:grid;grid-template-columns:minmax(170px,1.7fr) minmax(110px,1.3fr) minmax(110px,1.3fr) minmax(90px,.7fr) minmax(70px,.5fr) minmax(70px,.5fr) auto;gap:10px;align-items:end}
+#p4.vx .qf1,#p4.vx .qf2{display:contents}#p4.vx .qcall{max-width:none}#p4.vx .qfq,#p4.vx #qrig{display:none}#p4.vx .qfp>#qinfo{grid-column:1/-1}
+#vpanel>.qh .qtt{margin-left:6px}#p4.vx #qkb{display:none}#p4.vx #qadd{white-space:nowrap;padding:0 22px;height:36px}
+.pgr{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;font-size:13px;justify-content:flex-end}.pgr .mu{margin-right:auto}.pgr button:disabled{opacity:.4}
+.lr input[type=checkbox]{width:16px;height:16px;padding:0;margin:0 auto;accent-color:var(--ac);cursor:pointer}
+@media (max-width:899px){#p4.vx .qfp{grid-template-columns:1fr 1fr}#p4.vx .qcall,#p4.vx .qfp #qadd{grid-column:1/-1}}
+
+#pm{display:grid;place-items:center}.pmt{max-width:520px;text-align:center;gap:8px;justify-items:center;padding:34px 28px}.pmt h2{margin:0;color:var(--amb)}.pmt p{margin:0;line-height:1.6}.pmi{font-size:44px;line-height:1}
+#nav button[data-t="g:DIGITAL"],#nav button[data-t="g:SAT"]{opacity:.55}#nav button.pri[data-t="g:DIGITAL"],#nav button.pri[data-t="g:SAT"]{opacity:1}#pm{align-content:start;padding-top:12vh}
 </style>
 </head>
 <body>
-<header><div class="brand"><span class="logo"><i></i><i></i><i></i></span><h1>CW Console</h1></div><nav id="nav" class="seg" aria-label="เมนู"><button data-t="p1" class="pri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8M5 9.5V21h5v-6h4v6h5V9.5"/></svg><span>หน้าหลัก</span></button><button data-t="p2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg><span>ตั้งค่า</span></button><button data-t="p3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg><span>คู่มือ</span></button></nav><img id="av" alt="" hidden></header>
+<header><div class="brand"><img class="logo" alt="" src="data:image/jpeg;base64,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"><h1>HAM LOG DATA</h1></div><nav id="nav" class="seg" aria-label="เมนู"><button data-t="p0" class="pri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z"/></svg><span>Dashboard</span></button><button data-t="g:VOICE"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span>VOICE</span></button><button data-t="p1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h.01M8 12h8M20 12h.01"/></svg><span>CW</span></button><button data-t="g:DIGITAL" title="กำลังปรับปรุงและอัปเดต"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h2l2-6 3 12 3-9 2 3h6"/></svg><span>DIGITAL</span></button><button data-t="g:SAT" title="กำลังปรับปรุงและอัปเดต"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l4-4 4 4-4 4zM3 13l3-3 3 3-3 3zM15 21l3-3 3 3-3 3zM11 12l3 3"/></svg><span>SATELLITE</span></button><button data-t="p2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg><span>ตั้งค่า</span></button><button data-t="p3"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg><span>คู่มือ</span></button></nav><img id="av" alt="" hidden></header>
 <main>
-<section id="p1" class="tab cols">
+<section id="p0" class="tab"></section>
+<section id="p1" class="tab cols" hidden>
  <div class="pn">
   <div class="row"><button id="go" class="pri">เริ่มฟัง</button><button id="stop">หยุด</button><span id="st" class="mu" style="flex:1;min-width:140px">พร้อมใช้งาน</span></div>
   <h2>วิทยุ (CAT) <span class="mu" style="font-weight:400">ความถี่/ย่านสำหรับบันทึก Log</span></h2>
   <div class="rig"><input id="fq" inputmode="decimal" autocomplete="off" placeholder="14.0740" title="พิมพ์ความถี่ (MHz เช่น 14.074 หรือ kHz เช่น 14074) แล้วกด Enter ถ้าต่อวิทยุอยู่จะสั่งวิทยุให้" aria-label="ความถี่ (MHz)"><span class="mu">MHz</span><span id="bd" class="chip on">--</span></div>
   <div class="row"><button id="txc" class="sm">เชื่อมต่อวิทยุ (คีย์ / CAT)</button><span id="md" class="mu"></span></div>
   <div id="rigst" class="mu"></div>
-  <h2>ย่าน <span class="mu" style="font-weight:400">กดเพื่อตั้งความถี่ของย่านนั้น</span></h2>
+  <h2>ย่าน <span id="bhs" class="mu" style="font-weight:400">กดเพื่อตั้งความถี่ของย่านนั้น</span></h2>
   <div id="bch" class="bch"></div>
   <h2>สถานีที่กำลัง CQ <span class="mu" style="font-weight:400">จาก RBN · กดเพื่อตั้งความถี่และใช้เป็นคู่สถานี</span></h2>
   <div class="row"><button id="rbth" class="sm" title="แสดงเฉพาะสถานีไทย (HS, E2) ทั้งแบบ CQ และ DX ตามอายุสปอตที่เลือกในตั้งค่า">เฉพาะ HS / E2</button><span id="rbn" class="mu" style="flex:1;min-width:0"></span></div>
@@ -221,11 +312,73 @@ nav#nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentC
   </div>
   <div class="logw">
    <div class="logh"><h2>บันทึกการสนทนา</h2><span id="utc"></span><span id="lgst"></span>
+    <datalist id="mdl"></datalist>
     <button id="lgadd" class="pri">บันทึก QSO <kbd id="kbl">Num Enter</kbd></button>
-    <button id="lgadi" class="sm">ส่งออก ADIF</button><button id="lgcsv" class="sm">ส่งออก CSV</button></div>
+    <button id="lgsel" class="sm" title="ติ๊กเลือก QSO ทั้งหมดในตารางนี้">เลือกทั้งหมด</button><button id="lgclr" class="sm" title="ยกเลิกการเลือกทั้งหมด">ล้างที่เลือก</button><button id="lgadi" class="sm">ส่งออก ADIF</button><button id="lgcsv" class="sm">ส่งออก CSV</button></div>
    <div id="lt" class="lt"></div>
   </div>
  </div>
+</section>
+<section id="p4" class="tab" hidden>
+ <div id="vstrip" class="pn vstrip" hidden>
+  <div id="vc1" class="vc1"></div>
+  <div class="vsep">เลือกย่านความถี่ที่ต้องการ ›</div>
+  <div id="vc2" class="vc2"></div>
+  <div class="vclk"><div class="vu">UTC</div><div id="vclk" class="vt">--:--:--</div><div id="vdate" class="vd"></div></div>
+ </div>
+ <div id="vpanel" class="pn vpan" hidden>
+  <div class="qh"><h2>QSO ตามย่านความถี่และโหมด</h2><div id="vtabs" class="seg"><button data-v="r">หน้าจอวิทยุ</button><button data-v="g">กราฟ</button><button data-v="m">แผนที่</button></div></div>
+  <div id="vgbox"><div id="vglg" class="vleg2"></div><div id="vgraph" class="vgraph"></div></div>
+  <div id="vmbox" hidden>
+   <div class="qh"><span id="vms" class="mu"></span>
+    <span class="vleg"><span><i style="background:#ff5fa8"></i>FM</span><span><i style="background:#5b9cff"></i>SSB/USB/LSB/AM</span><span><i style="background:#4ade80"></i>DV/D-STAR/VoIP</span><span><i style="background:var(--amb)"></i>เรา</span></span>
+    <span class="vc"><button id="vzi" class="sm" title="ซูมเข้า">+</button><button id="vzo" class="sm" title="ซูมออก">−</button><button id="vzf" class="sm" title="ซูมให้พอดีกับหมุดทั้งหมด">พอดีหมุด</button><button id="vzw" class="sm" title="ทั้งโลก">โลก</button></span></div>
+   <svg id="vsvg" class="vsvg" viewBox="-180 -90 360 180" preserveAspectRatio="none" role="img" aria-label="แผนที่สถานีที่ติดต่อโหมด VOICE"><path id="vland" class="ld" d=""/><g id="vgl"></g><g id="vpins"></g></svg>
+   <div id="vmi" class="mu"></div>
+  </div>
+  <div id="vrbox" hidden>
+   <div class="rscr" aria-label="หน้าจอวิทยุ แสดงความถี่ โหมด DUP/TONE มิเตอร์ และ Scope">
+    <div class="rs1"><span id="rsst" class="rsb">ไม่ได้เชื่อมต่อ</span><span id="rstx" class="rsb">RX</span></div>
+    <div class="rs2">
+     <div><div id="rsf" class="rsf">--.---.---</div>
+      <div class="rsm"><span id="rsmd" class="rsb big">--</span><span id="rsbd" class="rsb big">--</span><span id="rsdp" class="rsb big" title="Duplex (CI-V 0F) ใช้กับ FM ที่ 29 / 50 MHz">DUP</span><span id="rstn" class="rsb big" title="Repeater TONE / T-SQL (CI-V 16 42 / 16 43)">TONE</span><span id="rsoo" class="rsb wn" hidden>นอกช่วงไทย</span></div></div>
+     <div class="rsgw"><div class="vsm" id="vsm" title="S-meter (อ่านจากวิทยุผ่าน CI-V)"><div class="vsh"><span>S-METER</span><b id="smv">--</b></div><div id="smt" class="smt"></div><div id="sms" class="sms"></div></div><div id="rsg" class="rsg"></div></div>
+    </div>
+    <div class="rsc"><div class="rsh">AUDIO SCOPE</div><div class="rsp2">
+     <div class="rsc1"><div class="rst">SCOPE<small>RF จากวิทยุ (CI-V)</small></div><canvas id="rsc" aria-label="Scope และ Waterfall จากวิทยุ"></canvas><div class="rsn"><span id="rscs"></span><span id="rscr"></span></div></div>
+     <div class="rsc1"><div class="rst">AUDIO<small>เสียงจากวิทยุ 0–3000 Hz</small></div><canvas id="rsa" aria-label="สเปกตรัมและ Waterfall ของเสียง"></canvas><div class="rsn"><span id="rsas"></span><button id="rsaf" class="sm" hidden title="เปิดรับเสียงจากอุปกรณ์เสียงเข้า (ตั้งค่า > เสียงเข้า)">เริ่มฟังเสียง</button><span id="rsar"></span></div></div>
+    </div></div>
+   </div>
+  </div>
+ </div>
+ <div id="vcards" class="vcards" hidden></div>
+ <div class="pn qfp">
+  <div class="qf1">
+   <label class="qcall">Callsign คู่สถานี<input id="qc" autocomplete="off" spellcheck="false" placeholder="เช่น JA1ABC"></label>
+   <label class="qfq">ความถี่ (MHz)<input id="qf" inputmode="decimal" autocomplete="off" title="ดึงจากวิทยุ (CAT) / ย่านที่เลือกให้อัตโนมัติ แก้พิมพ์เองได้ เว้นว่าง = ใช้ความถี่จากวิทยุ"></label>
+   <label class="qs" hidden>ดาวเทียม<input id="qsat" list="qsatl" autocomplete="off" spellcheck="false" placeholder="AO-91"></label>
+   <label class="qs" hidden>โหมดบนดาวเทียม<select id="qsm"><option>FM</option><option>SSB</option><option>USB</option><option>LSB</option><option>CW</option></select></label>
+   <div class="qtt"><h2 id="qt">บันทึก QSO</h2><div id="qmodes" class="seg qmodes" role="group" aria-label="โหมด"></div><span id="qrig" class="mu"></span></div>
+  </div>
+  <div class="qf2">
+   <label>ชื่อ<input id="qn" autocomplete="off" spellcheck="false"></label>
+   <label>QTH<input id="qq" autocomplete="off" spellcheck="false"></label>
+   <label>Grid<input id="qg" autocomplete="off" spellcheck="false" maxlength="6"></label>
+   <label>RST ส่ง<input id="qs" autocomplete="off" spellcheck="false"></label>
+   <label>RST รับ<input id="qr" autocomplete="off" spellcheck="false"></label>
+   <button id="qadd" class="pri">บันทึก QSO <kbd id="qkb">Enter</kbd></button>
+  </div>
+  <div id="qinfo" class="mu"></div>
+  <datalist id="qsatl"><option value="ISS"><option value="AO-7"><option value="AO-73"><option value="AO-91"><option value="AO-95"><option value="SO-50"><option value="RS-44"><option value="IO-117"><option value="FO-29"><option value="CAS-4A"><option value="CAS-4B"><option value="PO-101"></datalist>
+ </div>
+ <div class="pn qlw">
+  <div class="qh"><h2 id="qlt2">QSO ที่บันทึก</h2><span id="qst"></span><button id="qsel" class="sm" title="ติ๊กเลือก QSO ทั้งหมดของโหมดนี้ (ทุกหน้า)">เลือกทั้งหมด</button><button id="qselp" class="sm" title="ติ๊กเลือก QSO เฉพาะหน้านี้">เลือกหน้านี้</button><button id="qclr" class="sm" title="ยกเลิกการเลือกทั้งหมด">ล้างที่เลือก</button><button id="qadi" class="sm">ส่งออก ADIF</button><button id="qcsv" class="sm">ส่งออก CSV</button></div>
+  <div id="qlt" class="lt"></div>
+  <div id="qpg" class="pgr"></div>
+ </div>
+</section>
+<section id="pm" class="tab" hidden>
+ <div class="pn pmt"><div class="pmi" aria-hidden="true">🛠</div><h2 id="pmh">กำลังปรับปรุงและอัปเดต</h2><p id="pmp">โหมดนี้ปิดใช้งานชั่วคราวระหว่างปรับปรุง เร็วๆ นี้</p><p class="mu">ข้อมูล QSO เดิมที่เคยบันทึกไว้ยังอยู่ครบ และยังแสดงใน Dashboard / ส่งออกได้ตามปกติ</p></div>
 </section>
 <section id="p2" class="tab setw" hidden>
  <div class="svc pn">
@@ -256,7 +409,7 @@ nav#nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentC
   <label class="inl"><input id="alog" type="checkbox"> บันทึก QSO อัตโนมัติเมื่อส่งมาโครตัวสุดท้าย (ปิดท้าย) เสร็จ · ถ้ากด Esc ยกเลิกกลางคันจะไม่บันทึก</label>
   <div class="mu">ใช้พอร์ต USB เดียวกันทั้งคีย์ (DTR/RTS) และอ่านความถี่ (CI-V) ค่า Baud และ Address ต้องตรงกับที่ตั้งในวิทยุ (IC-7300 ปกติ Address คือ 94) ถ้าเปลี่ยนค่า ให้ตัดการเชื่อมต่อแล้วต่อใหม่</div>
  </div>
- <div class="pn"><h2>เสียงเข้า <span class="mu" style="font-weight:400">ปุ่ม เริ่มฟัง / หยุด อยู่ที่หน้าหลัก</span></h2>
+ <div class="pn"><h2>เสียงเข้า <span class="mu" style="font-weight:400">ปุ่ม เริ่มฟัง / หยุด อยู่ที่หน้า CW</span></h2>
   <label>อุปกรณ์เสียง<span class="row"><select id="dev" style="flex:1"></select><button id="ref">รีเฟรช</button></span></label>
   <div class="g2">
    <label>ช่องเสียง<select id="ch"><option value="mix">รวม (Mix)</option><option value="L">ซ้าย (Left)</option><option value="R">ขวา (Right)</option></select></label>
@@ -272,7 +425,12 @@ nav#nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentC
  <div class="sc">
  <div class="pn"><h2>ย่านความถี่สมัครเล่นในไทย <span class="mu" style="font-weight:400">อ้างอิง</span></h2>
   <div id="thb" class="thb"></div>
-  <div class="mu" style="font-size:12px;line-height:1.45">อ้างอิง RAST (2014) และ IARU R3 เท่านั้น ประกาศ กสทช. ปัจจุบันอาจต่างไป * = ยังไม่ยืนยัน สิทธิ์ใช้ขึ้นกับชั้นใบอนุญาต · แถวที่ไฮไลต์คือย่านของความถี่ปัจจุบัน ส่วนการกดเลือกย่าน (ป้ายสี) อยู่ที่หน้าหลัก</div></div>
+  <div class="mu" style="font-size:12px;line-height:1.45">อ้างอิง RAST (2014) และ IARU R3 เท่านั้น ประกาศ กสทช. ปัจจุบันอาจต่างไป * = ยังไม่ยืนยัน สิทธิ์ใช้ขึ้นกับชั้นใบอนุญาต · แถวที่ไฮไลต์คือย่านของความถี่ปัจจุบัน ส่วนการกดเลือกย่าน (ป้ายสี) อยู่ที่หน้า CW</div></div>
+ <div class="pn" id="adp"><h2>นำเข้า QSO จากไฟล์ ADIF</h2>
+  <div class="mu" style="font-size:12.5px">เลือกไฟล์ .adi / .adif จาก Log4OM, WSJT-X (wsjtx_log.adi), JTDX, N1MM, LoTW, QRZ ฯลฯ (เลือกได้หลายไฟล์ หรือลากไฟล์มาวางในกรอบนี้) ระบบแยกโหมดเข้าหน้า CW / VOICE / DIGITAL / SATELLITE ให้เอง และข้ามรายการที่ซ้ำกับ Log เดิม</div>
+  <div class="row"><button id="adi" class="sm pri">เลือกไฟล์ ADIF ...</button><input id="adf" type="file" accept=".adi,.adif,.txt,text/plain" multiple hidden><label class="inl"><input id="adk" type="checkbox" checked> ข้ามรายการที่ซ้ำ (Callsign + วัน + เวลา(นาที) + โหมดเดียวกัน)</label><button id="adu" class="sm" hidden>ยกเลิกการนำเข้าล่าสุด</button></div>
+  <div id="adst" class="mu" style="font-size:12.5px;line-height:1.5"></div>
+ </div>
  <div class="pn"><h2>สำรองข้อมูล</h2>
   <div class="mu" style="font-size:12.5px">การตั้งค่าและ Log เก็บอยู่ในเบราว์เซอร์เครื่องนี้ ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่องจะหาย ควรสำรองเป็นระยะ ไฟล์สำรอง<b>ไม่มีรหัสผ่าน</b> QRZ/HamQTH</div>
   <div class="row"><button id="bk" class="sm">สำรองการตั้งค่า + Log (.json)</button><button id="bki" class="sm">นำเข้าจากไฟล์สำรอง</button><input id="bkf" type="file" accept=".json,application/json" hidden></div>
@@ -283,14 +441,15 @@ nav#nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentC
   <div class="mu" style="font-size:12.5px">โหมดตามเวลาใช้นาฬิกาของเครื่อง และสลับให้เองโดยไม่ต้องรีเฟรช</div>
  </div>
  <div class="pn"><h2>เกี่ยวกับ</h2>
-  <div style="font-size:13.5px"><b>CW Console</b> เวอร์ชัน <span id="ver"></span></div>
+  <img id="abl" class="logo" alt="HAM LOG DATA" style="width:96px;height:96px;border-radius:16px;margin-bottom:10px">
+  <div style="font-size:13.5px"><b>HAM LOG DATA</b> เวอร์ชัน <span id="ver"></span></div>
   <div class="mu" style="font-size:12.5px;line-height:1.5">ถอดรหัส CW / ส่งมาโคร / Log QSO สำหรับนักวิทยุสมัครเล่น · ข้อมูลชื่อ-QTH-Grid จาก QRZ.com และ HamQTH.com (ใช้บัญชีของผู้ใช้เอง · HamQTH สมัครฟรีที่ hamqth.com มีข้อมูลเฉพาะคนที่เปิดเผยตำแหน่งไว้ · Data provided by HamQTH.com) · สปอตจาก Reverse Beacon Network · ตารางย่านไทยเป็นข้อมูลอ้างอิง ตรวจกับ กสทช. ก่อนใช้งานจริง · แจ้งปัญหาให้บอกเลขเวอร์ชันนี้</div>
  </div>
  </div>
  <div class="sc">
  <div class="pn"><h2>RBN <span class="mu" style="font-weight:400">สถานีที่กำลัง CQ (Reverse Beacon Network)</span></h2>
   <div class="row"><button id="rbc" class="pri">เชื่อมต่อ</button><button id="rbrun" class="sm" title="สั่งให้ Windows เปิดตัวเชื่อม (ต้องติดตั้งตัวเชื่อมแล้ว)">เปิดตัวเชื่อม</button><span id="rbst" class="mu" style="flex:1;min-width:140px"></span></div>
-  <div class="mu" style="font-size:12.5px">รายการสถานีอยู่ที่หน้าหลัก ใต้ป้ายย่าน เข้าระบบ RBN ด้วย Callsign ใน “สถานีของเรา” (RBN ไม่ใช้รหัสผ่าน)</div>
+  <div class="mu" style="font-size:12.5px">รายการสถานีอยู่ที่หน้า CW ใต้ป้ายย่าน เข้าระบบ RBN ด้วย Callsign ใน “สถานีของเรา” (RBN ไม่ใช้รหัสผ่าน)</div>
   <div id="rbb" class="rbf"></div>
   <div class="g2">
    <label>SNR อย่างน้อย<select id="rbs"><option value="-99">ทั้งหมด</option><option value="10">10 dB</option><option value="15">15 dB</option><option value="20">20 dB</option><option value="25">25 dB</option><option value="30">30 dB</option></select></label>
@@ -584,7 +743,7 @@ const R={};for(const k in M)R[M[k]]=k;
 let S={tone:700,auto:true,ch:'mix',dev:'',my:{},ps:[],cur:'',mode:'cq',gr:'',rs:'599',tt:'CQ CQ DE HS0ABC K'};
 try{Object.assign(S,JSON.parse(localStorage.getItem('cwc')||'{}'))}catch(e){}
 if(S.my&&S.my.wx==='RAIN')S.my.wx='RAINY';
-const VER='1.1 · 2026-10-28';
+const VER='2.9 · 2026-10-28';
 const save=()=>{try{localStorage.setItem('cwc',JSON.stringify(S))}catch(e){}};
 // ---- theme: auto = light 06:00-18:00, dark otherwise (device clock); or follow system / fixed ----
 function applyTheme(){
@@ -594,18 +753,21 @@ applyTheme();setInterval(applyTheme,60000);
 const st=m=>$('#st').textContent=m;
 let ac,an,buf,stream,timer,lastT=0,dot=60,on=false,tOn=0,tOff=0,symD=[],symG=[],MK=[],spaced=true,peak=.01,fl=0,txt='',qso='',H=[],k=0;
 
-function stopAll(){clearInterval(timer);timer=null;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;if(ac)ac.close();ac=null;$('#led').classList.remove('on')}
+let audOwner=null;
+function stopAll(){audOwner=null;clearInterval(timer);timer=null;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;if(ac)ac.close();ac=null;$('#led').classList.remove('on')}
 function begin(){buf=new Float32Array(an.fftSize);an.smoothingTimeConstant=.5;dot=1200/18;on=false;pend=false;symD=[];symG=[];MK=[];spaced=true;lastT=ac.currentTime;tOff=lastT*1000;peak=.01;fl=0;H=[];LB=[];lvT=0;sig=false;thr=-60;HOLD=null;cand=0;timer=setInterval(tick,10)}
 async function live(){
- stopAll();
+ const am=audMode();if(audOwner&&audOwner!==am&&!await ownAsk('audio',audOwner,am))return;
+ stopAll();audOwner=am;
  try{stream=await navigator.mediaDevices.getUserMedia({audio:{deviceId:S.dev?{exact:S.dev}:undefined,echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:2}})}
  catch(e){st('เปิดเสียงเข้าไม่ได้ ('+e.name+') ถ้าอยู่ในหน้าตัวอย่าง เบราว์เซอร์อาจบล็อกไมค์ ลองปุ่มเล่นโทนจำลอง หรือเปิดไฟล์นี้ในเครื่องโดยตรง');return}
  ac=new AudioContext();an=ac.createAnalyser();an.fftSize=8192;
  const src=ac.createMediaStreamSource(stream);
  if(S.ch==='mix')src.connect(an);else{const sp=ac.createChannelSplitter(2);src.connect(sp);sp.connect(an,S.ch==='L'?0:1)}
- begin();recStart(src);st('กำลังฟัง'+(S.auto?' (โทนตามอัตโนมัติ)':' ปรับโทนให้ตรงกับเสียงในวิทยุ'));devs()}
+ if(am==='CW'){begin();recStart(src);st('กำลังฟัง'+(S.auto?' (โทนตามอัตโนมัติ)':' ปรับโทนให้ตรงกับเสียงในวิทยุ'))}else scTxt();
+ audUI();devs()}
 function test(w=15){
- stopAll();ac=new AudioContext();an=ac.createAnalyser();an.fftSize=8192;
+ stopAll();audOwner='CW';ac=new AudioContext();an=ac.createAnalyser();an.fftSize=8192;
  const o=ac.createOscillator(),g=ac.createGain(),m=ac.createGain();o.frequency.value=S.tone;g.gain.value=0;m.gain.value=.12;
  o.connect(g);g.connect(an);g.connect(m);m.connect(ac.destination);
  const u=1.2/w;let t=ac.currentTime+.4;
@@ -801,12 +963,12 @@ let lastP=null,loggedFor='';
 function endQso(){const p=partner();if(p.c&&p.c!==loggedFor)lastP=p;loggedFor='';S.cur='';qso='';tmsg('จบการสนทนา เริ่มค้นหาคู่สถานีใหม่');upd()}
 
 // ---- CW transmit: macro text -> dit/dah timing -> key (serial DTR/RTS) + sidetone ----
-const tx={on:false,abort:false};let txOn=false,txPort=null,txChain=Promise.resolve(),txac=null,txG=null,txMsg='';
+const tx={on:false,abort:false};let txOn=false,txPort=null,rigOwner=null,rigLast=null,txChain=Promise.resolve(),txac=null,txG=null,txMsg='';
 const txWpm=()=>S.txw?+S.txw:Math.min(40,Math.max(8,MK.length>=6?Math.round(1200/dot):18));
 const txSig=()=>S.txs==='RTS'?'requestToSend':'dataTerminalReady';
-const txInfo=()=>'ส่งที่ '+txWpm()+' WPM'+(S.txw?' (ตั้งเอง)':' ตามที่ถอดได้')+' · คีย์ '+(txPort?'เชื่อมต่อแล้ว ('+(S.txs||'DTR')+')':'ยังไม่เชื่อมต่อ (เสียงโทนอย่างเดียว)');
+const txInfo=()=>'ส่งที่ '+txWpm()+' WPM'+(S.txw?' (ตั้งเอง)':' ตามที่ถอดได้')+' · คีย์ '+(txPort&&rigOwner==='CW'?'เชื่อมต่อแล้ว ('+(S.txs||'DTR')+')':txPort?'วิทยุใช้อยู่กับโหมด '+rigOwner:'ยังไม่เชื่อมต่อ (เสียงโทนอย่างเดียว)');
 function tmsg(m,ms=5000){txMsg=m;$('#txst').textContent=m;setTimeout(()=>{if(txMsg===m){txMsg='';if(!tx.on)$('#txst').textContent=txInfo()}},ms)}
-function keySet(v){if(txPort)txChain=txChain.then(()=>txPort.setSignals({[txSig()]:v})).catch(()=>{})}
+function keySet(v){if(txPort&&rigOwner==='CW')txChain=txChain.then(()=>txPort.setSignals({[txSig()]:v})).catch(()=>{})}
 function txBlock(t){
  if(/DXCALL/.test(t))return pendCall?'ส่งไม่ได้: ยังรับ Callsign คู่สถานีไม่ครบ (ตอนนี้ '+pendCall+'…) รอรับให้ครบ หรือพิมพ์เองในช่อง Callsign':'ส่งไม่ได้: ยังไม่มี Callsign คู่สถานี (กดเลือกจาก Callsign ที่พบ)';
  if(/MYCALL/.test(t))return'ส่งไม่ได้: ยังไม่ได้ตั้ง Callsign ของเรา';
@@ -826,6 +988,7 @@ function abortTx(){if(!tx.on)return;tx.abort=true;keySet(false);
 async function sendCW(text,i,last,cd){
  if(tx.on)return;
  const bm=txBlock(text);if(bm){tmsg(bm);return}
+ if(rigBusy()){tmsg('ส่งไม่ได้: วิทยุกำลังเชื่อมต่อกับโหมด '+rigOwner+' ต้องตัดการเชื่อมต่อก่อน');rigSwitch('CW','send');return}
  const w=txWpm(),seq=plan(text,w);if(!seq.length)return;
  tx.on=true;tx.abort=false;txOn=true;document.body.classList.add('sending');$('#txstop').hidden=false;
  $('#txst').textContent='กำลังส่ง M'+(i+1)+' ที่ '+w+' WPM';
@@ -857,7 +1020,7 @@ async function devs(ask){
   sel.value=S.dev}
  catch(e){st('อ่านรายชื่ออุปกรณ์เสียงไม่ได้ ('+e.name+')')}}
 
-const F=[['call','Callsign'],['name','ชื่อ'],['loc','Location'],['qth','QTH'],['rig','RIG'],['ant','ANT'],['pwr','PWR (W)'],['wx','WX'],['tmp','TMP (°C)']];
+const F=[['call','Callsign'],['name','ชื่อ นามสกุล'],['loc','Location'],['qth','QTH'],['rig','RIG'],['ant','ANT'],['pwr','PWR (W)'],['wx','WX'],['tmp','TMP (°C)']];
 const WX=[['HOT','ร้อน'],['RAINY','ฝนตก'],['COLD','หนาว'],['SUNNY','แดดออก / ฟ้าใส'],['CLOUDY','มีเมฆ'],['STORM','พายุฝนฟ้าคะนอง'],['FOG','หมอก'],['WINDY','ลมแรง']];
 function rS(){
  $('#sf').replaceChildren(...F.map(([f,n])=>{
@@ -874,8 +1037,8 @@ $('#ch').onchange=e=>{S.ch=e.target.value;save();if(stream)live()};
 $('#dev').onchange=e=>{S.dev=e.target.value;save();if(stream)live()};
 $('#tt').oninput=e=>{S.tt=e.target.value;save()};
 $('#sp').onclick=e=>{const r=e.currentTarget.getBoundingClientRect(),f=Math.round((e.clientX-r.left)/r.width*SPMAX/10)*10;S.tone=Math.min(1000,Math.max(400,f));S.auto=false;$('#auto').checked=false;$('#tone').value=S.tone;tv();save();spec()};
-$('#ref').onclick=()=>devs(true);$('#go').onclick=live;$('#tst').onclick=()=>test();
-$('#stop').onclick=()=>{stopAll();st('หยุดแล้ว')};
+$('#ref').onclick=()=>devs(true);$('#go').onclick=live;$('#tst').onclick=async()=>{if(audOwner&&audOwner!=='CW'&&!await ownAsk('audio',audOwner,'CW'))return;test()}
+$('#stop').onclick=()=>{if(audBusy()){audUI();return}stopAll();st('หยุดแล้ว');audUI()};
 $('#clr').onclick=()=>{txt='';qso='';S.cur='';lastP=null;$('#lcd').textContent='';upd()};
 $('#cp').onclick=()=>{copyText(txt);const f=$('#cp span');f.textContent='คัดลอกแล้ว';setTimeout(()=>f.textContent='คัดลอก',1200)};
 
@@ -1062,48 +1225,59 @@ const BCOL={'160m':['#c96a6a','#fff'],'80m':['#e68ae6','#111'],'60m':['#5cc7b8',
 function bcol(el,b){const c=BCOL[(b||'').trim()];if(c){el.style.background=c[0];el.style.color=c[1];el.style.borderColor='#2b2b2b'}else{el.style.background='';el.style.color='';el.style.borderColor=''}}
 const bandOf=m=>{const b=isFinite(m)&&BANDS.find(x=>m>=x[1]&&m<=x[2]);return b?b[0]:''};
 const MODES={0:'LSB',1:'USB',2:'AM',3:'CW',4:'RTTY',5:'FM',7:'CW-R',8:'RTTY-R'};
-const rig={hz:0,mode:'',live:false,t:0};let cat=null,rigNote='';
+const rig={hz:0,mode:'',live:false,t:0,mt:{},sm:null,smt:0,ptt:false,dup:'',tone:false,tsql:false};let cat=null,rigNote='';
 const civA=()=>parseInt(S.civ||'94',16)||0x94;
 const fmtMHz=hz=>(hz/1e6).toFixed(6).replace(/0{1,3}$/,'');
-function curFreq(){if(rig.live)return fmtMHz(rig.hz);const v=(S.fq||'').trim().replace(',','.');return /^\d+(\.\d+)?$/.test(v)&&parseFloat(v)>0?v:''}
+function curFreq(){if(rigOK())return fmtMHz(rig.hz);const v=(S.fq||'').trim().replace(',','.');return /^\d+(\.\d+)?$/.test(v)&&parseFloat(v)>0?v:''}
 function rigMsg(m){rigNote=m;updRig()}
 function updRig(){
- const f=$('#fq'),conn=!!txPort;
+ const f=$('#fq'),conn=!!txPort&&!rigBusy();
  if(rig.live&&Date.now()-rig.t>6000){rig.live=false;rigNote='ไม่ได้รับข้อมูลจากวิทยุแล้ว กรอกความถี่เองได้'}
- if(document.activeElement!==f)f.value=rig.live?fmtMHz(rig.hz):(S.fq||'');
+ if(document.activeElement!==f)f.value=rigOK()?fmtMHz(rig.hz):(S.fq||'');
  const fr=curFreq(),bn=bandOf(parseFloat(fr));
  drawThb();$('#bd').textContent=bn||'--';$('#bd').classList.toggle('on',!!bn);bcol($('#bd'),bn);
- $('#md').textContent=rig.live&&rig.mode?'โหมด '+rig.mode:'';
- $('#rigst').textContent=rigNote||(rig.live?'ได้รับความถี่จากวิทยุแล้ว (อ่านต่อเนื่อง) · พิมพ์ความถี่ในช่องแล้วกด Enter เพื่อสั่งวิทยุ':conn?'เชื่อมต่อพอร์ตแล้ว รอข้อมูลจากวิทยุ ...':'ยังไม่เชื่อมต่อ กรอกความถี่เองได้ ย่านจะคำนวณให้')}
+ $('#md').textContent=rigOK()&&rig.mode?'โหมด '+rig.mode:'';if(!$('#p4').hidden){qPh();rScr()}if(rig.mode!==rigLM){rigLM=rig.mode;rigVoice()}
+ $('#rigst').textContent=rigBusy()?'วิทยุกำลังเชื่อมต่อกับโหมด '+rigOwner+' · กด "เชื่อมต่อวิทยุ" เพื่อสลับมาใช้โหมด '+rigMode()+' (ต้องตัดการเชื่อมต่อโหมด '+rigOwner+' ก่อน) กรอกความถี่เองได้':rigNote||(rigOK()?'ได้รับความถี่จากวิทยุแล้ว (อ่านต่อเนื่อง) · พิมพ์ความถี่ในช่องแล้วกด Enter เพื่อสั่งวิทยุ':conn?'เชื่อมต่อพอร์ตแล้ว รอข้อมูลจากวิทยุ ...':'ยังไม่เชื่อมต่อ กรอกความถี่เองได้ ย่านจะคำนวณให้')}
 function parseMHz(v){v=(v||'').trim().replace(',','.');if(!/^\d+(\.\d+)?$/.test(v))return 0;let n=parseFloat(v);if(n>=1000)n/=1000;return n>=0.03&&n<=450?n:0} // 14074 or 14074.0 = kHz, 14.074 = MHz
-$('#fq').oninput=e=>{if(rig.live)return;S.fq=e.target.value.trim();save();updRig()};
+$('#fq').oninput=e=>{if(rigOK())return;S.fq=e.target.value.trim();save();updRig()};
 $('#fq').onkeydown=e=>{
  if(e.key==='Escape'){e.target.blur();return}
  if(e.key!=='Enter')return;e.preventDefault();
  const m=parseMHz(e.target.value);
  if(!m){rigMsg('ความถี่ไม่ถูกต้อง พิมพ์เป็น MHz เช่น 14.074 หรือ kHz เช่น 14074');return}
- if(rig.live){tuneHz(Math.round(m*1e6),'พิมพ์เอง');e.target.blur()}
+ if(rigOK()){tuneHz(Math.round(m*1e6),'พิมพ์เอง');e.target.blur()}
  else{S.fq=fmtMHz(Math.round(m*1e6));save();e.target.blur();rigMsg('ตั้งความถี่ '+S.fq+' MHz ในแอป'+(txPort?' (ยังไม่ได้รับข้อมูลจากวิทยุ จึงไม่ได้สั่งวิทยุ)':' ไม่ได้ต่อวิทยุ'));updRig()}};
-$('#fq').onblur=()=>{if(rig.live)$('#fq').value=fmtMHz(rig.hz);updRig()};
+$('#fq').onblur=()=>{if(rigOK())$('#fq').value=fmtMHz(rig.hz);updRig()};
 function catFeed(c,v){
  for(const x of v){c.buf.push(x);
-  if(x!==0xFD){if(c.buf.length>40)c.buf=[];continue}
+  if(x!==0xFD){if(c.buf.length>700)c.buf=[];continue}
   const b=c.buf;c.buf=[];let i=-1;for(let k=b.length-2;k>=0;k--)if(b[k]===0xFE&&b[k+1]===0xFE){i=k;break}
   if(i<0)continue;const f=b.slice(i+2,-1);if(f.length<4)continue;
   const[to,from,cmd,...d]=f;if(from!==civA()||(to!==0xE0&&to!==0x00))continue;
   if((cmd===0x03||cmd===0x00)&&d.length>=5){let hz=0,m=1,ok=true;
    for(let k=0;k<5;k++){const lo=d[k]&15,hi=d[k]>>4;if(lo>9||hi>9){ok=false;break}hz+=(hi*10+lo)*m;m*=100}
    if(ok&&hz>0){rig.hz=hz;rig.live=true;rig.t=Date.now();rigNote='';updRig()}}
-  else if(cmd===0xFA){rigMsg('วิทยุไม่รับความถี่นี้ (อาจอยู่นอกช่วงของเครื่อง เช่น 70cm บน IC-7300)')}
+  else if(cmd===0xFA){if(Date.now()-(c.tuneT||0)<2500)rigMsg('วิทยุไม่รับความถี่นี้ (อาจอยู่นอกช่วงของเครื่อง เช่น 70cm บน IC-7300)')}
+  else if(cmd===0x15&&d.length>=3){const bc=x=>(x>>4)*10+(x&15),v=bc(d[1])*100+bc(d[2]),n=Date.now();if(d[0]===0x02){rig.sm=v;rig.smt=n}else rig.mt[d[0]]={v,t:n};rig.t=n;rScr()}
+  else if(cmd===0x1C&&d[0]===0x00&&d.length>=2){rig.ptt=d[1]===1;rig.t=Date.now();rScr()}
+  else if(cmd===0x0F&&d.length>=1){rig.dup=({0x10:'S',0x11:'-',0x12:'+'})[d[0]]||'';rig.t=Date.now();rScr()}
+  else if(cmd===0x16&&d.length>=2&&(d[0]===0x42||d[0]===0x43)){if(d[0]===0x42)rig.tone=d[1]===1;else rig.tsql=d[1]===1;rig.t=Date.now();rScr()}
+  else if(cmd===0x27&&d[0]===0x00&&d.length>=4){rig.t=Date.now();scopeFrame(d.slice(1))}
   else if((cmd===0x04||cmd===0x01)&&d.length>=1){rig.mode=MODES[d[0]]||('0x'+d[0].toString(16));rig.t=Date.now();updRig()}}}
 async function catStart(port){
  if(!port.readable||!port.writable)return;
  const c={w:port.writable.getWriter(),r:port.readable.getReader(),buf:[],n:0,alive:true};cat=c;
- c.iv=setInterval(()=>{if(!c.alive||tx.on)return;c.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,(c.n++%2)?0x04:0x03,0xFD])).catch(()=>{})},700);
+ const send=a=>c.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,...a,0xFD])).catch(()=>{}),S_=[0x15,2],DT=[[0x0F],[0x16,0x42],[0x16,0x43]];
+ c.send=send;
+ c.iv=setInterval(()=>{if(!c.alive||tx.on)return;const k=c.n++,act=vOn()&&rigOwner==='VOICE',want=scrOn()&&rigOwner==='VOICE'&&(+S.baud||9600)>=115200;
+  if(want&&!c.sc){c.sc=1;send([0x27,0x10,1]);send([0x27,0x11,1])}else if(c.sc&&!want){c.sc=0;send([0x27,0x11,0])} // scope data only while the radio screen is open (needs 115200 baud)
+  if(act){ // VOICE page open: S-meter 5x/s, frequency/TX 1x/s, other meters / DUP / TONE every 2-6 s
+   const q=[S_,[3],S_,[4],S_,[0x1C,0],S_,[0x15,0x12],S_,[0x15,0x13],S_,[3],S_,[0x1C,0],S_,[0x15,0x15],S_,[0x15,0x16],S_,DT[(c.dt=(c.dt||0)+1)%3]][k%20];send(q)}
+  else{if(k%7)return;send((k/7)%2?[4]:[3])}},100);
  (async()=>{try{for(;;){const{value,done}=await c.r.read();if(done)break;if(value)catFeed(c,value)}}catch(e){}})();
  setTimeout(()=>{if(cat===c&&!rig.live)rigMsg('ไม่ได้รับข้อมูลจากวิทยุ ตรวจว่า CI-V USB Baud Rate ในวิทยุ = '+(S.baud||9600)+' และ CI-V Address = '+(S.civ||'94')+' (ตั้งค่า > การเชื่อมต่อวิทยุ) หรือกรอกความถี่เอง')},4500)}
 async function catStop(){
- const c=cat;cat=null;rig.live=false;rig.mode='';rigNote='';
+ const c=cat;cat=null;rig.live=false;rig.mode='';rigNote='';rig.sm=null;rig.mt={};rig.ptt=false;rig.dup='';rig.tone=rig.tsql=false;SC.line=null;
  if(c){c.alive=false;clearInterval(c.iv);try{await c.r.cancel()}catch(e){}try{c.r.releaseLock()}catch(e){}try{c.w.releaseLock()}catch(e){}}
  updRig()}
 setInterval(updRig,2000);
@@ -1116,16 +1290,52 @@ function drawThb(){
  for(const r of THB){const sp=[];r.forEach((v,k)=>{const x=E('span',{className:(k?'':'bc ')+'r'+(r[0]===cur?' on':''),textContent:v,});
   if(!k)bcol(x,r[0]);f.push(x)})}
  $('#thb').replaceChildren(...f);
- $('#bch').replaceChildren(...THB.map(r=>{const b=E('button',{textContent:r[0],title:'กดเพื่อตั้งความถี่ '+r[0]+(r[0]===cur?' (ย่านปัจจุบัน)':''),className:r[0]===cur?'cur':''});bcol(b,r[0]);b.onclick=()=>pickBand(r);return b}))}
+ $('#bch').replaceChildren(...THB.map(r=>{const b=E('button',{textContent:r[0],title:'กดเพื่อตั้งความถี่ '+r[0]+(r[0]===cur?' (ย่านปัจจุบัน)':''),className:r[0]===cur?'cur':''});bcol(b,r[0]);b.onclick=()=>bandClick(r);return b}))}
 // click a band row: set the frequency to the start of its CW segment (and tune the radio over CI-V when connected)
 function tuneHz(hz,label){
- if(cat&&txPort&&rig.live){
+ if(cat&&txPort&&rigOK()){
   if(S.civset===false){rigMsg('ปิดการสั่งวิทยุอยู่ (เปิดได้ที่ตั้งค่า) ความถี่จึงยังเป็นค่าจากวิทยุ');return}
   if(tx.on){rigMsg('กำลังส่งอยู่ รอส่งเสร็จก่อนค่อยเปลี่ยนความถี่');return}
   const d=[];let v=hz;for(let k=0;k<5;k++){d.push(((Math.floor(v/10)%10)<<4)|(v%10));v=Math.floor(v/100)}
-  cat.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,0x05,...d,0xFD])).then(()=>rigMsg('สั่งวิทยุไปที่ '+fmtMHz(hz)+' MHz ('+label+') แล้ว รอวิทยุตอบกลับ ...')).catch(()=>rigMsg('ส่งคำสั่งไปวิทยุไม่สำเร็จ'));
+  cat.tuneT=Date.now();cat.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,0x05,...d,0xFD])).then(()=>rigMsg('สั่งวิทยุไปที่ '+fmtMHz(hz)+' MHz ('+label+') แล้ว รอวิทยุตอบกลับ ...')).catch(()=>rigMsg('ส่งคำสั่งไปวิทยุไม่สำเร็จ'));
   return}
  S.fq=fmtMHz(hz);save();rigMsg('ตั้งความถี่ '+fmtMHz(hz)+' MHz ('+label+') ในแอป'+(txPort?' (ยังไม่ได้รับข้อมูลจากวิทยุ จึงไม่ได้สั่งวิทยุ)':' ไม่ได้ต่อวิทยุ'));updRig()}
+const VP={'160m':1.84,'80m':3.6,'40m':7.1,'20m':14.2,'17m':18.11,'15m':21.2,'12m':24.94,'10m':28.4,'6m':50.15,'2m':145.5,'70cm':433.5};
+const isVoice=()=>!$('#p4').hidden&&QG==='VOICE';
+// ---- radio connection belongs to ONE mode at a time (CW or VOICE); other modes must disconnect it first ----
+function rigMode(){return !$('#p1').hidden?'CW':(!$('#p4').hidden&&QG==='VOICE')?'VOICE':null}
+function rigOK(){const m=rigMode();return !!rig.live&&(!m||rigOwner===m)}
+function rigBusy(){const m=rigMode();return !!txPort&&!!m&&rigOwner!==m}
+function connUI(){const b=$('#txc');if(!b)return;const busy=rigBusy();b.textContent=!txPort?'เชื่อมต่อวิทยุ (คีย์ / CAT)':busy?'เชื่อมต่อวิทยุ (ใช้อยู่กับโหมด '+rigOwner+')':'ตัดการเชื่อมต่อวิทยุ';b.classList.toggle('busy',busy)}
+function ownAsk(kind,owner,want,why){
+ const au=kind==='audio';
+ return new Promise(res=>{
+  const old=$('#rgov');if(old)old.remove();
+  const done=v=>{ov.remove();document.removeEventListener('keydown',kd,true);res(v)},kd=e=>{if(e.key==='Escape'){e.preventDefault();done(false)}};
+  const ok=E('button',{className:'pri',textContent:au?'หยุดฟังโหมด '+owner+' แล้วเริ่มฟังโหมด '+want:'ตัดการเชื่อมต่อโหมด '+owner+' แล้วเชื่อมต่อโหมด '+want}),no=E('button',{textContent:'ยกเลิก'});
+  ok.onclick=()=>done(true);no.onclick=()=>done(false);
+  const box=E('div',{className:'rgbx',role:'alertdialog'});box.setAttribute('aria-modal','true');
+  box.append(E('h3',{textContent:au?'⚠ เสียงเข้ากำลังใช้งานในโหมด '+owner:'⚠ วิทยุกำลังเชื่อมต่อกับโหมด '+owner}),
+   E('p',{textContent:au?'เสียงเข้า (การฟัง) ใช้ได้ครั้งละ 1 โหมด ต้องหยุดฟังของโหมด '+owner+' ก่อน จึงจะใช้โหมด '+want+' ได้':(why==='send'?'ส่ง CW ไม่ได้ในตอนนี้ ':'')+'วิทยุเชื่อมต่อได้ครั้งละ 1 โหมด ต้องตัดการเชื่อมต่อโหมด '+owner+' ก่อน จึงจะใช้โหมด '+want+' ได้'}),
+   E('div',{className:'row'}));
+  box.lastChild.append(ok,no);
+  const ov=E('div',{id:'rgov',className:'rgov'});ov.append(box);ov.onclick=e=>{if(e.target===ov)done(false)};
+  document.body.append(ov);document.addEventListener('keydown',kd,true);ok.focus()})}
+const rigAsk=(want,why)=>ownAsk('radio',rigOwner,want,why);
+function audMode(){return rigMode()||'CW'}
+function audBusy(){return !!audOwner&&audOwner!==audMode()}
+function audUI(){
+ const b=$('#rsaf');if(b){const own=audOwner==='VOICE';b.textContent=own?'หยุดฟังเสียง':audBusy()?'เริ่มฟังเสียง (ใช้อยู่กับโหมด '+audOwner+')':'เริ่มฟังเสียง';b.classList.toggle('busy',audBusy());b.hidden=false}
+ const g=$('#go');if(g)g.classList.toggle('busy',audBusy());
+ const msg='เสียงเข้ากำลังใช้งานโหมด '+audOwner+' · กด "เริ่มฟัง" เพื่อสลับ (ต้องหยุดโหมด '+audOwner+' ก่อน)';
+ if(audBusy())st(msg);else if($('#st').textContent.startsWith('เสียงเข้ากำลังใช้งานโหมด'))st('พร้อมใช้งาน')}
+async function rigSwitch(want,why){if(!await rigAsk(want,why))return false;await discon();await rigConnect(true);return !!txPort}
+
+function bandClick(r){if(isVoice())pickVoice(r);else pickBand(r)}
+function pickVoice(r){ // start of the phone part of the band (clamped into the band range)
+ let f=VP[r[0]];if(!f){rigMsg('ย่าน '+r[0]+' ไม่มีช่วงเสียง (CW/ดิจิทัลเท่านั้น)');return}
+ const a=parseFloat(r[1]),b=parseFloat(String(r[1]).split('–')[1]);if(a&&f<a)f=a;if(b&&f>b)f=Math.round((b-0.01)*1000)/1000;
+ tuneHz(Math.round(f*1e6),r[0]+' เสียง')}
 function pickBand(r){
  const seg=r[2]&&r[2]!=='—'?r[2]:r[1],mhz=parseFloat(seg),hz=Math.round(mhz*1e6);if(!(mhz>0))return;
  tuneHz(hz,r[0])}
@@ -1208,7 +1418,7 @@ function rbHistIn(d){
  try{const k=Object.keys(RBG);if(k.length>400)for(const x of k.slice(0,k.length-400))delete RBG[x];localStorage.setItem('cwrbg',JSON.stringify(RBG))}catch(e){}
  if(!quiet)rbSt('ดึงย้อนหลังแล้ว '+n+' สปอต');rbAskDone();upd();rbDraw(1)}
 function rbStale(v){rbOld=true;$('#rbh').open=true;
- rbSt('ตัวเชื่อมที่รันอยู่เป็นรุ่นเก่า'+(v?' ('+v+')':' (ไม่มีเลขรุ่น)')+' แอปต้องการรุ่น '+BRV+' · ปิดหน้าต่างตัวเชื่อมเดิม ดาวน์โหลดตัวใหม่ที่ ตั้งค่า > RBN แล้วรันใหม่ (Mac: ใช้คำสั่งในขั้นตอนที่ 3 ซึ่งเลือกไฟล์ใหม่ล่าสุดให้เอง; Windows: รันตัวติดตั้งทับ) ตอนนี้ยังรับสปอตสดได้ แต่ดึงย้อนหลังไม่ได้')}
+ rbSt('ตัวเชื่อมที่รันอยู่เป็นรุ่นเก่า'+(v?' ('+v+')':' (ไม่มีเลขรุ่น)')+' แอปต้องการรุ่น '+BRV+' · ปิดหน้าต่างตัวเชื่อมเดิม ดาวน์โหลดตัวใหม่ที่ ตั้งค่า > RBN แล้วรันใหม่ (Mac: ใช้คำสั่งในขั้นตอนที่ 3 ซึ่งเลือกไฟล์ใหม่ล่าสุดให้เอง; Windows: ดาวน์โหลดตัวติดตั้งใหม่แล้วดับเบิลคลิก มันจะปิดตัวเก่าให้เอง) ตอนนี้ยังรับสปอตสดได้ แต่ดึงย้อนหลังไม่ได้')}
 function rbSt(m){rbMsg=m;for(const i of['#rbst','#rbst2']){const o=$(i);if(o)o.textContent=m}}
 function rbThai(m){
  let x;
@@ -1271,7 +1481,7 @@ function rbDraw(force){
  const thAll=[...RB.values()].filter(r=>isTh(r.call)).sort((x,y)=>y.t-x.t)[0];
  $('#rbn').textContent='แสดง '+k+' จาก '+a.length+' สถานี · สปอตทั้งหมด '+rbN+' · HS/E2 ในช่วงอายุที่เลือก '+tha.length+(thAll?' · ล่าสุด '+thAll.call+' ('+rbAgo(now-thAll.t)+' ที่แล้ว)':' · ยังไม่เคยได้ยิน HS/E2 ตั้งแต่เปิดแอป')}
 $('#rbc').onclick=()=>rbWs?rbDisc():rbConn();
-$('#ver').textContent=VER;
+$('#ver').textContent=VER;$('#abl').src=$('.brand .logo').src;
 $('#bk').onclick=()=>{const o={app:'cw-console',ver:VER,t:new Date().toISOString(),settings:Object.assign({},S),log:LOG};delete o.settings.qp;delete o.settings.hp;
  const a=E('a',{href:URL.createObjectURL(new Blob([JSON.stringify(o,null,1)],{type:'application/json'})),download:'cw-console-backup-'+new Date().toISOString().slice(0,10)+'.json'});document.body.append(a);a.click();a.remove();
  $('#bkst').textContent='สำรองแล้ว: การตั้งค่า + Log '+LOG.length+' รายการ (ไม่รวมรหัสผ่าน)'};
@@ -1282,7 +1492,65 @@ $('#bkf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)r
   for(const r of j.log)if(r&&typeof r==='object'&&!have.has(k(r))){LOG.push(r);add++}
   for(const x in S)delete S[x];Object.assign(S,j.settings);for(const x in keep)if(keep[x]!==undefined)S[x]=keep[x];
   save();saveLog();o.textContent='นำเข้าแล้ว: เพิ่ม Log ใหม่ '+add+' รายการ กำลังโหลดหน้าใหม่ ...';setTimeout(()=>location.reload(),900)}
- catch(_){o.textContent='ไฟล์นี้ไม่ใช่ไฟล์สำรองของ CW Console'}};
+ catch(_){o.textContent='ไฟล์นี้ไม่ใช่ไฟล์สำรองของ HAM LOG DATA'}};
+// ---- ADIF import (Settings) ----
+function adifParse(buf){ // field length is in BYTES, so work on bytes
+ const u=new Uint8Array(buf),td=new TextDecoder('utf-8'),n=u.length,out=[];let i=0,cur={};
+ while(i<n){
+  if(u[i]!==60){i++;continue}
+  let j=i+1;while(j<n&&u[j]!==62)j++;if(j>=n)break;
+  const p=td.decode(u.subarray(i+1,j)).split(':'),nm=p[0].trim().toUpperCase();i=j+1;
+  if(nm==='EOH'){cur={};continue}
+  if(nm==='EOR'){if(cur.CALL)out.push(cur);cur={};continue}
+  const len=parseInt(p[1],10);if(!(len>=0))continue;
+  let e=Math.min(i+len,n),k=i;
+  while(k<e&&u[k]!==60)k++; // wrong (too long) length: stop at the next tag
+  if(k<e){const q=td.decode(u.subarray(k,Math.min(k+12,n)));if(/^<(EOR|EOH|[A-Za-z_]+:\d)/i.test(q))e=k}
+  if(e===i+len){k=e;while(k<n&&u[k]!==60)k++;if(k>e&&td.decode(u.subarray(e,k)).trim())e=k} // too short length (chars counted instead of bytes): extend to the next tag
+  cur[nm]=td.decode(u.subarray(i,e)).trim();i=e}
+ return out}
+function adifToMode(m,sub,prop){
+ m=(m||'').toUpperCase();sub=(sub||'').toUpperCase();prop=(prop||'').toUpperCase();
+ if(m==='SSB')return sub==='USB'?'USB':sub==='LSB'?'LSB':'SSB';
+ if(m==='USB'||m==='LSB')return m;
+ if(m==='FM')return /^(INTERNET|ECHOLINK|IRLP)$/.test(prop)?'VOIP':'FM';
+ if(m==='DIGITALVOICE')return 'DV';
+ if(m==='DSTAR')return 'D-STAR';
+ if(m==='MFSK')return sub==='FT4'||sub==='JS8'?sub:(sub||'MFSK');
+ if(m==='FT4'||m==='FT8'||m==='JS8'||m==='JT65'||m==='CW'||m==='AM'||m==='RTTY'||m==='SSTV')return m;
+ if(m==='PSK')return sub||'PSK31';
+ if(m==='DMR'||m==='C4FM')return 'DV';
+ return sub&&!MD[m]?sub:(m||'CW')}
+function adifRec(a){
+ const c=(a.CALL||'').toUpperCase().replace(/\s+/g,''),dd=/^(\d{4})(\d\d)(\d\d)$/.exec(a.QSO_DATE||'');
+ if(!c||!dd)return null;
+ const tt=(a.TIME_ON||'').replace(/\D/g,''),t=tt.length>=4?tt.slice(0,2)+':'+tt.slice(2,4)+':'+(tt.slice(4,6)||'00'):'00:00:00',
+  fv=parseFloat(a.FREQ),f=isFinite(fv)&&fv>0?mhzS(fv):'',bd=(a.BAND||'').toLowerCase(),
+  b=f&&bandOf(fv)||(BANDS.some(x=>x[0]===bd)?bd:''),m=adifToMode(a.MODE,a.SUBMODE,a.PROP_MODE),
+  g=(a.GRIDSQUARE||'').toUpperCase(),dx=(a.DXCC||'').replace(/\D/g,'');
+ const r={d:dd[1]+'-'+dd[2]+'-'+dd[3],t,c,f,b,m,n:a.NAME||'',co:a.COUNTRY||'',q:a.QTH||'',rs:(a.RST_SENT||'').toUpperCase(),rr:(a.RST_RCVD||'').toUpperCase(),g:/^[A-R]{2}\d{2}([A-X]{2})?([0-9]{2})?$/.test(g)?g.slice(0,6):'',dx,cm:a.COMMENT||a.NOTES||''};
+ if((a.PROP_MODE||'').toUpperCase()==='SAT'){r.pm='SAT';r.sat=(a.SAT_NAME||'').toUpperCase()}
+ return r}
+let adLast=[];
+async function adifImport(files){
+ const o=$('#adst'),skip=$('#adk').checked;let all=0,bad=0,dup=0;const add=[],grp={CW:0,VOICE:0,DIGITAL:0,SAT:0},unk={};
+ const key=r=>[r.d,(r.t||'').slice(0,5),r.c,mdKey(r.m),r.pm==='SAT'?'S':''].join('|'),have=new Set(LOG.map(key));
+ o.textContent='กำลังอ่านไฟล์ ...';
+ try{for(const f of files){const recs=adifParse(await f.arrayBuffer());all+=recs.length;
+  for(const a of recs){const r=adifRec(a);if(!r){bad++;continue}const k=key(r);if(skip&&have.has(k)){dup++;continue}have.add(k);add.push(r);const g=grOf(r);grp[g]++;if(g==='CW'&&r.m!=='CW')unk[r.m]=(unk[r.m]||0)+1}}}
+ catch(e){o.textContent='อ่านไฟล์ไม่สำเร็จ: '+(e&&e.message||e);return}
+ if(!all){o.textContent='ไม่พบรายการ QSO ในไฟล์นี้ (ต้องเป็นไฟล์ ADIF ที่มีแท็ก <CALL:..> และ <EOR>)';return}
+ if(add.length){
+  const old=LOG.slice();LOG.push(...add);LOG.sort((x,y)=>((x.d||'')+(x.t||'')).localeCompare((y.d||'')+(y.t||'')));
+  if(!saveLog()){LOG.length=0;LOG.push(...old);o.textContent='พื้นที่เก็บข้อมูลในเบราว์เซอร์เต็ม นำเข้าไม่ได้ (ลองสำรองและล้าง Log เก่าก่อน)';return}
+  adLast=add;renderLog();if(!$('#p0').hidden)dash()}
+ $('#adu').hidden=!adLast.length;
+ const un=Object.entries(unk);
+ o.textContent='อ่านได้ '+all+' รายการ · นำเข้า '+add.length+(dup?' · ซ้ำกับ Log เดิม (ข้าม) '+dup:'')+(bad?' · ข้าม '+bad+' (ไม่มี Callsign/วันที่)':'')+(add.length?'  →  CW '+grp.CW+' · VOICE '+grp.VOICE+' · DIGITAL '+grp.DIGITAL+' · SATELLITE '+grp.SAT:'')+(un.length?' · โหมดที่ไม่รู้จัก (แสดงในหน้า CW): '+un.map(x=>x[0]+'×'+x[1]).join(', '):'')+(add.length&&add.some(r=>!r.f||!r.b)?' · ⚠ บางรายการไม่มีความถี่/ย่าน แก้ในตารางก่อนส่งออก ADIF':'')}
+$('#adi').onclick=()=>$('#adf').click();
+$('#adf').onchange=e=>{const fs=[...e.target.files];e.target.value='';if(fs.length)adifImport(fs)};
+$('#adu').onclick=()=>{const s=new Set(adLast);const n=LOG.length;for(let i=LOG.length-1;i>=0;i--)if(s.has(LOG[i]))LOG.splice(i,1);saveLog();renderLog();if(!$('#p0').hidden)dash();$('#adst').textContent='ยกเลิกการนำเข้าล่าสุดแล้ว (ลบ '+(n-LOG.length)+' รายการ)';adLast=[];$('#adu').hidden=true};
+{const dp=$('#adp');dp.ondragover=e=>{e.preventDefault()};dp.ondrop=e=>{e.preventDefault();const fs=[...(e.dataTransfer&&e.dataTransfer.files||[])];if(fs.length)adifImport(fs)}}
 $('#thm').value=S.theme||'auto';$('#thm').onchange=e=>{S.theme=e.target.value;save();applyTheme()};
 $('#rbs').value=S.rbs==null?-99:S.rbs;$('#rba').value=S.rba||15;$('#rbo').value=S.rbo||'t';$('#rbcq').checked=S.rbq!==false;
 $('#rbs').onchange=e=>{S.rbs=+e.target.value;save();rbDraw(1)};$('#rba').onchange=e=>{S.rba=+e.target.value;save();rbDraw(1)};$('#rbo').onchange=e=>{S.rbo=e.target.value;save();rbDraw(1)};
@@ -1303,6 +1571,9 @@ $('#rbdl').onclick=()=>{ // single-file Windows installer: unpacks the bridge, a
   'reg add "HKCU\\Software\\Classes\\cwbridge\\shell\\open\\command" /ve /d "\\"%D%\\run-rbn-bridge.bat\\"" /f >nul',
   'echo.','echo Installed in %D%','choice /m "Start the bridge automatically when Windows starts"',
   'if errorlevel 2 (reg delete "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v CWConsoleRBN /f >nul 2>nul) else (reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v CWConsoleRBN /d "\\"%D%\\run-rbn-bridge.bat\\"" /f >nul)',
+  'echo Stopping any older bridge on port 7373 ...',
+  'powershell -NoProfile -Command "Get-NetTCPConnection -LocalPort 7373 -State Listen -EA 0 | ForEach-Object { $p=Get-Process -Id $_.OwningProcess -EA 0; if($p -and $p.ProcessName -match \'^(python|pythonw|py)\'){ $p | Stop-Process -Force } }" >nul 2>nul',
+  'timeout /t 1 /nobreak >nul',
   'call "%D%\\run-rbn-bridge.bat"','echo.','echo Done. Go back to CW Console: Settings ^> RBN ^> Connect.','pause');
  rbSave('install-rbn-bridge.bat',L.join('\r\n')+'\r\n','application/octet-stream')};
 $('#rbrun').onclick=()=>{
@@ -1330,8 +1601,8 @@ $('#rec').onclick=()=>{
 // ---- QSO log (UTC date/time, partner callsign, RST sent) ----
 let LOG=[];try{LOG=JSON.parse(localStorage.getItem('cwlog')||'[]')}catch(e){}
 LOG.forEach(r=>{r.m=r.m||'CW';for(const k of['co','dx','cm','rr','n','q','g'])r[k]=r[k]||''});
-const saveLog=()=>{try{localStorage.setItem('cwlog',JSON.stringify(LOG))}catch(e){}};
-let lgT=0;function lmsg(m){$('#lgst').textContent=m;clearTimeout(lgT);lgT=setTimeout(()=>$('#lgst').textContent='',7000)}
+const saveLog=()=>{try{localStorage.setItem('cwlog',JSON.stringify(LOG));return true}catch(e){return false}};
+let lgT=0;function lmsg(m){$('#lgst').textContent=$('#qst').textContent=m;clearTimeout(lgT);lgT=setTimeout(()=>$('#lgst').textContent=$('#qst').textContent='',7000)}
 const utcNow=()=>new Date().toISOString();
 const pad=n=>String(n).padStart(2,'0');
 const mhzS=m=>m.toFixed(6).replace(/0{1,3}$/,'');
@@ -1339,27 +1610,53 @@ const kHz=f=>{const v=parseFloat(f);return isFinite(v)?String(+(v*1000).toFixed(
 const dtShow=r=>{const m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(r.d||''),t=/^(\d\d):(\d\d)(?::(\d\d))?$/.exec(r.t||'');return m&&t?m[2]+'/'+m[3]+'/'+m[1]+' '+t[1]+':'+t[2]+':'+(t[3]||'00'):''};
 const dtParse=v=>{const m=/^(\d\d?)\/(\d\d?)\/(\d{4})\s+(\d\d?):(\d\d)(?::(\d\d))?$/.exec(v.trim());return m?{d:m[3]+'-'+pad(m[1])+'-'+pad(m[2]),t:pad(m[4])+':'+m[5]+':'+(m[6]||'00')}:null};
 const PFX=[[/^(HS|E2)/,'Thailand','387']];
-const adifMode=m=>({'CW':'CW','CW-R':'CW','RTTY':'RTTY','RTTY-R':'RTTY','AM':'AM','FM':'FM','USB':'SSB','LSB':'SSB'})[m]||'CW';
+// mode table: name -> [ADIF MODE, ADIF SUBMODE, default RST]
+const MD={CW:['CW','','599'],SSB:['SSB','','59'],USB:['SSB','USB','59'],LSB:['SSB','LSB','59'],AM:['AM','','59'],FM:['FM','','59'],RTTY:['RTTY','','599'],PSK31:['PSK','PSK31','599'],FT8:['FT8','','-10'],FT4:['MFSK','FT4','-10'],JS8:['MFSK','JS8','-10'],JT65:['JT65','','-10'],SSTV:['SSTV','','59'],DV:['DIGITALVOICE','','59'],'D-STAR':['DSTAR','','59'],VOIP:['FM','','59','INTERNET']};
+const RIGM={'CW':'CW','CW-R':'CW','RTTY':'RTTY','RTTY-R':'RTTY','AM':'AM','FM':'FM','USB':'USB','LSB':'LSB'};
+const mdKey=m=>{m=String(m||'').trim().toUpperCase();return m||'CW'};
+const adifMode=m=>(MD[mdKey(m)]||[mdKey(m)])[0];
+const adifSub=m=>(MD[mdKey(m)]||[0,''])[1]||'';
+const mdRst=m=>(MD[mdKey(m)]||[0,0,'599'])[2];
 // columns as in Log4OM: Qso Date | Callsign | Freq | Band | Mode | Name | Country | (QTH) | Rst | Rst | Gridsquare | Dxcc
 const LC=[['dt','Qso Date (UTC)'],['c','Callsign'],['f','Freq (kHz)'],['b','Band'],['m','Mode'],['n','Name'],['co','Country'],['q','QTH'],['rs','Rst (S)'],['rr','Rst (R)'],['g','Gridsquare'],['dx','Dxcc']];
-function renderLog(){
- const lt=$('#lt'),hd=E('div',{className:'lr h'});
- LC.forEach(([k,n])=>hd.append(E('span',{textContent:n})));hd.append(E('span'));
- const rows=[];
- for(let i=LOG.length-1;i>=0;i--){
-  const r=LOG[i],d=E('div',{className:'lr'}),ins={};
-  for(const[k,w]of LC){
-   const x=E('input',{value:k==='dt'?dtShow(r):k==='f'?kHz(r.f):(r[k]||''),className:k==='c'?'cl':'',spellcheck:false});x.setAttribute('aria-label',w);x.dataset.k=k;
+const GR={
+ VOICE:{n:'VOICE',modes:[['FM','FM'],['SSB','SSB'],['LSB','LSB'],['USB','USB'],['DV','Digital Voice'],['D-STAR','D-STAR'],['VOIP','VoIP']],all:['FM','SSB','LSB','USB','AM','DV','D-STAR','VOIP','C4FM','DMR']},
+ DIGITAL:{n:'DIGITAL',modes:[['FT8','FT8'],['FT4','FT4']],all:['FT8','FT4','JS8','JT65','PSK31','RTTY','SSTV','JT9','JT4','MSK144','Q65','FST4','FST4W','WSPR','PSK63','PSK125','OLIVIA','CONTESTIA','MFSK','HELL','THOR','FSK441','ISCAT','PACKET','VARA','ARDOP']},
+ SAT:{n:'SATELLITE',modes:[],all:[]}};
+const inG=(r,g)=>g==='SAT'?r.pm==='SAT':(r.pm!=='SAT'&&GR[g].all.includes(mdKey(r.m)));
+const grOf=r=>inG(r,'SAT')?'SAT':inG(r,'VOICE')?'VOICE':inG(r,'DIGITAL')?'DIGITAL':'CW';
+const homeRow=r=>grOf(r)==='CW';
+let QG='VOICE',QM='FM';
+function renderLog(){drawLog($('#lt'),homeRow,false);if(!$('#p4').hidden){drawLog($('#qlt'),r=>inG(r,QG),QG==='SAT');if(QG==='VOICE')vUpd()}}
+const PGS=10,PG={},LTP={},SEL=new Set();
+function pgUI(n,pages,pg){const b=$('#qpg');if(!b)return;
+ const go=(t,x,dis)=>{const k=E('button',{className:'sm',textContent:t,disabled:dis});k.onclick=()=>{PG.qlt=x;renderLog()};return k},a=n?pg*PGS+1:0,z=Math.min(n,(pg+1)*PGS);
+ b.replaceChildren(E('span',{className:'mu',textContent:'แสดง '+a+'–'+z+' จาก '+n+' QSO (ล่าสุดอยู่หน้าแรก)'}),go('«',0,pg<=0),go('‹ ก่อนหน้า',pg-1,pg<=0),E('span',{textContent:'หน้า '+(pg+1)+' / '+pages}),go('ถัดไป ›',pg+1,pg>=pages-1),go('»',pages-1,pg>=pages-1))}
+function updSel(){const n=LOG.reduce((m,r)=>m+(SEL.has(r)?1:0),0),t=n?' ('+n+' ที่เลือก)':' (ทั้งหมด)';
+ for(const id of['#lgadi','#qadi'])$(id).textContent='ส่งออก ADIF'+t;for(const id of['#lgcsv','#qcsv'])$(id).textContent='ส่งออก CSV'+t;
+ for(const id of['#lgclr','#qclr'])$(id).disabled=!n}
+function drawLog(lt,pred,sat){
+ const cols=sat?[...LC.slice(0,5),['sat','Satellite'],...LC.slice(5)]:LC,hd=E('div',{className:'lr h'+(sat?' sat':'')});
+ cols.forEach(([k,n])=>hd.append(E('span',{textContent:n})));hd.append(E('span'));
+ const rows=[],all=[];for(let i=LOG.length-1;i>=0;i--)if(pred(LOG[i]))all.push(i);
+ LTP[lt.id]=all;const paged=lt.id==='qlt',pages=paged?Math.max(1,Math.ceil(all.length/PGS)):1,pg=paged?Math.min(PG.qlt||0,pages-1):0;if(paged)PG.qlt=pg;
+ for(const i of paged?all.slice(pg*PGS,pg*PGS+PGS):all){
+  const r=LOG[i],d=E('div',{className:'lr'+(sat?' sat':'')}),ins={};
+  {const cb=E('input',{type:'checkbox',checked:SEL.has(r),title:'ติ๊กเลือกเพื่อส่งออก'});cb.setAttribute('aria-label','เลือก');cb.onchange=()=>{cb.checked?SEL.add(r):SEL.delete(r);updSel()};d.append(cb)}
+  for(const[k,w]of cols){
+   const x=E('input',{value:k==='dt'?dtShow(r):k==='f'?kHz(r.f):(r[k]||''),className:k==='c'?'cl':'',spellcheck:false});x.setAttribute('aria-label',w);x.dataset.k=k;if(k==='m')x.setAttribute('list','mdl');
    if(k==='f'||k==='b')x.classList.toggle('need',!r[k]);if(k==='b')bcol(x,r.b);
    x.oninput=()=>{
     if(k==='dt'){const q=dtParse(x.value);x.classList.toggle('need',!q);if(q){r.d=q.d;r.t=q.t}}
     else if(k==='f'){const v=parseFloat(x.value.replace(',','.'));
      if(isFinite(v)&&v>0){r.f=mhzS(v<1000?v:v/1000);const bb=bandOf(parseFloat(r.f));if(bb){r.b=bb;ins.b.value=bb;ins.b.classList.remove('need');bcol(ins.b,bb)}x.classList.remove('need')}else{r.f='';x.classList.add('need')}}
-    else{r[k]=x.value;if(k==='b'){x.classList.toggle('need',!x.value);bcol(x,x.value)}}
+    else{r[k]=k==='m'||k==='sat'?x.value.trim().toUpperCase():x.value;if(k==='b'){x.classList.toggle('need',!x.value);bcol(x,x.value)}}
     saveLog()};
    ins[k]=x;d.append(x)}
   const b=E('button',{textContent:'✕',title:'ลบรายการนี้'});b.onclick=()=>{LOG.splice(i,1);saveLog();renderLog()};
   d.append(b);rows.push(d)}
+ {const ha=E('input',{type:'checkbox',title:'เลือก / ไม่เลือก ทุกรายการในตารางนี้'});ha.checked=all.length>0&&all.every(i=>SEL.has(LOG[i]));ha.onchange=()=>{all.forEach(i=>ha.checked?SEL.add(LOG[i]):SEL.delete(LOG[i]));renderLog()};const hc=E('span');hc.append(ha);hd.prepend(hc)}
+ if(paged)pgUI(all.length,pages,pg);updSel();
  lt.replaceChildren(hd,...(rows.length?rows:[E('div',{className:'e',textContent:'ยังไม่มีรายการ กด "บันทึก QSO" เมื่อติดต่อกับคู่สถานีเสร็จ'})]))}
 async function addLog(){
  const p=partner(),q=p.c?p:lastP;
@@ -1370,27 +1667,329 @@ async function addLog(){
  const i=utcNow(),d=i.slice(0,10),t=i.slice(11,19),l=LOG[LOG.length-1];
  if(l&&l.c===q.c&&l.d===d&&(l.t||'').slice(0,5)===t.slice(0,5)){lmsg('บันทึก '+q.c+' เวลา '+t.slice(0,5)+' UTC ไปแล้ว');return}
  const fr=curFreq(),bn=bandOf(parseFloat(fr)),pf=PFX.find(x=>x[0].test(q.c)),
-  md=rig.live&&rig.mode?adifMode(rig.mode):'CW';
- LOG.push({d,t,c:q.c,f:fr,b:bn,m:md,n:(z&&z.n)||q.n||'',co:(z&&z.co)||(pf?pf[1]:''),q:q.q||(z&&z.q)||'',rs:S.rs||'599',rr:q.r||'599',g:gOf(z,q.c),dx:(z&&z.dx)||(pf?pf[2]:''),cm:''});
+  md='CW',rsS=S.rs||'599',rsR=q.r||'599';
+ LOG.push({d,t,c:q.c,f:fr,b:bn,m:md,n:(z&&z.n)||q.n||'',co:(z&&z.co)||(pf?pf[1]:''),q:q.q||(z&&z.q)||'',rs:rsS,rr:rsR,g:gOf(z,q.c),dx:(z&&z.dx)||(pf?pf[2]:''),cm:''});
  if(!p.c)lastP=null;else loggedFor=p.c;
- saveLog();renderLog();upd();lmsg('บันทึกแล้ว: '+q.c+'  '+d+' '+t+' UTC  '+(fr?kHz(fr)+' kHz '+bn:'')+'  RST '+(S.rs||'599')+(fr&&bn?'':'  ⚠ ยังไม่มีความถี่/ย่าน เติมในตารางก่อนส่งออก ADIF'));
+ saveLog();renderLog();upd();lmsg('บันทึกแล้ว: '+q.c+'  '+d+' '+t+' UTC  '+(fr?kHz(fr)+' kHz '+bn:'')+'  '+md+'  RST '+rsS+'/'+rsR+(fr&&bn?'':'  ⚠ ยังไม่มีความถี่/ย่าน เติมในตารางก่อนส่งออก ADIF'));
  const lt=$('#lt');lt.scrollTop=0}
 function dl(name,mime,text){const a=E('a',{href:URL.createObjectURL(text instanceof Blob?text:new Blob([text],{type:mime})),download:name});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000)}
 function expAdif(){
- if(!LOG.length){lmsg('ยังไม่มีรายการให้ส่งออก');return}
+ const rows=LOG.some(r=>SEL.has(r))?LOG.filter(r=>SEL.has(r)):LOG;
+ if(!rows.length){lmsg('ยังไม่มีรายการให้ส่งออก');return}
  const n=v=>new TextEncoder().encode(v).length,f=(k,v)=>v?`<${k}:${n(v)}>${v}`:'',me=S.my||{},
   grid=/^[A-R]{2}[0-9]{2}([A-X]{2})?$/i.test(me.loc||'')?me.loc.toUpperCase():'',
   tm=t=>{const a=(t||'').replace(/:/g,'');return a.length===4?a+'00':a},
-  recs=LOG.map(r=>[f('STATION_CALLSIGN',me.call),f('MY_GRIDSQUARE',grid),f('CALL',(r.c||'').trim()),f('QSO_DATE',(r.d||'').replace(/-/g,'')),f('TIME_ON',tm(r.t)),f('MODE',adifMode(r.m)),f('FREQ',r.f),f('BAND',r.b),f('RST_SENT',(r.rs||'').replace(/N/gi,'9')),f('RST_RCVD',(r.rr||'').replace(/N/gi,'9')),f('NAME',r.n),f('COUNTRY',r.co),f('QTH',r.q),f('GRIDSQUARE',(r.g||'').toUpperCase()),f('DXCC',r.dx),f('COMMENT',r.cm),'<EOR>'].filter(Boolean).join(' '));
- dl('cw-log-'+utcNow().slice(0,10).replace(/-/g,'')+'.adi','text/plain','ADIF export from CW Console\n<ADIF_VER:5>3.1.4 <PROGRAMID:10>CW Console <EOH>\n\n'+recs.join('\n')+'\n');
- const miss=LOG.filter(r=>!r.f||!r.b).length;lmsg('ส่งออก ADIF '+LOG.length+' รายการ'+(miss?'  ⚠ '+miss+' รายการยังไม่มีความถี่/ย่าน Log4OM อาจนำเข้าไม่ได้':''))}
+  recs=rows.map(r=>[f('STATION_CALLSIGN',me.call),f('MY_GRIDSQUARE',grid),f('CALL',(r.c||'').trim()),f('QSO_DATE',(r.d||'').replace(/-/g,'')),f('TIME_ON',tm(r.t)),f('MODE',adifMode(r.m)),f('SUBMODE',adifSub(r.m)),f('PROP_MODE',r.pm==='SAT'?'SAT':((MD[mdKey(r.m)]||[])[3]||'')),f('SAT_NAME',r.sat),f('FREQ',r.f),f('BAND',r.b),f('RST_SENT',(r.rs||'').replace(/N/gi,'9')),f('RST_RCVD',(r.rr||'').replace(/N/gi,'9')),f('NAME',r.n),f('COUNTRY',r.co),f('QTH',r.q),f('GRIDSQUARE',(r.g||'').toUpperCase()),f('DXCC',r.dx),f('COMMENT',r.cm),'<EOR>'].filter(Boolean).join(' '));
+ dl('cw-log-'+utcNow().slice(0,10).replace(/-/g,'')+'.adi','text/plain','ADIF export from HAM rows DATA\n<ADIF_VER:5>3.1.4 <PROGRAMID:12>HAM rows DATA <EOH>\n\n'+recs.join('\n')+'\n');
+ const miss=rows.filter(r=>!r.f||!r.b).length;lmsg('ส่งออก ADIF '+rows.length+' รายการ'+(miss?'  ⚠ '+miss+' รายการยังไม่มีความถี่/ย่าน Log4OM อาจนำเข้าไม่ได้':''))}
 function expCsv(){
- if(!LOG.length){lmsg('ยังไม่มีรายการให้ส่งออก');return}
+ const rows=LOG.some(r=>SEL.has(r))?LOG.filter(r=>SEL.has(r)):LOG;
+ if(!rows.length){lmsg('ยังไม่มีรายการให้ส่งออก');return}
  const q=v=>'"'+String(v||'').replace(/"/g,'""')+'"';
- dl('cw-log-'+utcNow().slice(0,10).replace(/-/g,'')+'.csv','text/csv','﻿'+LC.map(x=>x[1]).join(',')+'\n'+LOG.map(r=>LC.map(([k])=>k==='dt'?dtShow(r):k==='f'?kHz(r.f):r[k]).map(q).join(',')).join('\n')+'\n');
- lmsg('ส่งออก CSV '+LOG.length+' รายการ')}
+ dl('cw-log-'+utcNow().slice(0,10).replace(/-/g,'')+'.csv','text/csv','﻿'+LC.map(x=>x[1]).join(',')+'\n'+rows.map(r=>LC.map(([k])=>k==='dt'?dtShow(r):k==='f'?kHz(r.f):r[k]).map(q).join(',')).join('\n')+'\n');
+ lmsg('ส่งออก CSV '+rows.length+' รายการ')}
+$('#mdl').replaceChildren(...Object.keys(MD).map(m=>E('option',{value:m})));
+// ---- QSO pages for other modes (FM, SSB, LSB, USB, FT8, FT4, satellite) ----
+const qv=id=>$(id).value.trim();
+// ---- dashboard (home) ----
+const GC={CW:'#ffb454',VOICE:'#5b9cff',DIGITAL:'#4ade80',SAT:'#e879f9'},GN={CW:'CW',VOICE:'VOICE',DIGITAL:'DIGITAL',SAT:'SATELLITE'},GT={CW:'p1',VOICE:'g:VOICE',DIGITAL:'g:DIGITAL',SAT:'g:SAT'};
+const DNL={};
+function myFull(){ // name + surname: from Settings, completed from the QRZ/HamQTH record of our own callsign when only a first name is set
+ const my=((S.my&&S.my.call)||'').trim().toUpperCase(),nm=((S.my&&S.my.name)||'').trim(),z=my&&QZ[my],zn=z&&!z.nf&&z.n?z.n.trim():'';
+ if(!nm)return zn;
+ if(zn&&nm.split(/\s+/).length<2&&zn.toLowerCase().split(/\s+/).includes(nm.toLowerCase()))return zn;
+ return nm}
+function dash(){
+ const el=$('#p0');if(!el)return;
+ const X=(cls,txt,...k)=>{const d=E('div',{className:cls});if(txt!=null)d.textContent=txt;d.append(...k);return d},
+  cnt=(f)=>LOG.reduce((m,r)=>{const k=f(r);if(k)m[k]=(m[k]||0)+1;return m},{}),
+  i0=utcNow(),today=i0.slice(0,10),n=LOG.length,
+  byG=cnt(grOf),byB=cnt(r=>r.b),byM=cnt(r=>mdKey(r.m)),byD=cnt(r=>r.d),
+  ctry=new Set(LOG.map(r=>r.dx||r.co).filter(Boolean)).size,calls=new Set(LOG.map(r=>r.c)).size,
+  day=k=>new Date(Date.now()-k*864e5).toISOString().slice(0,10),
+  my=(S.my&&S.my.call)||'',nm=myFull().toLowerCase().replace(/(^|[\s\-'.])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),loc=(S.my&&S.my.loc)||'';
+ const curB=bandOf(parseFloat(curFreq())),
+  bcs=THB.map(r=>{const b=E('button',{textContent:r[0],title:'กดเพื่อตั้งความถี่ย่าน '+r[0],className:r[0]===curB?'cur':''});bcol(b,r[0]);b.onclick=()=>bandClick(r);return b}),
+  sub=[nm&&my,loc&&'Grid '+loc.toUpperCase(),rig.live&&'วิทยุ '+fmtMHz(rig.hz)+' MHz'+(rig.mode?' · '+rig.mode:'')].filter(Boolean).join(' · ');
+ const hd=X('pn dh',null,X('',null,E('h2',{textContent:nm||my?'สวัสดี '+(nm||my):'แดชบอร์ด'}),X('mu',(sub?sub+' · ':'')+'สรุปจากสมุด Log ในเครื่องนี้'+(nm||my?'':' (ใส่ชื่อ นามสกุล และ Callsign ที่หน้าตั้งค่า)'))),
+  X('bch',null,...bcs),
+  X('vclk',null,X('vu',null,E('span',{textContent:'UTC'}),E('span',{id:'dlt',className:'vl'})),E('div',{id:'dvt',className:'vt'}),E('div',{id:'dvd',className:'vd'})));
+ if(my&&CRW.test(my)&&(qzOn()||hqOn())&&QZ[my]===undefined&&!(DNL[my]>Date.now()-3e5)){DNL[my]=Date.now();qrzLookup(my).then(()=>{if(!$('#p0').hidden)dash()}).catch(()=>{})}
+ const kt=(l,v,sm)=>X('kt',null,E('span',{textContent:l}),E('b',{textContent:String(v)}),E('small',{textContent:sm||''}));
+ const k7=LOG.filter(r=>r.d>=day(6)).length,last=LOG.length?LOG.reduce((a,r)=>((r.d+r.t)>(a.d+a.t)?r:a)):null;
+ const kp=X('dk',null,kt('QSO ทั้งหมด',n,last?'ล่าสุด '+last.d+' '+(last.t||'').slice(0,5)+' UTC':'ยังไม่มีรายการ'),kt('วันนี้ (UTC)',byD[today]||0,today),kt('7 วันล่าสุด',k7,'รวมทุกโหมด'),kt('ประเทศ / DXCC',ctry),kt('สถานีไม่ซ้ำ',calls));
+ const gs=X('dk',null,...['CW','VOICE','DIGITAL','SAT'].map(g=>{const c=byG[g]||0,b=E('button',{className:'kt',title:'เปิดหน้า '+GN[g]});
+  b.append(E('span',{textContent:GN[g]}),E('b',{textContent:String(c)}),E('small',{textContent:n?Math.round(c*100/n)+'% ของทั้งหมด':'—'}));
+  const i=E('i');i.style.background=GC[g];i.style.width=(n?Math.max(c?4:0,c*100/n):0)+'%';b.append(i);b.onclick=()=>tab(GT[g]);return b}));
+ // 14 days
+ const days=[];for(let k=13;k>=0;k--)days.push(day(k));const mx=Math.max(1,...days.map(d=>byD[d]||0));
+ const sp=X('sp');days.forEach(d=>{const c=byD[d]||0,col=X(d===today?'td':c?'':'z',null),b=E('i');b.style.height=Math.max(2,Math.round(c*88/mx))+'px';
+  col.title=d+': '+c+' QSO';col.append(E('span',{textContent:c?String(c):''}),b,E('span',{textContent:d.slice(8)}));sp.append(col)});
+ const p14=X('pn',null,E('h2',{textContent:'QSO 14 วันล่าสุด (UTC)'}),sp);
+ // bands
+ const bl=BANDS.map(x=>x[0]).filter(b=>byB[b]),bm=Math.max(1,...bl.map(b=>byB[b]));
+ const bp=X('pn',null,E('h2',{textContent:'ตามย่านความถี่'}),...(bl.length?bl.map(b=>{const r=X('bar',null,E('b',{textContent:b})),i=E('i');i.style.width=Math.max(3,byB[b]*100/bm)+'%';i.style.background=(BCOL[b]||['#888'])[0];const w=X('',null,i);r.append(w,E('em',{textContent:String(byB[b])}));return r}):[X('dem','ยังไม่มีข้อมูลย่านความถี่ (เติมความถี่ในตาราง Log)')]));
+ // modes
+ const ml=Object.entries(byM).sort((a,b)=>b[1]-a[1]).slice(0,8),mm=Math.max(1,...ml.map(x=>x[1]));
+ const mp=X('pn',null,E('h2',{textContent:'โหมดที่ใช้บ่อย'}),...(ml.length?ml.map(([m,c])=>{const r=X('bar',null,E('b',{textContent:m})),i=E('i');i.style.width=Math.max(3,c*100/mm)+'%';i.style.background=GC[grOf({m})];r.append(X('',null,i),E('em',{textContent:String(c)}));return r}):[X('dem','ยังไม่มี QSO')]));
+ // recent
+ const rc=[...LOG].map((r,i)=>[r,i]).sort((a,b)=>((b[0].d+b[0].t)>(a[0].d+a[0].t)?1:(b[0].d+b[0].t)<(a[0].d+a[0].t)?-1:b[1]-a[1])).slice(0,8).map(x=>x[0]);
+ const rt=X('dt',null,X('r h',null,...['เวลา (UTC)','Callsign','ย่าน','โหมด','ชื่อ','ประเทศ'].map(t=>E('span',{textContent:t}))),
+  ...(rc.length?rc.map(r=>{const g=grOf(r),gt=E('span',{className:'gt',textContent:(r.sat?r.sat+' ':'')+mdKey(r.m)});gt.style.background=GC[g];const bd=E('span',{textContent:r.b||''});bcol(bd,r.b);bd.style.borderRadius='6px';bd.style.textAlign='center';bd.style.fontSize='12px';
+   const d=X('r',null,E('span',{textContent:r.d+' '+(r.t||'').slice(0,5)}),E('span',{className:'c',textContent:r.c}),bd,gt,E('span',{textContent:r.n||''}),E('span',{textContent:r.co||''}));return d}):[X('dem','ยังไม่มี QSO ที่บันทึก เริ่มที่หน้า CW, VOICE, DIGITAL หรือ SATELLITE')]));
+ const rp=X('pn',null,E('h2',{textContent:'QSO ล่าสุด'}),rt);
+ el.replaceChildren(hd,kp,gs,X('dg',null,p14,bp),X('dg',null,rp,mp));
+ clkD()}
+function clkD(){const t=$('#dvt');if(!t)return;const i=utcNow();t.textContent=i.slice(11,19);$('#dvd').textContent=i.slice(0,10);$('#dlt').textContent='เวลาเครื่อง '+new Date().toLocaleTimeString('en-GB')}
+setInterval(()=>{if(!$('#p0').hidden)dash()},10000);
+// ---- VOICE page: radio (CAT) panel moved in from the CW page + map of the stations worked ----
+const QTT=$('.qtt'),QF1=$('.qf1'),VQH=$('#vpanel>.qh'),P1PN=$('#p1>.pn'),CATN=[...P1PN.children].slice(1,7),CATREF=P1PN.children[7];
+function catTo(){const a=$('#vc1'),b=$('#vc2');if(CATN[0].parentNode!==a){a.replaceChildren(...CATN.slice(0,4));b.replaceChildren(...CATN.slice(4))}}
+function catHome(){if(CATN[0].parentNode!==P1PN)CATREF.before(...CATN)}
+var rigLM='';
+function rigVoice(){const m={LSB:'LSB',USB:'USB',FM:'FM'}[rig.mode];if(!isVoice()||!rigOK()||!m||m===QM)return;QM=m;S.qm=S.qm||{};S.qm.VOICE=m;save();qSetup()}
+let MAPD='',MAPS='';
+try{const c=JSON.parse(localStorage.getItem('cwmap')||'null');if(c&&c.v===1&&c.d)MAPD=c.d}catch(e){}
+const MAPU=['https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json','https://unpkg.com/world-atlas@2.0.2/countries-110m.json'];
+function topoPath(t){ // TopoJSON (world-atlas countries) -> one SVG path in lon/-lat degrees
+ const tr=t.transform||{scale:[1,1],translate:[0,0]},A=t.arcs.map(a=>{let x=0,y=0;return a.map(q=>{x+=q[0];y+=q[1];return[x*tr.scale[0]+tr.translate[0],y*tr.scale[1]+tr.translate[1]]})});
+ const arc=i=>i<0?A[~i].slice().reverse():A[i],ring=r=>{const o=[];r.forEach((i,k)=>{const a=arc(i);for(let j=k?1:0;j<a.length;j++)o.push(a[j])});return o};
+ let d='';const draw=pts=>{d+=pts.map((q,k)=>(k?'L':'M')+(+q[0].toFixed(1))+' '+(+(-q[1]).toFixed(1))).join('')+'Z'};
+ const ob=t.objects.countries||Object.values(t.objects)[0],gs=ob.type==='GeometryCollection'?ob.geometries:[ob];
+ for(const g of gs){if(g.type==='Polygon')g.arcs.forEach(r=>draw(ring(r)));else if(g.type==='MultiPolygon')g.arcs.forEach(p=>p.forEach(r=>draw(ring(r))))}
+ return d}
+async function mapLoad(){
+ if(MAPD||MAPS==='loading')return;MAPS='loading';
+ for(const u of MAPU){try{const r=await fetch(u);if(!r.ok)continue;const d=topoPath(await r.json());if(d.length>1000){MAPD=d;try{localStorage.setItem('cwmap',JSON.stringify({v:1,d}))}catch(e){}MAPS='ok';vmDraw();return}}catch(e){}}
+ MAPS='fail';vmDraw()}
+const VM={x:-180,y:-90,w:360,h:180,fit:true,pins:[],no:0,me:null};
+const modeCol=m=>m==='FM'?'#ff5fa8':(m==='DV'||m==='D-STAR'||m==='VOIP')?'#4ade80':'#5b9cff';
+function vmData(){
+ const mp=new Map();let no=0;
+ for(const r of LOG){if(!inG(r,'VOICE'))continue;const g=(r.g||'').toUpperCase(),ll=gridLL(g);if(!ll){no++;continue}
+  const k=r.c+'|'+g;let o=mp.get(k);if(!o){o={c:r.c,g,ll,n:0,t:'',m:new Set()};mp.set(k,o)}
+  o.n++;o.m.add(mdKey(r.m));if((r.d+' '+r.t)>=o.t){o.t=r.d+' '+r.t;o.lm=mdKey(r.m);o.nm=r.n||''}}
+ VM.pins=[...mp.values()];VM.no=no;VM.me=gridLL((S.my&&S.my.loc)||'')}
+function vmFit(){
+ const pts=VM.pins.map(p=>p.ll);if(VM.me)pts.push(VM.me);
+ const sv=$('#vsvg'),asp=(sv.clientWidth&&sv.clientHeight)?sv.clientWidth/sv.clientHeight:2;
+ if(!pts.length){VM.x=-180;VM.y=-90;VM.w=360;VM.h=180;return}
+ let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const[la,lo]of pts){x0=Math.min(x0,lo);x1=Math.max(x1,lo);y0=Math.min(y0,-la);y1=Math.max(y1,-la)}
+ let w=Math.max((x1-x0)*1.3,10),h=Math.max((y1-y0)*1.3,5);if(w/h<asp)w=h*asp;else h=w/asp;
+ if(w>360){w=360;h=w/asp}
+ VM.x=(x0+x1)/2-w/2;VM.y=(y0+y1)/2-h/2;VM.w=w;VM.h=h}
+function vmView(){
+ const sv=$('#vsvg'),asp=(sv.clientWidth&&sv.clientHeight)?sv.clientWidth/sv.clientHeight:2,cx=VM.x+VM.w/2,cy=VM.y+VM.h/2;
+ VM.h=VM.w/asp;VM.x=cx-VM.w/2;VM.y=cy-VM.h/2;sv.setAttribute('viewBox',VM.x.toFixed(3)+' '+VM.y.toFixed(3)+' '+VM.w.toFixed(3)+' '+VM.h.toFixed(3))}
+function vmDraw(){
+ if($('#p4').hidden||QG!=='VOICE'||$('#vmbox').hidden)return;
+ const sv=$('#vsvg'),NS='http://www.w3.org/2000/svg',mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+ vmData();if(VM.fit)vmFit();vmView();
+ const land=$('#vland');if(land.getAttribute('data-ok')!==(MAPD?'1':'0')){land.setAttribute('d',MAPD);land.setAttribute('data-ok',MAPD?'1':'0')}
+ const k=VM.w/(sv.clientWidth||700),gl=$('#vgl'),pn=$('#vpins');gl.replaceChildren();pn.replaceChildren();
+ const st=VM.w>120?30:VM.w>40?10:VM.w>12?5:1;
+ for(let lo=Math.ceil(VM.x/st)*st;lo<=VM.x+VM.w;lo+=st){gl.append(mk('line',{x1:lo,y1:-90,x2:lo,y2:90,class:'gl'}));if(lo>-180&&lo<180){const t=mk('text',{x:lo+k*3,y:VM.y+VM.h-k*4,'font-size':10*k});t.textContent=lo+'°';gl.append(t)}}
+ for(let la=Math.ceil(-(VM.y+VM.h)/st)*st;la<=-VM.y;la+=st){gl.append(mk('line',{x1:-180,y1:-la,x2:180,y2:-la,class:'gl'}));if(la>-90&&la<90){const t=mk('text',{x:VM.x+k*3,y:-la-k*3,'font-size':10*k});t.textContent=la+'°';gl.append(t)}}
+ const r=5.5*k,mkpin=p=>{const c=mk('circle',{cx:p.ll[1],cy:-p.ll[0],r:p.n>1?r*1.25:r,class:'pin',fill:modeCol(p.lm)});
+  const km=VM.me?gridKm((S.my&&S.my.loc)||'',p.g):0;
+  c.append(Object.assign(mk('title',{}),{textContent:p.c+' · '+[...p.m].join('/')+' · '+p.n+' QSO · '+p.g+(km?' · '+km.toLocaleString()+' km':'')+' · ล่าสุด '+p.t.slice(0,16)}));
+  c.onclick=e=>{e.stopPropagation();$('#vmi').textContent=p.c+(p.nm?' ('+p.nm+')':'')+' · '+[...p.m].join('/')+' · '+p.n+' QSO · Grid '+p.g+(km?' · ห่างจากเรา '+km.toLocaleString()+' km':'')+' · ล่าสุด '+p.t.slice(0,16)+' UTC'};return c};
+ VM.pins.forEach(p=>pn.append(mkpin(p)));
+ if(VM.me){const m=mk('path',{d:`M${VM.me[1]} ${-VM.me[0]-r*1.6}L${VM.me[1]+r*1.4} ${-VM.me[0]+r}L${VM.me[1]-r*1.4} ${-VM.me[0]+r}Z`,class:'me'});m.append(Object.assign(mk('title',{}),{textContent:'สถานีของเรา '+((S.my&&S.my.call)||'')+' '+(S.my&&S.my.loc||'')}));pn.append(m)}
+ const far=VM.me?VM.pins.reduce((a,p)=>{const d=gridKm((S.my&&S.my.loc)||'',p.g);return d>a.d?{d,c:p.c}:a},{d:0,c:''}):null;
+ $('#vms').textContent=VM.pins.length+' สถานีบนแผนที่'+(VM.no?' · '+VM.no+' QSO ไม่มี Grid':'')+(far&&far.d?' · ไกลสุด '+far.c+' '+far.d.toLocaleString()+' km':'')+(VM.me?'':' · ใส่ Location ของเราที่ ตั้งค่า เพื่อแสดงตำแหน่งเรา');
+ if(MAPD){if(/แผนที่โลก/.test($('#vmi').textContent))$('#vmi').textContent=''}else $('#vmi').textContent=MAPS==='loading'?'กำลังโหลดแผนที่โลก ...':'โหลดแผนที่โลกไม่ได้ (ต้องต่ออินเทอร์เน็ตครั้งแรก) ยังแสดงหมุดบนตารางละติจูด/ลองจิจูดได้'}
+(()=>{const sv=$('#vsvg');let dr=null;
+ const zoom=(f,cx,cy)=>{VM.fit=false;const nw=Math.min(360,Math.max(0.5,VM.w*f)),fx=cx==null?.5:cx,fy=cy==null?.5:cy;VM.x+=(VM.w-nw)*fx;VM.y+=(VM.h-nw*VM.h/VM.w)*fy;VM.h=nw*VM.h/VM.w;VM.w=nw;vmDraw()};
+ sv.addEventListener('wheel',e=>{e.preventDefault();const b=sv.getBoundingClientRect();zoom(e.deltaY<0?1/1.25:1.25,(e.clientX-b.left)/b.width,(e.clientY-b.top)/b.height)},{passive:false});
+ sv.addEventListener('pointerdown',e=>{dr={x:e.clientX,y:e.clientY,vx:VM.x,vy:VM.y,go:false,id:e.pointerId}});
+ sv.addEventListener('pointermove',e=>{if(!dr)return;if(!dr.go){if(Math.hypot(e.clientX-dr.x,e.clientY-dr.y)<4)return;dr.go=true;try{sv.setPointerCapture(dr.id)}catch(_){}sv.classList.add('dr')}const b=sv.getBoundingClientRect();VM.fit=false;VM.x=dr.vx-(e.clientX-dr.x)*VM.w/b.width;VM.y=dr.vy-(e.clientY-dr.y)*VM.h/b.height;vmView();vmDraw()});
+ const up=()=>{dr=null;sv.classList.remove('dr')};sv.addEventListener('pointerup',up);sv.addEventListener('pointercancel',up);
+ $('#vzi').onclick=()=>zoom(1/1.6);$('#vzo').onclick=()=>zoom(1.6);$('#vzf').onclick=()=>{VM.fit=true;vmDraw()};$('#vzw').onclick=()=>{VM.fit=false;VM.x=-180;VM.y=-90;VM.w=360;VM.h=180;vmDraw()};
+ window.addEventListener('resize',()=>{if(isVoice())vUpd()})})();
+// ---- VOICE page: mode cards + line graph (QSO by band, one line per mode) ----
+const MCOL={FM:'#ff5fa8',SSB:'#5b9cff',LSB:'#2dd4bf',USB:'#fb923c',DV:'#a78bfa','D-STAR':'#4ade80',VOIP:'#94a3b8',AM:'#e879f9'};
+const mLab=k=>(GR.VOICE.modes.find(x=>x[0]===k)||[0,k])[1];
+function vCards(){
+ const el=$('#vcards');if(!el||el.hidden)return;
+ el.replaceChildren(...GR.VOICE.modes.map(([k,l])=>{
+  const rs=LOG.filter(r=>inG(r,'VOICE')&&mdKey(r.m)===k),last=rs.length?rs.reduce((a,r)=>((r.d+r.t)>(a.d+a.t)?r:a)):null,
+   b=E('button',{className:'mc'+(k===QM?' on':''),title:'เลือกโหมด '+l});
+  b.append(E('span',{className:'ml',textContent:l}),E('b',{textContent:String(rs.length)}),E('small',{textContent:last?last.c+(last.b?' · '+last.b:''):'–'}));
+  b.onclick=()=>{QM=k;S.qm=S.qm||{};S.qm.VOICE=k;save();qSetup();vUpd()};return b}))}
+function vGraph(){
+ const el=$('#vgraph');if(!el||$('#vgbox').hidden||$('#p4').hidden||QG!=='VOICE')return;
+ const NS='http://www.w3.org/2000/svg',mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+ const W=el.clientWidth||800,H=el.clientHeight||260,L=40,Rr=14,T=12,B=28,pw=W-L-Rr,ph=H-T-B,rows=LOG.filter(r=>inG(r,'VOICE'));
+ const modes=[...GR.VOICE.modes.map(x=>x[0]),...[...new Set(rows.map(r=>mdKey(r.m)))].filter(m=>!GR.VOICE.modes.some(x=>x[0]===m))];
+ const have=new Set([...Object.keys(VP),...rows.map(r=>r.b).filter(Boolean)]),bands=BANDS.map(x=>x[0]).filter(b=>have.has(b));
+ const cnt={},tot={},nob=rows.filter(r=>!r.b).length;rows.forEach(r=>{const m=mdKey(r.m);tot[m]=(tot[m]||0)+1;if(r.b){const k=m+'|'+r.b;cnt[k]=(cnt[k]||0)+1}});
+ const hide=S.vhide||[],vis=modes.filter(m=>!hide.includes(m)&&tot[m]);
+ const ymax=Math.max(4,...vis.map(m=>Math.max(0,...bands.map(b=>cnt[m+'|'+b]||0)))),step=Math.max(1,Math.ceil(ymax/4)),top=step*Math.ceil(ymax/step);
+ const X=i=>L+(bands.length>1?i*pw/(bands.length-1):pw/2),Y=v=>T+ph-v*ph/top;
+ const sv=mk('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'กราฟเส้นจำนวน QSO ตามย่านความถี่และโหมด'});
+ for(let v=0;v<=top;v+=step){sv.append(mk('line',{x1:L,x2:W-Rr,y1:Y(v),y2:Y(v),class:v?'gy':'ax'}));const t=mk('text',{x:L-6,y:Y(v)+4,'text-anchor':'end'});t.textContent=v;sv.append(t)}
+ bands.forEach((b,i)=>{const t=mk('text',{x:X(i),y:H-9,'text-anchor':'middle'});t.textContent=b;sv.append(t);sv.append(mk('line',{x1:X(i),x2:X(i),y1:T,y2:T+ph,class:'gy','stroke-dasharray':'2 4'}))});
+ vis.forEach(m=>{const col=MCOL[m]||'#aaa',sel=m===QM,pts=bands.map((b,i)=>[X(i),Y(cnt[m+'|'+b]||0)]);
+  sv.append(mk('polyline',{points:pts.map(q=>q.join(',')).join(' '),class:'ln',stroke:col,'stroke-width':sel?3.4:2,opacity:sel?1:.8}));
+  bands.forEach((b,i)=>{const c=cnt[m+'|'+b]||0;if(!c)return;const d=mk('circle',{cx:X(i),cy:Y(c),r:sel?5:3.6,fill:col,class:'pt'});d.append(Object.assign(mk('title',{}),{textContent:mLab(m)+' · '+b+' · '+c+' QSO'}));sv.append(d)})});
+ if(!rows.length){const t=mk('text',{x:W/2,y:H/2,'text-anchor':'middle'});t.setAttribute('style','font:14px "IBM Plex Sans Thai",sans-serif');t.textContent='ยังไม่มี QSO โหมด VOICE เมื่อบันทึกแล้ว เส้นกราฟแต่ละโหมดจะแสดงที่นี่';sv.append(t)}
+ el.replaceChildren(sv);
+ $('#vglg').replaceChildren(...modes.map(m=>{const b=E('button',{className:(hide.includes(m)?'off ':'')+(m===QM?'sel':''),title:'กดเพื่อซ่อน/แสดงเส้น '+mLab(m)}),i=E('i');i.style.background=MCOL[m]||'#aaa';b.append(i,document.createTextNode(mLab(m)+' '+(tot[m]||0)));
+  b.onclick=()=>{S.vhide=hide.includes(m)?hide.filter(x=>x!==m):[...hide,m];save();vGraph()};return b}),...(nob?[E('span',{textContent:nob+' QSO ไม่มีย่านความถี่ จึงไม่อยู่ในกราฟ'})]:[]))}
+// ---- S-meter (top strip), radio screen with meters / DUP / TONE / scope (VOICE page) ----
+const vtab=()=>S.vtab==='m'||S.vtab==='g'?S.vtab:'r';
+if(S.vtv!==2){S.vtab='r';S.vtv=2;save()} // one-time: the radio screen is the main view of the panel
+const vOn=()=>!$('#p4').hidden&&QG==='VOICE';
+const scrOn=()=>vOn()&&vtab()==='r';
+(()=>{const m=$('#smt');for(let i=0;i<30;i++)m.append(E('i',{className:i>=18?'hi':''}));
+ const sc=$('#sms');for(const[l,pc]of[['1',1/9*.6],['3',3/9*.6],['5',5/9*.6],['7',7/9*.6],['9',.6],['+20',.6+20/60*.4],['+40',.6+40/60*.4],['+60',1]])sc.append(E('span',{textContent:l,style:'left:'+(pc*100)+'%'}))})();
+function sMeter(){
+ if(!vOn())return;
+ const fresh=rigOK()&&rig.sm!=null&&Date.now()-rig.smt<3000&&!(tx.on||rig.ptt),v=fresh?rig.sm:0,pos=v<=120?v/120*.6:.6+(v-120)/121*.4,lit=Math.round(pos*30);
+ [...$('#smt').children].forEach((e,k)=>e.classList.toggle('on',k<lit));
+ $('#smv').textContent=!fresh?'--':v<=120?'S'+Math.round(v/120*9):'S9+'+Math.round((v-120)/121*60)}
+function pw(v,p){for(let i=1;i<p.length;i++)if(v<=p[i][0]){const a=p[i-1],b=p[i];return a[1]+(b[1]-a[1])*(v-a[0])/(b[0]-a[0])}return p[p.length-1][1]}
+// CI-V 15 xx meters, IC-7300 calibration (raw 0-255)
+const GAU=[{n:'ALC',c:0x13,f:v=>pw(v,[[0,0],[120,100],[255,212]]),t:x=>x.toFixed(0)+' %',m:160,tx:1},
+ {n:'SWR',c:0x12,f:v=>pw(v,[[0,1],[48,1.5],[80,2],[120,3],[255,6]]),t:x=>x>=5.9?'>5':x.toFixed(1),m:160,tx:1},
+ {n:'TEMP',c:0,t:()=>'N/A',m:1,title:'IC-7300 ไม่มีคำสั่ง CI-V สำหรับอ่านอุณหภูมิ'},
+ {n:'VOLT',c:0x15,f:v=>pw(v,[[0,0],[13,10],[241,16]]),t:x=>x.toFixed(1)+' V',m:241},
+ {n:'AMP',c:0x16,f:v=>pw(v,[[0,0],[97,10],[146,15],[241,25]]),t:x=>x.toFixed(1)+' A',m:241}];
+$('#rsg').replaceChildren(...GAU.map(g=>{const bar=E('div',{className:'smt'});for(let i=0;i<30;i++)bar.append(E('i',{className:i>=24?'hi':''}));const r=E('div',{className:'rg',title:g.title||g.n});r.append(E('span',{className:'rgl',textContent:g.n}),bar,E('span',{className:'rgv',textContent:'--'}));return r}));
+// scope (CI-V 27 00): frames of up to ~11 divisions; header in division 1 = mode, 2 x 5-byte BCD freq, out-of-range flag
+const AFMAX=3000,SC={id:'rsc',cur:null,line:null,ts:0,mode:0,a:0,b:0,oor:0,h:null,v:{},af:0},SA={id:'rsa',line:null,ts:0,mode:2,a:0,b:AFMAX,oor:0,v:{},af:1};
+const bcdHz=(d,i)=>{let hz=0,m=1;for(let k=0;k<5;k++){const x=d[i+k]||0;hz+=((x>>4)*10+(x&15))*m;m*=100}return hz};
+function scopeFrame(q){
+ const bc=x=>(x>>4)*10+(x&15),seq=bc(q[1]),mx=bc(q[2]);if(!(seq>=1&&mx>=1))return;
+ if(seq===1){SC.cur=[];SC.h={mode:q[3],a:bcdHz(q,4),b:bcdHz(q,9),oor:q[14]};for(let i=15;i<q.length;i++)SC.cur.push(q[i])}
+ else if(SC.cur)for(let i=3;i<q.length;i++)SC.cur.push(q[i]);
+ if(seq===mx&&SC.cur&&SC.cur.length>=16&&SC.h){SC.line=Uint8Array.from(SC.cur);SC.cur=null;Object.assign(SC,SC.h,{ts:Date.now()});scAdd(SC)}}
+// audio pane: spectrum + waterfall of the audio from the radio (0-3000 Hz); needs "start listening"
+function afTick(){
+ if(!scrOn()||audOwner!=='VOICE'||!an||!ac||!stream)return;
+ const q=new Float32Array(an.frequencyBinCount);an.getFloatFrequencyData(q);
+ const bw=ac.sampleRate/an.fftSize,n=Math.min(q.length,Math.floor(AFMAX/bw)),L=new Uint8Array(n);
+ for(let i=0;i<n;i++)L[i]=Math.round(Math.min(Math.max((q[i]+110)/90,0),1)*160);
+ SA.line=L;SA.ts=Date.now();scAdd(SA)}
+setInterval(afTick,90);
+const SCP=(()=>{const st=[[0,[2,6,20]],[.2,[6,24,90]],[.45,[20,110,220]],[.7,[80,220,240]],[.88,[255,220,60]],[1,[255,255,255]]],L=[];for(let i=0;i<256;i++){const t=i/255;let k=1;while(k<st.length-1&&t>st[k][0])k++;const a=st[k-1],b=st[k],f=(t-a[0])/(b[0]-a[0]);L.push(a[1].map((v,j)=>Math.round(v+(b[1][j]-v)*f)))}return L})();
+function scInit(o){
+ const c=$('#'+o.id),r=c.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1),w=Math.round(r.width*d),h=Math.round(r.height*d),v=o.v;if(!w||!h)return false;
+ if(v.w!==w||v.h!==h){c.width=w;c.height=h;v.x=c.getContext('2d');v.w=w;v.h=h;v.d=d;v.sh=Math.round(h*.42);v.wf=document.createElement('canvas');v.wf.width=w;v.wf.height=h-v.sh;v.wx=v.wf.getContext('2d');v.wx.fillStyle='#02060d';v.wx.fillRect(0,0,w,v.wf.height)}
+ return true}
+function scAdd(o){
+ if(!scrOn()||!scInit(o))return;
+ const v=o.v,L=o.line,w=v.w,rows=Math.max(1,Math.round(v.d*1.5));
+ v.wx.drawImage(v.wf,0,rows);
+ const im=v.wx.createImageData(w,rows);
+ for(let x=0;x<w;x++){const a=Math.min(160,L[Math.floor(x*L.length/w)]||0),c=SCP[Math.round(a/160*255)];for(let r=0;r<rows;r++){const q=(r*w+x)*4;im.data[q]=c[0];im.data[q+1]=c[1];im.data[q+2]=c[2];im.data[q+3]=255}}
+ v.wx.putImageData(im,0,0);scTxt();scDraw(o)}
+function scRange(o){return o.mode===0?[o.a-o.b,o.a+o.b]:[o.a,o.b]}
+function scDraw(o){
+ if(!scrOn()||!scInit(o))return;
+ const v=o.v,x=v.x,w=v.w,h=v.h,sh=v.sh,k=v.d,L=o.line,fresh=!!L&&Date.now()-o.ts<3000;
+ x.fillStyle='#050d18';x.fillRect(0,0,w,h);
+ x.strokeStyle='#10304f';x.lineWidth=1;x.beginPath();for(let i=1;i<10;i++){const px=Math.round(i*w/10)+.5;x.moveTo(px,0);x.lineTo(px,h)}for(let i=1;i<4;i++){const py=Math.round(i*sh/4)+.5;x.moveTo(0,py);x.lineTo(w,py)}x.stroke();
+ if(fresh){
+  const n=L.length,g=x.createLinearGradient(0,0,0,sh);g.addColorStop(0,'rgba(56,189,248,.55)');g.addColorStop(1,'rgba(56,189,248,.04)');
+  x.beginPath();x.moveTo(0,sh);for(let i=0;i<n;i++)x.lineTo(i/(n-1)*w,sh-3-Math.min(160,L[i])/160*(sh-8));x.lineTo(w,sh);x.closePath();x.fillStyle=g;x.fill();
+  x.beginPath();for(let i=0;i<n;i++){const px=i/(n-1)*w,py=sh-3-Math.min(160,L[i])/160*(sh-8);i?x.lineTo(px,py):x.moveTo(px,py)}x.strokeStyle='#7dd3fc';x.lineWidth=1.2*k;x.stroke();
+  x.drawImage(v.wf,0,sh);
+  const[lo,hi]=scRange(o),cur=rigOK()?rig.hz:0,mx=o.af?-1:o.mode===0?w/2:(cur>=lo&&cur<=hi?(cur-lo)/(hi-lo)*w:-1);
+  if(mx>=0){x.strokeStyle='#fbbf24';x.lineWidth=1.2*k;x.setLineDash([5*k,4*k]);x.beginPath();x.moveTo(mx,0);x.lineTo(mx,h);x.stroke();x.setLineDash([])}
+  x.fillStyle='#8fd3f5';x.font=(10.5*k)+'px "IBM Plex Mono",monospace';x.textBaseline='top';
+  const ff=q=>o.af?Math.round(q)+' Hz':(q/1e6).toFixed(3);
+  x.textAlign='left';x.fillText(ff(lo),4*k,3*k);x.textAlign='right';x.fillText(ff(hi),w-4*k,3*k);
+  if(!o.af){x.textAlign='center';x.fillText((o.mode===0?o.a/1e6:(lo+hi)/2e6).toFixed(3)+' MHz',w/2,3*k)}}
+ else{
+  x.fillStyle='rgba(3,8,16,.6)';x.fillRect(0,0,w,h);x.fillStyle='#7dd3fc';x.textAlign='center';x.textBaseline='middle';x.font=(12.5*k)+'px "IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif';
+  const lo=(+S.baud||9600)<115200;
+  const t1=o.af?(audOwner==='VOICE'&&stream?'กำลังรอเสียง ...':audBusy()?'เสียงเข้ากำลังใช้งานโหมด '+audOwner:'ยังไม่ได้เริ่มฟังเสียง'):(!rigOK()?'ยังไม่มีข้อมูล Scope จากวิทยุ':lo?'Scope ของวิทยุต้องใช้ CI-V Baud 115200':'กำลังรอข้อมูล Scope จากวิทยุ ...'),
+   t2=o.af?(audOwner==='VOICE'&&stream?'':audBusy()?'กด "เริ่มฟังเสียง" เพื่อสลับ (ต้องหยุดโหมด '+audOwner+' ก่อน)':'กด "เริ่มฟังเสียง" ด้านล่าง'):(rigOK()&&lo?'ใช้ช่อง AUDIO ด้านขวาแทนได้':'');
+  x.fillText(t1,w/2,h/2-(t2?9:0)*k);if(t2){x.fillStyle='#5ea8c9';x.font=(11*k)+'px "IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif';x.fillText(t2,w/2,h/2+12*k)}}}
+if(window.ResizeObserver){const ro=new ResizeObserver(()=>{if(scrOn()){scDraw(SC);scDraw(SA)}});ro.observe($('#rsc'));ro.observe($('#rsa'))}
+function rScr(){
+ sMeter();if(!scrOn())return;
+ const live=rigOK(),cf=curFreq(),mhz=parseFloat(cf),hz=live?rig.hz:(isFinite(mhz)?Math.round(mhz*1e6):0),i=utcNow(),txn=!!(tx.on||rig.ptt),nw=Date.now();
+ const st=$('#rsst');st.textContent=live?'CAT เชื่อมต่อ':rigBusy()?'วิทยุใช้อยู่กับโหมด '+rigOwner:txPort?'รอข้อมูลจากวิทยุ':'ไม่ได้เชื่อมต่อ · ความถี่ตั้งเอง';st.classList.toggle('on',live);
+ const tr=$('#rstx');tr.textContent=txn?'TX':'RX';tr.classList.toggle('tx',txn);
+ $('#rsf').innerHTML=hz?Math.floor(hz/1e6)+'.'+String(Math.floor(hz%1e6/1e3)).padStart(3,'0')+'.'+String(hz%1e3).padStart(3,'0')+'<small>MHz</small>':'--.---.---<small>MHz</small>';
+ $('#rsmd').textContent=live&&rig.mode?rig.mode:'--';
+ const bn=bandOf(hz/1e6),bd=$('#rsbd');bd.textContent=bn||'--';bcol(bd,bn);
+ const dp=$('#rsdp'),dOn=live&&(rig.dup==='-'||rig.dup==='+');dp.textContent='DUP'+(dOn?(rig.dup==='-'?'−':'+'):'');dp.classList.toggle('on',dOn);
+ const tn=$('#rstn'),tOn=live&&(rig.tone||rig.tsql);tn.textContent=live&&rig.tsql?'T-SQL':'TONE';tn.classList.toggle('on',!!tOn);
+ const th=rsRange((THB.find(x=>x[0]===bn)||[])[1]);$('#rsoo').hidden=!(hz&&bn&&th&&(hz/1e6<th[0]||hz/1e6>th[1]));
+ GAU.forEach((g,k)=>{const row=$('#rsg').children[k],m=g.c?rig.mt[g.c]:null,ok=m&&live&&nw-m.t<4000;
+  const lit=ok?Math.round(Math.min(1,m.v/g.m)*30):0;[...row.querySelector('.smt').children].forEach((e,j)=>e.classList.toggle('on',j<lit));row.querySelector('.rgv').textContent=ok?g.t(g.f(m.v)):g.c?'--':'N/A';row.classList.toggle('dim',!!g.tx&&!txn)});
+ scTxt();scDraw(SC);scDraw(SA)}
+$('#rsaf').onclick=async()=>{if(audOwner==='VOICE'){stopAll();SA.line=null;scTxt();audUI();scDraw(SA);return}await live();setTimeout(()=>{scTxt();audUI()},600)};
+function scTxt(){const nw=Date.now(),[lo,hi]=scRange(SC),f1=SC.line&&nw-SC.ts<3000,f2=SA.line&&nw-SA.ts<3000;
+ $('#rscs').textContent=f1?'Scope '+(SC.mode===0?'Center ±'+(SC.b/1e3).toFixed(1)+' kHz':'Fixed')+(SC.oor?' · นอกช่วง':''):'Scope: ไม่มีข้อมูล';
+ $('#rscr').textContent=f1?(lo/1e6).toFixed(3)+' – '+(hi/1e6).toFixed(3)+' MHz':'';
+ $('#rsas').textContent=f2?'Audio · เสียงที่ได้ยิน':audBusy()?'Audio: ใช้อยู่กับโหมด '+audOwner:'Audio: ยังไม่ได้เริ่มฟัง';$('#rsar').textContent=f2?'0 – '+AFMAX+' Hz':'';
+ audUI()}
+function rsRange(s){const m=/([\d.]+)\D+([\d.]+)/.exec(s||'');return m?[+m[1],+m[2]]:null}
+function vShow(){const v=vtab();$('#vgbox').hidden=v!=='g';$('#vmbox').hidden=v!=='m';$('#vrbox').hidden=v!=='r';document.querySelectorAll('#vtabs button').forEach(b=>b.classList.toggle('pri',b.dataset.v===v));if(v==='m'){mapLoad();VM.fit=true}vUpd()}
+function vUpd(){if($('#p4').hidden||QG!=='VOICE')return;vCards();const v=vtab();if(v==='m')vmDraw();else if(v==='r')rScr();else vGraph()}
+document.querySelectorAll('#vtabs button').forEach(b=>b.onclick=()=>{S.vtab=b.dataset.v;save();requestAnimationFrame(vShow)});
+let QL='',QFS='';
+function qSync(){const f=$('#qf'),cf=curFreq();if(cf!==QFS&&(document.activeElement!==f||f.value===QFS)){f.value=cf;QFS=cf}}
+function qSetup(){
+ const g=GR[QG],sat=QG==='SAT',key=QG+':'+QM;
+ if(QL!==key){if(QL){$('#qf').value='';QFS=''}QL=key}
+ const lab=(g.modes.find(x=>x[0]===QM)||[0,QM])[1];
+ $('#qt').textContent=g.n;$('#qlt2').textContent='QSO '+g.n+' ที่บันทึกไว้';
+ const md=$('#qmodes');md.hidden=!g.modes.length;
+ md.replaceChildren(...g.modes.map(([k,l])=>{const b=E('button',{textContent:l,className:k===QM?'pri':'',title:'โหมด '+l});b.onclick=()=>{QM=k;S.qm=S.qm||{};S.qm[QG]=k;save();qSetup();$('#qc').focus()};return b}));
+ document.querySelectorAll('#p4 label.qs').forEach(l=>l.hidden=!sat);
+ if(sat){$('#qsat').value=$('#qsat').value||S.qsat||'';$('#qsm').value=S.qsm||'FM'}
+ qPh();qMsgClear();if(QG==='VOICE')vCards()}
+function qMd(){return QG==='SAT'?$('#qsm').value:QM}
+function qPh(){qSync();const d=mdRst(qMd());$('#qs').placeholder=$('#qr').placeholder=d;const f=curFreq();$('#qf').placeholder=f||'14.074';
+ $('#qrig').textContent=rigOK()?'วิทยุ '+fmtMHz(rig.hz)+' MHz'+(rig.mode?' · '+rig.mode:''):''}
+function qMsgClear(){$('#qinfo').textContent=''}
+const QA={c:'',n:'',q:'',g:''},QAF={n:'#qn',q:'#qq',g:'#qg'};
+function qClrAuto(){for(const k in QAF){const el=$(QAF[k]);if(QA[k]&&el.value===QA[k])el.value='';QA[k]=''}}
+function qAuto(k,v){const el=$(QAF[k]);v=v||'';if(!el.value||(QA[k]&&el.value===QA[k])){el.value=v;QA[k]=v}else QA[k]=''}
+let qlT=0;
+async function qLook(){
+ clearTimeout(qlT);
+ const c=qv('#qc').toUpperCase();if(c.length<3)return;
+ let z=QZ[c];
+ if(z===undefined&&(qzOn()||hqOn()))z=await Promise.race([qrzLookup(c),sleep(4000).then(()=>undefined)]);
+ if(qv('#qc').toUpperCase()!==c)return;
+ QA.c=c;
+ if(z&&!z.nf){qAuto('n',z.n);qAuto('q',z.q);qAuto('g',gOf(z,c))}else qClrAuto();
+ $('#qinfo').textContent=pxQ(c)||''}
+// callsign changed: drop name/QTH/Grid that were filled for the previous station, look up the new one after a short pause
+$('#qc').oninput=()=>{const c=qv('#qc').toUpperCase();if(c!==QA.c){qClrAuto();$('#qinfo').textContent=''}clearTimeout(qlT);if(c.length>=4&&/\d/.test(c))qlT=setTimeout(qLook,800)};
+async function addQso(){
+ const call=qv('#qc').toUpperCase().replace(/\s+/g,''),sat=QG==='SAT',md=qMd(),satn=sat?qv('#qsat').toUpperCase():'';
+ if(!call){lmsg('พิมพ์ Callsign คู่สถานีก่อน');$('#qc').focus();return}
+ if(sat&&!satn){lmsg('ใส่ชื่อดาวเทียมก่อน');$('#qsat').focus();return}
+ let z=QZ[call];
+ if(z===undefined&&(qzOn()||hqOn())){lmsg('กำลังค้น QRZ ...');z=await Promise.race([qrzLookup(call),sleep(4000).then(()=>undefined)])}
+ if(z&&z.nf)z=null;
+ const i=utcNow(),d=i.slice(0,10),t=i.slice(11,19),pf=PFX.find(x=>x[0].test(call));
+ if(LOG.some(l=>l.c===call&&l.d===d&&(l.t||'').slice(0,5)===t.slice(0,5)&&mdKey(l.m)===mdKey(md)&&(l.pm==='SAT')===sat)){lmsg('บันทึก '+call+' เวลา '+t.slice(0,5)+' UTC ไปแล้ว');return}
+ const pv=vOn()?0:parseMHz(qv('#qf')),fr=pv?mhzS(pv):curFreq(),bn=bandOf(parseFloat(fr)),rd=mdRst(md);
+ const rec={d,t,c:call,f:fr,b:bn,m:md,n:qv('#qn')||(z&&z.n)||'',co:(z&&z.co)||(pf?pf[1]:''),q:qv('#qq')||(z&&z.q)||'',rs:(qv('#qs')||rd).toUpperCase(),rr:(qv('#qr')||rd).toUpperCase(),g:(qv('#qg')||gOf(z,call)||'').toUpperCase(),dx:(z&&z.dx)||(pf?pf[2]:''),cm:''};
+ if(sat){rec.pm='SAT';rec.sat=satn;S.qsat=satn;S.qsm=md;save()}
+ LOG.push(rec);saveLog();PG.qlt=0;
+ for(const id of['#qc','#qn','#qq','#qg','#qs','#qr'])$(id).value='';QA.c=QA.n=QA.q=QA.g='';qMsgClear();
+ renderLog();lmsg('บันทึกแล้ว: '+call+'  '+d+' '+t+' UTC  '+(sat?satn+' ':'')+md+(fr?'  '+kHz(fr)+' kHz '+bn:'')+'  RST '+rec.rs+'/'+rec.rr+(fr&&bn?'':'  ⚠ ยังไม่มีความถี่/ย่าน เติมในตารางก่อนส่งออก ADIF'));
+ const lt=$('#qlt');lt.scrollTop=0;$('#qc').focus()}
+$('#qadd').onclick=addQso;$('#qadi').onclick=()=>expAdif();$('#qcsv').onclick=()=>expCsv();
+$('#qc').onchange=qLook;$('#qsm').onchange=()=>{S.qsm=$('#qsm').value;save();qPh()};
+document.querySelectorAll('#p4 .qfp input').forEach(x=>x.onkeydown=e=>{if(e.key==='Enter'&&!e.ctrlKey&&!e.metaKey){e.preventDefault();if(x.id==='qc')qLook().then(()=>addQso());else addQso()}});
+$('#qkb').textContent=MAC?'⌘ Enter':'Ctrl Enter';
+const selAll=id=>{(LTP[id]||[]).forEach(i=>SEL.add(LOG[i]));renderLog()};
+$('#lgsel').onclick=()=>selAll('lt');$('#qsel').onclick=()=>selAll('qlt');
+$('#qselp').onclick=()=>{const a=LTP.qlt||[],pg=PG.qlt||0;a.slice(pg*PGS,pg*PGS+PGS).forEach(i=>SEL.add(LOG[i]));renderLog()};
+$('#lgclr').onclick=$('#qclr').onclick=()=>{SEL.clear();renderLog()};
 $('#lgadd').onclick=addLog;$('#lgadi').onclick=expAdif;$('#lgcsv').onclick=expCsv;
-const clk=()=>{const i=utcNow();$('#utc').textContent='UTC '+i.slice(0,10)+' '+i.slice(11,19)};clk();setInterval(clk,1000);
+const clk=()=>{const i=utcNow();$('#utc').textContent='UTC '+i.slice(0,10)+' '+i.slice(11,19);{const c=$('#vclk');if(c){c.textContent=i.slice(11,19);$('#vdate').textContent=i.slice(0,10)}}if(!$('#p0').hidden)clkD();rScr()};clk();setInterval(clk,1000);
 const dxin=$('#dxin');
 dxin.oninput=()=>{S.cur=dxin.value.trim().toUpperCase();upd()};
 dxin.onkeydown=e=>{if(e.key==='Enter'){const v=dxin.value.trim().toUpperCase();if(v&&!S.cur)S.cur=v;dxin.blur()}else if(e.key==='Escape')dxin.blur()};
@@ -1398,6 +1997,7 @@ dxin.onblur=upd;
 document.addEventListener('keydown',e=>{
  if(e.key==='Escape'){abortTx();return}
  // works everywhere (also while typing, and on laptops without a numpad): Alt/Option+1..6 = macro, Ctrl/Cmd+Enter = log QSO
+ if(!$('#p4').hidden&&e.key==='Enter'&&(e.ctrlKey||e.metaKey)&&!e.altKey){e.preventDefault();addQso();return}
  if(!$('#p1').hidden&&!e.repeat){
   const d=/^Digit([1-6])$/.exec(e.code);
   if(d&&e.altKey&&!e.ctrlKey&&!e.metaKey){const b=document.querySelector('#mac .mc button[data-n="'+d[1]+'"]');if(b){e.preventDefault();b.click()}return}
@@ -1421,18 +2021,22 @@ $('#txs').onchange=e=>{S.txs=e.target.value;save();if(txPort&&!tx.on)txPort.setS
 $('#side').onchange=e=>{S.side=e.target.checked;save()};
 $('#txstop').onclick=abortTx;
 if(!('serial' in navigator)){$('#txc').disabled=true;rigNote='เบราว์เซอร์นี้ไม่รองรับ Web Serial (ใช้ Chrome หรือ Edge) กรอกความถี่เองได้'}
-const discon=async()=>{abortTx();await catStop();if(txPort){try{await txPort.close()}catch(e){}}txPort=null;$('#txc').textContent='เชื่อมต่อวิทยุ (คีย์ / CAT)';updRig();upd()};
-$('#txc').onclick=async()=>{
- if(txPort){await discon();return}
- try{const p=await navigator.serial.requestPort();await p.open({baudRate:+S.baud||9600});txPort=p;rigNote='';
+const discon=async()=>{abortTx();await catStop();if(txPort){try{await txPort.close()}catch(e){}}txPort=null;rigOwner=null;connUI();updRig();upd()};
+async function rigConnect(reuse){
+ const m=rigMode()||'CW';
+ try{const p=(reuse&&rigLast)||await navigator.serial.requestPort();await p.open({baudRate:+S.baud||9600});txPort=p;rigLast=p;rigOwner=m;rigNote='';
   await p.setSignals({dataTerminalReady:false,requestToSend:false});
-  $('#txc').textContent='ตัดการเชื่อมต่อวิทยุ';catStart(p);updRig();upd()}
+  connUI();catStart(p);updRig();upd()}
  catch(e){const n=e&&e.name;
   rigMsg(n==='NotFoundError'?'ยังไม่ได้เลือกพอร์ต':
    n==='NetworkError'?'เปิดพอร์ตไม่ได้: พอร์ตนี้ถูกโปรแกรมอื่นใช้อยู่ (เช่น Log4OM, WSJT-X, โปรแกรมคุมวิทยุ) ให้ปิดหรือตัดการเชื่อมต่อพอร์ตนั้นก่อน แล้วลองใหม่':
    n==='SecurityError'?'เบราว์เซอร์ไม่อนุญาตให้ใช้พอร์ตอนุกรม':
-   'เชื่อมต่อพอร์ตไม่ได้ ('+(n||e)+')');}};
-if(navigator.serial)navigator.serial.addEventListener('disconnect',e=>{if(e.target===txPort){txPort=null;catStop();$('#txc').textContent='เชื่อมต่อวิทยุ (คีย์ / CAT)';rigMsg('พอร์ตหลุด (ถอดสาย USB หรือปิดวิทยุ?)');upd()}});
+   'เชื่อมต่อพอร์ตไม่ได้ ('+(n||e)+')');connUI()}}
+$('#txc').onclick=async()=>{
+ const m=rigMode();
+ if(txPort){if(!m||rigOwner===m){await discon();return}await rigSwitch(m,'connect');return}
+ await rigConnect(false)};
+if(navigator.serial)navigator.serial.addEventListener('disconnect',e=>{if(e.target===txPort){txPort=null;rigOwner=null;catStop();connUI();rigMsg('พอร์ตหลุด (ถอดสาย USB หรือปิดวิทยุ?)');upd()}});
 $('#baud').value=S.baud||'9600';$('#civ').value=S.civ||'94';
 $('#baud').onchange=e=>{S.baud=e.target.value;save()};
 $('#civ').oninput=e=>{S.civ=e.target.value.trim();save()};
@@ -1445,10 +2049,10 @@ th:{t:'คู่มือการใช้งาน',s:[
 ['เริ่มต้นใช้งานเร็ว',[
  'เปิดไฟล์นี้ด้วย <b>Chrome หรือ Edge</b> (ต้องใช้เบราว์เซอร์ที่รองรับ Web Serial เพื่อคีย์และอ่านความถี่จากวิทยุ)',
  'ไปที่ <b>ตั้งค่า</b> กรอกข้อมูลสถานีของเรา (Callsign, ชื่อ, QTH, RIG, ANT, PWR, WX, TMP) ข้อมูลนี้จะถูกเติมในข้อความมาโครและบันทึก Log',
- 'ที่หน้า <b>ตั้งค่า</b> การ์ด “เสียงเข้า” เลือกอุปกรณ์เสียงเข้า (ช่อง Mix/L/R ตามสาย) แล้วกลับหน้าหลักกด <b>เริ่มฟัง</b> ถ้ายังไม่มีวิทยุให้ลอง <b>เล่นโทนจำลอง</b> (อยู่ในการ์ดเดียวกัน)',
+ 'ที่หน้า <b>ตั้งค่า</b> การ์ด “เสียงเข้า” เลือกอุปกรณ์เสียงเข้า (ช่อง Mix/L/R ตามสาย) แล้วกลับหน้า CWกด <b>เริ่มฟัง</b> ถ้ายังไม่มีวิทยุให้ลอง <b>เล่นโทนจำลอง</b> (อยู่ในการ์ดเดียวกัน)',
  'ถ้าต้องการคีย์และอ่านความถี่ กด <b>เชื่อมต่อวิทยุ (คีย์ / CAT)</b> แล้วเลือกพอร์ต USB ของวิทยุ']],
 ['เสียงเข้าและการถอดรหัส',[
- 'แอปถอดสัญญาณ CW จากเสียงที่โทนที่ตั้งไว้ (ค่าเริ่มต้น 700 Hz) ถ้าเปิด <b>ติดตามโทนอัตโนมัติ</b> (ตั้งค่า &gt; เสียงเข้า) แอปจะหาโทนที่แรงที่สุดในช่วง 400–1000 Hz เอง ถ้าปิดไว้ให้ปรับแถบโทน (ตั้งค่า) หรือคลิกบนกราฟ Audio ที่หน้าหลัก ให้ตรงกับเสียงในวิทยุ (ตั้ง CW Pitch ของวิทยุให้ใกล้กัน)',
+ 'แอปถอดสัญญาณ CW จากเสียงที่โทนที่ตั้งไว้ (ค่าเริ่มต้น 700 Hz) ถ้าเปิด <b>ติดตามโทนอัตโนมัติ</b> (ตั้งค่า &gt; เสียงเข้า) แอปจะหาโทนที่แรงที่สุดในช่วง 400–1000 Hz เอง ถ้าปิดไว้ให้ปรับแถบโทน (ตั้งค่า) หรือคลิกบนกราฟ Audio ที่หน้า CW ให้ตรงกับเสียงในวิทยุ (ตั้ง CW Pitch ของวิทยุให้ใกล้กัน)',
  'ความเร็วที่แสดงคือความเร็วที่วัดได้จริงจากสัญญาณ ไม่ต้องตั้งเอง ถอดได้ประมาณ 10–40 WPM ถ้าสัญญาณอ่อนมาก ตัวอักษรอาจผิดหรือเป็น <b>*</b>',
  'ข้อความถอดแล้วแยกสี: Callsign, ชื่อ, QTH, RST, Prosign, Q-code',
  'ปุ่ม <b>บันทึกเสียง 30 วิ (.wav)</b> เก็บเสียงเข้าย้อนหลัง 30 วินาที ใช้ส่งให้ผู้พัฒนาตรวจเมื่อถอดผิดบ่อย']],
@@ -1465,17 +2069,24 @@ th:{t:'คู่มือการใช้งาน',s:[
  'ถ้าไม่ได้เชื่อมต่อวิทยุ แอปจะส่งเป็นเสียงโทนอย่างเดียว (ใช้ฝึก)',
  'ถ้าเปิด <b>บันทึก QSO อัตโนมัติ</b> (ตั้งค่า) เมื่อส่งมาโครตัวสุดท้าย (ปิดท้าย) จบ แอปจะบันทึก QSO แล้วจบการสนทนาให้ ถ้ากด Esc กลางคันจะไม่บันทึก']],
 ['วิทยุ / ความถี่ / ย่าน',[
+ 'วิทยุเชื่อมต่อได้ <b>ครั้งละ 1 โหมด</b> (CW หรือ VOICE) ปุ่มเชื่อมต่อของแต่ละหน้าควบคุมเฉพาะโหมดนั้น ถ้าวิทยุกำลังเชื่อมต่ออยู่กับอีกโหมด หน้านี้จะแสดงว่า “ใช้อยู่กับโหมด …” และเมื่อกดเชื่อมต่อหรือสั่งส่ง CW จะมีป๊อปอัพเตือนให้ตัดการเชื่อมต่อโหมดนั้นก่อน (กด “ตัดการเชื่อมต่อ … แล้วเชื่อมต่อ …” เพื่อสลับโดยไม่ต้องเลือกพอร์ตใหม่)',
+ 'เสียงเข้า (ปุ่ม “เริ่มฟัง” ของ CW และ “เริ่มฟังเสียง” ของ VOICE) ก็ใช้ได้ <b>ครั้งละ 1 โหมดเช่นกัน</b>: CW ใช้ถอดรหัส ส่วน VOICE ใช้แสดง Audio Scope ถ้าอีกโหมดกำลังฟังอยู่จะมีป๊อปอัพให้หยุดโหมดนั้นก่อน',
+ '<b>ส่งออกไป Log4OM / QRZ เฉพาะบางรายการ:</b> ตารางบันทึก QSO มีช่องติ๊กหน้าทุกแถว (ช่องบนหัวตาราง = เลือกทั้งหมดในตารางนั้น) และปุ่ม “เลือกทั้งหมด / เลือกหน้านี้ / ล้างที่เลือก” ถ้ามีรายการที่ติ๊กไว้ ปุ่ม “ส่งออก ADIF / CSV” จะส่งออกเฉพาะรายการนั้น (ปุ่มแสดงจำนวนที่เลือก) ถ้าไม่ได้เลือกเลยจะส่งออกทั้งหมดเหมือนเดิม',
+ 'ตารางของหน้า VOICE / DIGITAL / SATELLITE แสดงหน้าละ <b>10 QSO</b> เรียงล่าสุดไว้หน้าแรก ใช้ปุ่ม « ‹ › » เปลี่ยนหน้า การติ๊กเลือกคงอยู่ข้ามหน้า',
  'เมื่อเชื่อมต่อ แอปอ่านความถี่และโหมดจากวิทยุผ่าน CI-V ต่อเนื่อง ค่า Baud และ CI-V Address (IC-7300 = 94) ต้องตรงกับที่ตั้งในวิทยุ',
  'พอร์ตเปิดได้ทีละโปรแกรม ถ้าใช้ Log4OM หรือโปรแกรมอื่นอยู่ ต้องปิดก่อน',
  'ไม่ได้ต่อวิทยุ: พิมพ์ความถี่ (MHz) เอง ย่านจะคำนวณให้',
  '<b>พิมพ์ความถี่</b>ในช่องความถี่ (MHz เช่น 14.074 หรือ kHz เช่น 14074) แล้วกด Enter ถ้าต่อวิทยุอยู่ แอปจะสั่งวิทยุไปที่ความถี่นั้น (Esc ยกเลิก)',
- '<b>กดป้ายย่านสี ๆ</b> บนหน้าหลักเพื่อตั้งความถี่เป็นจุดเริ่มช่วง CW ของย่านนั้น ถ้าต่อวิทยุและเปิดตัวเลือกไว้ แอปจะสั่งวิทยุเปลี่ยนความถี่ให้ด้วย (ไม่ได้ส่งสัญญาณออกอากาศ และไม่ได้เปลี่ยนโหมด)',
+ '<b>กดป้ายย่านสี ๆ</b> บนหน้า CWเพื่อตั้งความถี่เป็นจุดเริ่มช่วง CW ของย่านนั้น ถ้าต่อวิทยุและเปิดตัวเลือกไว้ แอปจะสั่งวิทยุเปลี่ยนความถี่ให้ด้วย (ไม่ได้ส่งสัญญาณออกอากาศ และไม่ได้เปลี่ยนโหมด)',
  'ตารางย่านความถี่สมัครเล่นในไทยอยู่ที่หน้าตั้งค่า เป็นข้อมูลอ้างอิงเท่านั้น (RAST 2014 / IARU R3) เครื่องหมาย * คือยังไม่ยืนยัน ให้ตรวจกับประกาศ กสทช. ล่าสุด']],
 ['บันทึก QSO และส่งออก',[
  'กด <b>บันทึก QSO</b> (หรือ <kbd>Num Enter</kbd> หรือ <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>) ระบบเติมวันที่-เวลา UTC, Callsign, ความถี่ (kHz), ย่าน, โหมด, ชื่อ, ประเทศ, QTH, RST, Grid, DXCC ให้ แก้ไขในตารางได้ทุกช่อง',
  'ตารางเรียงเหมือน Log4OM: Qso Date, Callsign, Freq, Band, Mode, Name, Country, QTH, Rst (S), Rst (R), Gridsquare, Dxcc, Comment รายการใหม่อยู่บนสุด',
  'ช่องที่ขอบสีส้มคือยังไม่มีความถี่/ย่าน ต้องเติมก่อนส่งออกเพื่อให้ Log4OM นำเข้าได้',
  'ส่งออก <b>ADIF</b> (.adi) แล้วนำเข้าใน Log4OM ส่วน CSV เปิดด้วย Excel ได้',
+ 'บันทึก QSO <b>โหมดอื่นที่ไม่ใช่ CW</b>: ที่เมนูซ้ายกด <b>VOICE</b> (FM, SSB, LSB, USB, Digital Voice, D-STAR, VoIP), <b>DIGITAL</b> (FT8, FT4) หรือ <b>SATELLITE</b> (เทียมดาว) ในหน้านั้นเลือกโหมดจากปุ่มด้านบน ตารางแสดง QSO ทุกโหมดของกลุ่มนั้น',
+ 'ในหน้ากลุ่มโหมด: พิมพ์ Callsign (เมื่อออกจากช่อง ระบบค้นชื่อ/QTH/Grid จาก QRZ มาเติมให้) ใส่ ชื่อ, QTH, Grid, RST ส่ง/รับ (เว้นว่าง = ค่าเริ่มต้น: เสียง = 59, FT8/FT4 = -10) และความถี่ (เว้นว่าง = ใช้ความถี่จากวิทยุหรือที่ตั้งไว้ในหน้า CW) แล้วกด <kbd>Enter</kbd> หรือ <b>บันทึก QSO</b> (<kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>) แก้ทุกช่องในตารางได้',
+ 'หน้า <b>SATELLITE</b>: ใส่ชื่อดาวเทียม (เช่น AO-91, SO-50, RS-44, ISS) และเลือกโหมดที่ใช้บนดาวเทียม (FM/SSB/USB/LSB/CW) ADIF ใส่ PROP_MODE=SAT และ SAT_NAME ให้ VoIP ส่งออกเป็น PROP_MODE=INTERNET, D-STAR = DSTAR, Digital Voice = DIGITALVOICE ส่วน ADIF/CSV ที่ส่งออกรวมทุกโหมดไว้ด้วยกัน QSO เก่าถือเป็น CW เหมือนเดิม',
  'ข้อมูลถูกเก็บในเบราว์เซอร์เครื่องนี้ ควรส่งออกสำรองเป็นระยะ']],
 ['QRZ.com',[
  'ที่ตั้งค่า ใส่ Username/Password ของ QRZ.com ของตัวเอง แล้วกด “ทดสอบเชื่อมต่อ” รหัสจะถูกเก็บไว้ก็ต่อเมื่อติ๊ก “จำรหัส” เท่านั้น',
@@ -1487,7 +2098,7 @@ th:{t:'คู่มือการใช้งาน',s:[
  'ถ้ายังไม่มี Grid จริง แอปจะ<b>ประมาณจากชื่อเมือง (QTH)</b> ที่ QRZ/HamQTH ให้มา (ตารางจังหวัดไทยอยู่ในแอป ที่อื่นถาม OpenStreetMap เฉพาะชื่อเมือง) ค่าที่ประมาณจะมีเครื่องหมาย ~ นำหน้าระยะทาง และลงช่อง Gridsquare ของ Log ครบ 6 ตัวอักษร ปิดได้ที่ตั้งค่า > สถานีของเรา',
  'Grid ที่ได้จะถูกใส่ในช่อง Gridsquare ของ Log และจำไว้สำหรับ Callsign นั้น']],
 ['RBN: ดูสถานีที่กำลัง CQ',[
- 'หน้าหลักมีรายการ <b>สถานีที่กำลังเรียก CQ</b> ใต้ป้ายย่าน ตามที่เครือข่าย Reverse Beacon Network ได้ยิน แสดง อายุสปอต, ย่าน (สีเดียวกับป้ายย่าน), ความถี่ kHz, Callsign และ SNR (เอาเมาส์ชี้เพื่อดู WPM และสถานีที่ได้ยิน) <b>กดแถว</b> เพื่อตั้งความถี่ (สั่งวิทยุผ่าน CI-V ถ้าเชื่อมต่ออยู่) และใช้ Callsign นั้นเป็นคู่สถานี แถวสีเหลืองคือสปอตของ Callsign เราเอง',
+ 'หน้า CWมีรายการ <b>สถานีที่กำลังเรียก CQ</b> ใต้ป้ายย่าน ตามที่เครือข่าย Reverse Beacon Network ได้ยิน แสดง อายุสปอต, ย่าน (สีเดียวกับป้ายย่าน), ความถี่ kHz, Callsign และ SNR (เอาเมาส์ชี้เพื่อดู WPM และสถานีที่ได้ยิน) <b>กดแถว</b> เพื่อตั้งความถี่ (สั่งวิทยุผ่าน CI-V ถ้าเชื่อมต่ออยู่) และใช้ Callsign นั้นเป็นคู่สถานี แถวสีเหลืองคือสปอตของ Callsign เราเอง',
  'ตั้งค่าทั้งหมดอยู่ที่หน้า <b>ตั้งค่า &gt; RBN</b>: ปุ่มเชื่อมต่อ/เปิดตัวเชื่อม, กรองตามย่าน (กดป้ายสี, ไม่เลือก = ทุกย่าน), SNR ขั้นต่ำ, อายุสปอต, การเรียง, ค้น Callsign และเลือกแสดงเฉพาะ CQ',
  'เว็บ reversebeacon.net ไม่เปิดให้หน้าเว็บอื่นอ่านข้อมูลโดยตรง จึงต้องมี <b>ตัวเชื่อม</b> (Python 3) บนเครื่อง Windows ของคุณ ติดตั้งครั้งเดียว: ที่ตั้งค่า &gt; RBN กด “ดาวน์โหลดตัวติดตั้ง” แล้วดับเบิลคลิก <code>install-rbn-bridge.bat</code> จากนั้นกด “เปิดตัวเชื่อม” แล้ว “เชื่อมต่อ” ตัวเชื่อมอ่านฟีดสดของ RBN แล้วส่งให้แอปผ่าน ws://localhost:7373 เข้าระบบ RBN ด้วย Callsign ของคุณ (ไม่ใช้รหัสผ่าน)',
  'ตอนเชื่อมต่อ (และเมื่อกด “ดึงย้อนหลัง”) ตัวเชื่อมจะดึงสปอตย้อนหลังของ Callsign ที่ตั้งไว้ (ค่าเริ่มต้น HS*,E2*) จากเว็บ RBN มารวมในรายการ พร้อมกริดของสถานีที่ RBN มีข้อมูล (ใช้เป็นกริดสำรองเมื่อ QRZ/HamQTH ไม่มี) ต้องใช้ตัวเชื่อมรุ่นล่าสุด ติดตั้งทับได้จากตัวติดตั้งในแอป',
@@ -1499,7 +2110,13 @@ th:{t:'คู่มือการใช้งาน',s:[
  'แอปค้นรูปของ Callsign เราเองจาก QRZ (ฟิลด์ image) ถ้าไม่มีจะลอง HamQTH แล้วแสดงเป็นรูปกลมที่มุมซ้ายล่าง (ใต้เมนู) ไม่มีรูปก็ไม่แสดงอะไร บัญชี QRZ ฟรีมักไม่ส่งรูปมาให้']],
 ['สำรองข้อมูล และเลขเวอร์ชัน',[
  'การตั้งค่าและ Log เก็บในเบราว์เซอร์เครื่องนี้ ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่องจะหาย ที่ <b>ตั้งค่า &gt; สำรองข้อมูล</b> กด “สำรองการตั้งค่า + Log” เพื่อได้ไฟล์ .json (ไม่มีรหัสผ่าน QRZ/HamQTH) และ “นำเข้าจากไฟล์สำรอง” เพื่อกู้คืน Log ที่นำเข้าจะรวมกับของเดิม ไม่ซ้ำรายการเดิม',
+ 'นำเข้า Log เดิมจากโปรแกรมอื่น: ที่ <b>ตั้งค่า &gt; นำเข้า QSO จากไฟล์ ADIF</b> เลือกไฟล์ .adi/.adif (Log4OM, WSJT-X, JTDX, N1MM, LoTW ฯลฯ) ระบบแยกโหมดเข้าหน้า CW/VOICE/DIGITAL/SATELLITE เอง ข้ามรายการที่ซ้ำ และมีปุ่ม “ยกเลิกการนำเข้าล่าสุด” (ใช้ได้จนกว่าจะรีโหลดหน้า) ไฟล์ที่เดิมไม่มี Grid หรือความถี่ จะแก้ในตารางเองได้',
  'เลขเวอร์ชันอยู่ที่ ตั้งค่า &gt; เกี่ยวกับ เวลาแจ้งปัญหาให้บอกเลขนี้ด้วย']],
+['เมนูและหน้า Dashboard',[
+ 'เมนูซ้ายมี 5 หน้า: <b>Dashboard</b> (สรุป Log), <b>VOICE</b>, <b>CW</b> (ถอดรหัส ส่งมาโคร RBN และบันทึก QSO โหมด CW), <b>DIGITAL</b>, <b>SATELLITE</b> และ <b>ตั้งค่า / คู่มือ</b> ที่ด้านล่าง',
+ 'แผง <b>QSO ตามย่านความถี่และโหมด</b> ของหน้า VOICE เปิดที่แท็บ <b>หน้าจอวิทยุ</b> เป็นหลัก (อีกสองแท็บคือกราฟและแผนที่) หน้าจอจำลองแสดงความถี่ใหญ่ โหมด ย่าน DUP / TONE (T-SQL) สถานะ RX/TX มิเตอร์ ALC / SWR / VOLT / AMP (TEMP แสดง N/A เพราะ IC-7300 ไม่มีคำสั่ง CI-V อ่านอุณหภูมิ) และแผง <b>Audio Scope</b> ที่มี 2 ช่อง: <b>SCOPE</b> (สเปกตรัม RF + Waterfall จากวิทยุ ต้องใช้ CI-V 115200) กับ <b>AUDIO</b> (สเปกตรัม + Waterfall ของเสียงที่ได้ยิน 0–3000 Hz กด “เริ่มฟังเสียง” เพื่อเปิด ใช้ได้แม้วิทยุไม่มี CI-V 115200) ส่วน <b>S-meter</b> อยู่แถวบนสุดของหน้าจอ ก่อนเวลา UTC ค่าทั้งหมดอ่านจากวิทยุผ่าน CI-V (สเกลตาม IC-7300) Scope ต้องตั้ง <b>CI-V USB Baud Rate = 115200</b> ทั้งที่วิทยุและที่ ตั้งค่า &gt; การเชื่อมต่อวิทยุ (ที่ Baud ต่ำกว่านี้ Scope จะไม่แสดง แต่ส่วนอื่นยังใช้ได้) DUP/TONE ใช้งานจริงกับ FM บน 29 / 50 MHz ถ้ายังไม่เชื่อมต่อจะแสดงความถี่ที่ตั้งเองในแอป',
+ 'หน้า <b>VOICE</b> เรียงจากบนลงล่าง: แถบวิทยุ (CAT) ความถี่/ย่าน/โหมดจากวิทยุ ปุ่มเชื่อมต่อ ป้ายย่าน (กดแล้วตั้งความถี่ช่วงเสียงของย่านนั้น) และนาฬิกา UTC · การ์ดโหมด FM, SSB, LSB, USB, Digital Voice, D-STAR, VoIP แสดงจำนวน QSO ของแต่ละโหมด กดการ์ดเพื่อเลือกโหมด · <b>กราฟ</b>เส้นจำนวน QSO ตามย่านความถี่ แยกเส้นตามโหมด (กดชื่อโหมดเพื่อซ่อน/แสดงเส้น) หรือสลับเป็น <b>แผนที่</b>หมุดสถานีที่เคยติดต่อตาม Grid (กดหมุดดูรายละเอียด ลากเลื่อน ล้อเมาส์ซูม สามเหลี่ยมคือสถานีเรา) · ช่องบันทึก QSO (Callsign, ความถี่, ชื่อ, QTH, Grid, RST) และตาราง ถ้าวิทยุเปลี่ยนเป็น LSB/USB/FM ปุ่มโหมดจะเปลี่ยนตามเอง แผนที่โลกโหลดจากอินเทอร์เน็ตครั้งแรกแล้วเก็บไว้ในเครื่อง QSO ที่ไม่มี Grid จะไม่แสดงบนแผนที่ และที่ไม่มีย่านความถี่จะไม่อยู่ในกราฟ',
+ 'Dashboard สรุปจากสมุด Log ในเครื่อง: QSO ทั้งหมดและวันนี้ (UTC), ประเทศ, สถานีไม่ซ้ำ, แยกตามกลุ่ม (กดการ์ดเพื่อเปิดหน้านั้น), 14 วันล่าสุด, ตามย่านความถี่, โหมดที่ใช้บ่อย, QSO ล่าสุด และสถานะวิทยุ รูปแบบนี้เป็นแนวทางเริ่มต้น']],
 ['ติดตั้งเป็นแอป (Chrome / Edge)',[
  'ถ้าเปิดแอปจากที่อยู่เว็บ (https://...) แทนไฟล์ในเครื่อง Chrome/Edge จะมีไอคอนติดตั้งที่แถบที่อยู่ (หรือเมนู ⋮ > บันทึกและแชร์ > ติดตั้ง / Edge: แอป > ติดตั้งเว็บไซต์นี้เป็นแอป) กดแล้วได้ไอคอนและหน้าต่างของตัวเอง ใช้ได้ทั้ง Windows และ Mac',
  'แอปที่ติดตั้งอัปเดตเองเมื่อเปิดครั้งถัดไป ถ้ามีเวอร์ชันใหม่ขณะเปิดอยู่จะมีแถบแจ้งมุมซ้ายล่าง กดเพื่อโหลดใหม่',
@@ -1519,10 +2136,10 @@ en:{t:'User guide',s:[
 ['Quick start',[
  'Open this file in <b>Chrome or Edge</b> (Web Serial is needed for keying and for reading the radio frequency).',
  'Go to <b>Settings</b> and fill in your station (callsign, name, QTH, rig, antenna, power, weather, temperature). These are used in the macro texts and the log.',
- 'In <b>Settings</b>, card “Audio input”, choose the audio input (Mix/L/R channel), then go back to the main page and press <b>Start listening</b>. With no radio, try <b>Play test tone</b> (same card).',
+ 'In <b>Settings</b>, card “Audio input”, choose the audio input (Mix/L/R channel), then go back to the CW page and press <b>Start listening</b>. With no radio, try <b>Play test tone</b> (same card).',
  'To key the radio and read its frequency press <b>Connect radio (key / CAT)</b> and choose the radio\'s USB port.']],
 ['Audio input and decoding',[
- 'The app decodes CW at the set tone (default 700 Hz). With <b>auto tone</b> on (Settings &gt; Audio input), it follows the strongest tone between 400 and 1000 Hz. With it off, move the tone slider (Settings) or click the Audio graph on the main page to match the radio\'s pitch (set the radio\'s CW pitch close to it).',
+ 'The app decodes CW at the set tone (default 700 Hz). With <b>auto tone</b> on (Settings &gt; Audio input), it follows the strongest tone between 400 and 1000 Hz. With it off, move the tone slider (Settings) or click the Audio graph on the CW page to match the radio\'s pitch (set the radio\'s CW pitch close to it).',
  'The speed shown is measured from the signal, there is no speed setting. It copes with roughly 10–40 WPM. Very weak signals can give wrong letters or <b>*</b>.',
  'Decoded text is colour-coded: callsign, name, QTH, RST, prosign, Q-code.',
  'The <b>record last 30 s (.wav)</b> button saves the last 30 seconds of input audio, so a bad decode can be sent for analysis.']],
@@ -1539,16 +2156,23 @@ en:{t:'User guide',s:[
  'Without a connected radio the app only plays the sidetone (practice).',
  'With <b>auto-log</b> on (Settings), when the last macro (final) has been sent the QSO is logged and ended for you. Pressing Esc half-way does not log.']],
 ['Radio / frequency / band',[
+ 'The radio can be connected to <b>one mode at a time</b> (CW or VOICE). Each page\'s connect button controls only its own mode. If the radio is held by the other mode this page shows "in use by mode ...", and pressing connect (or sending CW) opens a warning popup asking you to disconnect that mode first ("Disconnect ... and connect ..." switches without picking the port again).',
+ 'The audio input (CW "Start listening" and VOICE "Start listening") is also usable by <b>one mode at a time</b>: CW uses it for decoding, VOICE for the Audio Scope. If the other mode is listening, a popup asks you to stop it first.',
+ '<b>Exporting only some QSOs to Log4OM / QRZ:</b> the QSO tables have a tick box on every row (the header box selects everything in that table) and buttons "Select all / Select this page / Clear selection". If any rows are ticked, "Export ADIF / CSV" exports only those (the button shows the count); with nothing ticked it exports everything as before.',
+ 'The VOICE / DIGITAL / SATELLITE tables show <b>10 QSOs per page</b>, newest first; use the « ‹ › » buttons to change page. Ticks are kept across pages.',
  'When connected, the app reads frequency and mode from the radio continuously over CI-V. Baud rate and CI-V address (IC-7300 = 94) must match the radio.',
  'Only one program can hold the port; close Log4OM or others first.',
  'Without a radio, type the frequency (MHz) yourself; the band is worked out for you.',
- '<b>Click a coloured band chip</b> on the main page to set the frequency to the start of that band\'s CW segment. If a radio is connected and the option is on, the app also tunes the radio (no transmission, mode unchanged).',
+ '<b>Click a coloured band chip</b> on the CW page to set the frequency to the start of that band\'s CW segment. If a radio is connected and the option is on, the app also tunes the radio (no transmission, mode unchanged).',
  'The table of Thai amateur bands is under Settings. It is reference only (RAST 2014 / IARU R3); * = unconfirmed, check the latest NBTC notice.']],
 ['QSO log and export',[
  'Press <b>Log QSO</b> (or <kbd>Num Enter</kbd> or <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>). UTC date/time, callsign, frequency (kHz), band, mode, name, country, QTH, RST, grid and DXCC are filled in. Every cell is editable.',
  'Columns follow Log4OM: Qso Date, Callsign, Freq, Band, Mode, Name, Country, QTH, Rst (S), Rst (R), Gridsquare, Dxcc, Comment; newest first.',
  'An orange border means frequency/band is missing; fill it before exporting so Log4OM can import it.',
  'Export <b>ADIF</b> (.adi) and import it in Log4OM; CSV opens in Excel.',
+ 'Logging <b>non-CW modes</b>: in the left menu click <b>VOICE</b> (FM, SSB, LSB, USB, Digital Voice, D-STAR, VoIP), <b>DIGITAL</b> (FT8, FT4) or <b>SATELLITE</b>. On that page pick the mode with the buttons at the top; the table shows every QSO of that group.',
+ 'On a mode-group page: type the callsign (when you leave the box, name/QTH/grid are looked up from QRZ), then name, QTH, grid, RST sent/received (empty = default: voice = 59, FT8/FT4 = -10) and frequency (empty = radio frequency or the one set on the CW page), and press <kbd>Enter</kbd> or <b>Log QSO</b> (<kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>). Every cell in the table is editable.',
+ 'The <b>SATELLITE</b> page: enter the satellite name (e.g. AO-91, SO-50, RS-44, ISS) and the mode used on it (FM/SSB/USB/LSB/CW). ADIF gets PROP_MODE=SAT and SAT_NAME. VoIP exports as PROP_MODE=INTERNET, D-STAR as DSTAR, Digital Voice as DIGITALVOICE. ADIF/CSV exports contain every mode together. Older QSOs count as CW as before.',
  'The log is kept in this browser only; export backups regularly.']],
 ['QRZ.com',[
  'In Settings enter your own QRZ.com username/password and press "Test connection". The password is stored only if "remember" is ticked.',
@@ -1560,7 +2184,7 @@ en:{t:'User guide',s:[
  'With no real grid the app <b>estimates one from the QTH city name</b> that QRZ/HamQTH returned (a Thai province table is built in; elsewhere only the city name is sent to OpenStreetMap). Estimated values show a ~ before the distance and go into the log as the full 6 characters; switch it off under Settings > Our station.',
  'The result is put in the Gridsquare column of the log and remembered for that callsign.']],
 ['RBN: who is calling CQ',[
- 'The main page has a list of <b>stations calling CQ</b> under the band chips, as heard by the Reverse Beacon Network: spot age, band (same colours as the chips), frequency in kHz, callsign and SNR (hover for WPM and the skimmers that heard it). <b>Click a row</b> to set the frequency (the radio is tuned via CI-V if connected) and use that callsign as the partner. A yellow row is a spot of your own callsign.',
+ 'The CW page has a list of <b>stations calling CQ</b> under the band chips, as heard by the Reverse Beacon Network: spot age, band (same colours as the chips), frequency in kHz, callsign and SNR (hover for WPM and the skimmers that heard it). <b>Click a row</b> to set the frequency (the radio is tuned via CI-V if connected) and use that callsign as the partner. A yellow row is a spot of your own callsign.',
  'All settings are in <b>Settings &gt; RBN</b>: connect / start bridge, band filter (click the coloured chips; none = all bands), minimum SNR, spot age, sort order, callsign search, and CQ only.',
  'reversebeacon.net does not let other web pages read its data directly, so a <b>bridge</b> (Python 3) must run on your Windows PC. One-time install: in Settings &gt; RBN press "Download installer" and double-click <code>install-rbn-bridge.bat</code>, then press "Start bridge" and "Connect". The bridge reads RBN\'s live feed and passes it to the app over ws://localhost:7373. It logs in to RBN with your callsign (no password).',
  'On connect (and when you press "Fetch history") the bridge fetches recent spots for the prefixes you set (default HS*,E2*) from the RBN website and merges them into the list, with the grid of stations RBN has data for (used as a fallback when QRZ/HamQTH have none). This needs the latest bridge; install it over the old one with the installer from the app.',
@@ -1572,7 +2196,13 @@ en:{t:'User guide',s:[
  'The app looks up the picture of your own callsign on QRZ (the image field), then HamQTH, and shows it as a round picture at the bottom left, under the menu. With no picture nothing is shown. Free QRZ accounts usually do not return one.']],
 ['Backup and version',[
  'Settings and the log live in this browser; clearing browser data or changing computer loses them. In <b>Settings &gt; Backup</b> press "Backup settings + log" to get a .json file (no QRZ/HamQTH passwords) and "Import from backup file" to restore it. Imported log entries are merged with the existing ones without duplicates.',
+ 'Import an existing log: <b>Settings &gt; Import QSOs from ADIF</b> — pick .adi/.adif files (Log4OM, WSJT-X, JTDX, N1MM, LoTW ...). Modes are sorted into the CW/VOICE/DIGITAL/SATELLITE pages automatically, duplicates are skipped, and "Undo last import" works until the page is reloaded. Missing grids or frequencies can be edited in the tables.',
  'The version number is under Settings &gt; About; please quote it when reporting a problem.']],
+['Menu and home (dashboard)',[
+ 'The left menu has 5 pages: <b>Dashboard</b> (log summary), <b>VOICE</b>, <b>CW</b> (decoder, macros, RBN and CW logging), <b>DIGITAL</b>, <b>SATELLITE</b>, with <b>Settings / Manual</b> at the bottom.',
+ 'The <b>QSO by band and mode</b> panel on the VOICE page opens on its <b>Radio screen</b> tab (the other two tabs are the graph and the map): a simulated display with the large frequency, mode, band, DUP / TONE (T-SQL), RX/TX state, ALC / SWR / VOLT / AMP meters (TEMP shows N/A - the IC-7300 has no CI-V temperature command) and an <b>Audio Scope</b> panel with two panes: <b>SCOPE</b> (RF spectrum + waterfall from the radio, needs 115200 CI-V baud) and <b>AUDIO</b> (spectrum + waterfall of the received audio, 0-3000 Hz; press "Start listening" - works even if the radio has no 115200 baud). The <b>S-meter</b> sits in the top row of the screen, just before the UTC time. Everything is read from the radio over CI-V (IC-7300 scale). The scope needs <b>CI-V USB Baud Rate = 115200</b> on the radio and in Settings &gt; Radio connection (at lower rates the scope stays off, the rest works). DUP/TONE apply to FM on 29 / 50 MHz. Without a connection the screen shows the frequency set in the app.',
+ 'The <b>VOICE</b> page, top to bottom: the radio (CAT) strip with frequency/band/mode from the radio, connect button, band chips (a click sets the phone-segment frequency of that band) and the UTC clock · mode cards FM, SSB, LSB, USB, Digital Voice, D-STAR, VoIP with the QSO count of each (click a card to choose the mode) · a <b>line graph</b> of QSOs per band, one line per mode (click a mode name to hide/show its line) or switch to the <b>map</b> of the stations worked, placed by grid square (click a pin for details, drag to pan, wheel to zoom, triangle = our station) · the QSO entry fields (callsign, frequency, name, QTH, grid, RST) and the table. When the radio changes to LSB/USB/FM the mode buttons follow it. The world map is downloaded from the internet the first time and then kept on this computer. QSOs without a grid are not on the map; QSOs without a band are not in the graph.',
+ 'The Dashboard summarises the log kept on this computer: total and today\'s QSOs (UTC), countries, unique stations, per-group cards (click one to open its page), last 14 days, bands, most-used modes, latest QSOs and the radio status. This layout is a starting point.']],
 ['Install as an app (Chrome / Edge)',[
  'When the app is opened from a web address (https://...) instead of a local file, Chrome/Edge shows an install icon in the address bar (or menu ⋮ > Save and share > Install / Edge: Apps > Install this site as an app). You get your own icon and window, on Windows and Mac.',
  'An installed app updates itself the next time it opens. If a new version is published while it is open, a bar at the bottom left offers to reload.',
@@ -1595,14 +2225,28 @@ function drawMan(){
 document.querySelectorAll('#mlang button').forEach(b=>b.onclick=()=>{S.lang=b.dataset.l;save();drawMan()});
 drawMan();
 // ---- tabs ----
-function tab(id){for(const t of['p1','p2','p3'])$('#'+t).hidden=t!==id;document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('pri',b.dataset.t===id));if(id==='p1')setTimeout(()=>{fit();rbDraw(1)},0)}
+const MAINT={DIGITAL:1,SAT:1}; // modes closed while being updated (remove a key to re-open it)
+function tab(id){let pg=id;
+ if(id.startsWith('g:')&&MAINT[id.slice(2)]){pg='pm';$('#pmh').textContent=GN[id.slice(2)]+' · กำลังปรับปรุงและอัปเดต'}
+ else if(id.startsWith('g:')){pg='p4';QG=id.slice(2);QM=(S.qm&&S.qm[QG])||(GR[QG].modes[0]||[''])[0]}
+ for(const t of['p0','p1','p2','p3','p4','pm'])$('#'+t).hidden=t!==pg;
+ document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('pri',b.dataset.t===id));
+ const vx=pg==='p4'&&QG==='VOICE';
+ $('#p4').classList.toggle('vx',vx);for(const i of['#vstrip','#vcards','#vpanel'])$(i).hidden=!vx;
+ if(vx){catTo();VQH.append(QTT)}else{catHome();QF1.append(QTT)}
+ $('#bhs').textContent=vx?'กดเพื่อตั้งความถี่ช่วงเสียงของย่านนั้น':'กดเพื่อตั้งความถี่ของย่านนั้น';
+ connUI();audUI();updRig();
+ if(pg==='pm')return;
+ if(pg==='p1')setTimeout(()=>{fit();rbDraw(1)},0);
+ if(pg==='p0')dash();
+ if(pg==='p4'){PG.qlt=0;if(vx)rigVoice();qSetup();renderLog();if(vx){$('#vmi').textContent='';requestAnimationFrame(vShow)}setTimeout(()=>$('#qc').focus(),0)}}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
 
 window.addEventListener('beforeunload',()=>{tx.abort=true;if(txPort)txPort.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{})});
 window.addEventListener('resize',fit);window.addEventListener('resize',()=>rbDraw(1));
 if(window.ResizeObserver){const ro=new ResizeObserver(fit);ro.observe($('#cv'));ro.observe($('#sp'))}
 fit();
-S.cur='';rS();upd();renderLog();updRig();avQ();
+S.cur='';rS();upd();renderLog();updRig();avQ();dash();
 if(navigator.mediaDevices)devs();
 
 ;['qzst','hqst'].forEach(id=>{const o=document.getElementById(id);if(o)new MutationObserver(()=>{o.title=o.textContent}).observe(o,{childList:true,characterData:true,subtree:true})});

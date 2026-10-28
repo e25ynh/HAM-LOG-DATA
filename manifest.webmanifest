@@ -1,14 +1,14 @@
 {
  "id": "./",
- "name": "CW Console",
- "short_name": "CW Console",
- "description": "โปรแกรมปฏิบัติการ CW (Morse) สำหรับนักวิทยุสมัครเล่น",
+ "name": "HAM LOG DATA",
+ "short_name": "HAM LOG",
+ "description": "บันทึก Log และปฏิบัติการวิทยุสมัครเล่น (CW / Voice / Digital / Satellite)",
  "lang": "th",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
- "background_color": "#0b1220",
- "theme_color": "#0b1220",
+ "background_color": "#04070e",
+ "theme_color": "#04070e",
  "categories": [
   "utilities",
   "education"
@@ -31,12 +31,6 @@
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "maskable"
-  },
-  {
-   "src": "icons/icon.svg",
-   "sizes": "any",
-   "type": "image/svg+xml",
-   "purpose": "any"
   }
  ]
 }
