@@ -251,6 +251,8 @@ header{border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac
 @media (max-width:899px){#p4.vx .qfp{grid-template-columns:1fr 1fr}#p4.vx .qcall,#p4.vx .qfp #qadd{grid-column:1/-1}}
 
 #pm{display:grid;place-items:center}.pmt{max-width:520px;text-align:center;gap:8px;justify-items:center;padding:34px 28px}.pmt h2{margin:0;color:var(--amb)}.pmt p{margin:0;line-height:1.6}.pmi{font-size:44px;line-height:1}
+#rgq{max-width:150px;padding:4px 8px}
+#kbl{display:none}#lgadd{white-space:nowrap}
 #nav button[data-t="g:DIGITAL"],#nav button[data-t="g:SAT"]{opacity:.55}#nav button.pri[data-t="g:DIGITAL"],#nav button.pri[data-t="g:SAT"]{opacity:1}#pm{align-content:start;padding-top:12vh}
 </style>
 </head>
@@ -263,7 +265,7 @@ header{border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac
   <div class="row"><button id="go" class="pri">เริ่มฟัง</button><button id="stop">หยุด</button><span id="st" class="mu" style="flex:1;min-width:140px">พร้อมใช้งาน</span></div>
   <h2>วิทยุ (CAT) <span class="mu" style="font-weight:400">ความถี่/ย่านสำหรับบันทึก Log</span></h2>
   <div class="rig"><input id="fq" inputmode="decimal" autocomplete="off" placeholder="14.0740" title="พิมพ์ความถี่ (MHz เช่น 14.074 หรือ kHz เช่น 14074) แล้วกด Enter ถ้าต่อวิทยุอยู่จะสั่งวิทยุให้" aria-label="ความถี่ (MHz)"><span class="mu">MHz</span><span id="bd" class="chip on">--</span></div>
-  <div class="row"><button id="txc" class="sm">เชื่อมต่อวิทยุ (คีย์ / CAT)</button><span id="md" class="mu"></span></div>
+  <div class="row"><select id="rgq" class="rgq" hidden title="เลือกวิทยุ (เปลี่ยนได้ตอนยังไม่เชื่อมต่อ)" aria-label="เลือกวิทยุ"></select><button id="txc" class="sm">เชื่อมต่อวิทยุ (คีย์ / CAT)</button><span id="md" class="mu"></span></div>
   <div id="rigst" class="mu"></div>
   <h2>ย่าน <span id="bhs" class="mu" style="font-weight:400">กดเพื่อตั้งความถี่ของย่านนั้น</span></h2>
   <div id="bch" class="bch"></div>
@@ -400,6 +402,9 @@ header{border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac
  <div class="set">
  <div class="sc">
  <div class="pn"><h2>การเชื่อมต่อวิทยุ</h2>
+  <div class="row"><label style="flex:1;min-width:160px">แก้ไขโปรไฟล์วิทยุ (เพิ่มได้หลายเครื่อง)<select id="rgp"></select></label><button id="rga" class="sm" title="เพิ่มโปรไฟล์วิทยุอีกเครื่อง">เพิ่มวิทยุ</button><button id="rgd" class="sm" title="ลบโปรไฟล์วิทยุที่เลือกอยู่">ลบ</button></div>
+  <div class="g2"><label>โหมด CW ใช้วิทยุ<select id="rgc"></select></label><label>โหมด VOICE ใช้วิทยุ<select id="rgv"></select></label></div>
+  <div class="g2"><label>ชื่อวิทยุ<input id="rgn" maxlength="24" autocomplete="off" placeholder="เช่น IC-7300"></label><label>ตั้งค่า Address ตามรุ่น<select id="rgm"><option value="">เลือกรุ่น ...</option><option>IC-7300</option><option>IC-9700</option><option>IC-705</option><option>IC-7610</option><option>IC-7100</option></select></label></div>
   <div class="g3">
    <label>คีย์ผ่านขา<select id="txs"><option value="DTR">DTR</option><option value="RTS">RTS</option></select></label>
    <label>CI-V Baud<select id="baud"><option>1200</option><option>2400</option><option>4800</option><option>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select></label>
@@ -743,7 +748,7 @@ const R={};for(const k in M)R[M[k]]=k;
 let S={tone:700,auto:true,ch:'mix',dev:'',my:{},ps:[],cur:'',mode:'cq',gr:'',rs:'599',tt:'CQ CQ DE HS0ABC K'};
 try{Object.assign(S,JSON.parse(localStorage.getItem('cwc')||'{}'))}catch(e){}
 if(S.my&&S.my.wx==='RAIN')S.my.wx='RAINY';
-const VER='2.9 · 2026-10-28';
+const VER='3.1 · 2026-10-28';
 const save=()=>{try{localStorage.setItem('cwc',JSON.stringify(S))}catch(e){}};
 // ---- theme: auto = light 06:00-18:00, dark otherwise (device clock); or follow system / fixed ----
 function applyTheme(){
@@ -753,19 +758,30 @@ applyTheme();setInterval(applyTheme,60000);
 const st=m=>$('#st').textContent=m;
 let ac,an,buf,stream,timer,lastT=0,dot=60,on=false,tOn=0,tOff=0,symD=[],symG=[],MK=[],spaced=true,peak=.01,fl=0,txt='',qso='',H=[],k=0;
 
-let audOwner=null;
+let audOwner=null;const VA={stream:null,ac:null,an:null,err:''};
+const getUM=d=>navigator.mediaDevices.getUserMedia({audio:{deviceId:d?{exact:d}:undefined,echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:2}});
+function stopV(){if(VA.stream)VA.stream.getTracks().forEach(t=>t.stop());VA.stream=null;if(VA.ac)VA.ac.close();VA.ac=null;VA.an=null;SA.line=null}
 function stopAll(){audOwner=null;clearInterval(timer);timer=null;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;if(ac)ac.close();ac=null;$('#led').classList.remove('on')}
 function begin(){buf=new Float32Array(an.fftSize);an.smoothingTimeConstant=.5;dot=1200/18;on=false;pend=false;symD=[];symG=[];MK=[];spaced=true;lastT=ac.currentTime;tOff=lastT*1000;peak=.01;fl=0;H=[];LB=[];lvT=0;sig=false;thr=-60;HOLD=null;cand=0;timer=setInterval(tick,10)}
-async function live(){
- const am=audMode();if(audOwner&&audOwner!==am&&!await ownAsk('audio',audOwner,am))return;
- stopAll();audOwner=am;
- try{stream=await navigator.mediaDevices.getUserMedia({audio:{deviceId:S.dev?{exact:S.dev}:undefined,echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:2}})}
+async function live(){ // CW: decoder input
+ if(VA.stream&&audDev('VOICE')===audDev('CW')){if(!await ownAsk('audio','VOICE','CW'))return;stopV();scTxt()}
+ stopAll();audOwner='CW';
+ try{stream=await getUM(audDev('CW'))}
  catch(e){st('เปิดเสียงเข้าไม่ได้ ('+e.name+') ถ้าอยู่ในหน้าตัวอย่าง เบราว์เซอร์อาจบล็อกไมค์ ลองปุ่มเล่นโทนจำลอง หรือเปิดไฟล์นี้ในเครื่องโดยตรง');return}
  ac=new AudioContext();an=ac.createAnalyser();an.fftSize=8192;
  const src=ac.createMediaStreamSource(stream);
  if(S.ch==='mix')src.connect(an);else{const sp=ac.createChannelSplitter(2);src.connect(sp);sp.connect(an,S.ch==='L'?0:1)}
- if(am==='CW'){begin();recStart(src);st('กำลังฟัง'+(S.auto?' (โทนตามอัตโนมัติ)':' ปรับโทนให้ตรงกับเสียงในวิทยุ'))}else scTxt();
+ begin();recStart(src);st('กำลังฟัง'+(S.auto?' (โทนตามอัตโนมัติ)':' ปรับโทนให้ตรงกับเสียงในวิทยุ'));
  audUI();devs()}
+async function liveV(){ // VOICE: audio scope input
+ if(stream&&audDev('CW')===audDev('VOICE')){if(!await ownAsk('audio','CW','VOICE'))return;stopAll();audUI()}
+ stopV();VA.err='';
+ try{VA.stream=await getUM(audDev('VOICE'))}
+ catch(e){VA.err='เปิดเสียงเข้าไม่ได้ ('+e.name+')';scTxt();return}
+ VA.ac=new AudioContext();VA.an=VA.ac.createAnalyser();VA.an.fftSize=8192;
+ const src=VA.ac.createMediaStreamSource(VA.stream);
+ if(S.ch==='mix')src.connect(VA.an);else{const sp=VA.ac.createChannelSplitter(2);src.connect(sp);sp.connect(VA.an,S.ch==='L'?0:1)}
+ scTxt();audUI();devs()}
 function test(w=15){
  stopAll();audOwner='CW';ac=new AudioContext();an=ac.createAnalyser();an.fftSize=8192;
  const o=ac.createOscillator(),g=ac.createGain(),m=ac.createGain();o.frequency.value=S.tone;g.gain.value=0;m.gain.value=.12;
@@ -963,12 +979,23 @@ let lastP=null,loggedFor='';
 function endQso(){const p=partner();if(p.c&&p.c!==loggedFor)lastP=p;loggedFor='';S.cur='';qso='';tmsg('จบการสนทนา เริ่มค้นหาคู่สถานีใหม่');upd()}
 
 // ---- CW transmit: macro text -> dit/dah timing -> key (serial DTR/RTS) + sidetone ----
-const tx={on:false,abort:false};let txOn=false,txPort=null,rigOwner=null,rigLast=null,txChain=Promise.resolve(),txac=null,txG=null,txMsg='';
+const tx={on:false,abort:false};// ---- one radio context per mode (CW / VOICE): own profile, serial port, CAT link and readings. Both can be connected at the same time. ----
+const newRig=()=>({hz:0,mode:'',live:false,t:0,mt:{},sm:null,smt:0,ptt:false,dup:'',tone:false,tsql:false});
+const RC={cur:'CW',CW:{m:'CW',rig:newRig(),port:null,cat:null,note:'',last:null},VOICE:{m:'VOICE',rig:newRig(),port:null,cat:null,note:'',last:null}};
+const RX=m=>m==='CW'?'VOICE':'CW';
+const rigProf=m=>{const a=S.rigs;return a&&a.length?(a[(S.rm&&S.rm[m])||0]||a[0]):{n:'',baud:'9600',civ:'94',txs:'DTR',dev:''}};
+const audDev=m=>rigProf(m).dev||'';
+// the globals below always mean "the radio of the mode whose page is open"; background code (CAT feed / polling / keying) uses its context explicitly
+Object.defineProperty(window,'txPort',{get:()=>RC[RC.cur].port,set:v=>{RC[RC.cur].port=v}});
+Object.defineProperty(window,'cat',{get:()=>RC[RC.cur].cat,set:v=>{RC[RC.cur].cat=v}});
+Object.defineProperty(window,'rigNote',{get:()=>RC[RC.cur].note,set:v=>{RC[RC.cur].note=v}});
+const rig=new Proxy({},{get:(_,k)=>RC[RC.cur].rig[k],set:(_,k,v)=>{RC[RC.cur].rig[k]=v;return true}});
+let txOn=false,txChain=Promise.resolve(),txac=null,txG=null,txMsg='';
 const txWpm=()=>S.txw?+S.txw:Math.min(40,Math.max(8,MK.length>=6?Math.round(1200/dot):18));
-const txSig=()=>S.txs==='RTS'?'requestToSend':'dataTerminalReady';
-const txInfo=()=>'ส่งที่ '+txWpm()+' WPM'+(S.txw?' (ตั้งเอง)':' ตามที่ถอดได้')+' · คีย์ '+(txPort&&rigOwner==='CW'?'เชื่อมต่อแล้ว ('+(S.txs||'DTR')+')':txPort?'วิทยุใช้อยู่กับโหมด '+rigOwner:'ยังไม่เชื่อมต่อ (เสียงโทนอย่างเดียว)');
+const txSig=()=>rigProf('CW').txs==='RTS'?'requestToSend':'dataTerminalReady';
+const txInfo=()=>'ส่งที่ '+txWpm()+' WPM'+(S.txw?' (ตั้งเอง)':' ตามที่ถอดได้')+' · คีย์ '+(RC.CW.port?'เชื่อมต่อแล้ว ('+(rigProf('CW').txs||'DTR')+')':'ยังไม่เชื่อมต่อ (เสียงโทนอย่างเดียว)');
 function tmsg(m,ms=5000){txMsg=m;$('#txst').textContent=m;setTimeout(()=>{if(txMsg===m){txMsg='';if(!tx.on)$('#txst').textContent=txInfo()}},ms)}
-function keySet(v){if(txPort&&rigOwner==='CW')txChain=txChain.then(()=>txPort.setSignals({[txSig()]:v})).catch(()=>{})}
+function keySet(v){const P=RC.CW.port;if(P)txChain=txChain.then(()=>P.setSignals({[txSig()]:v})).catch(()=>{})}
 function txBlock(t){
  if(/DXCALL/.test(t))return pendCall?'ส่งไม่ได้: ยังรับ Callsign คู่สถานีไม่ครบ (ตอนนี้ '+pendCall+'…) รอรับให้ครบ หรือพิมพ์เองในช่อง Callsign':'ส่งไม่ได้: ยังไม่มี Callsign คู่สถานี (กดเลือกจาก Callsign ที่พบ)';
  if(/MYCALL/.test(t))return'ส่งไม่ได้: ยังไม่ได้ตั้ง Callsign ของเรา';
@@ -988,7 +1015,7 @@ function abortTx(){if(!tx.on)return;tx.abort=true;keySet(false);
 async function sendCW(text,i,last,cd){
  if(tx.on)return;
  const bm=txBlock(text);if(bm){tmsg(bm);return}
- if(rigBusy()){tmsg('ส่งไม่ได้: วิทยุกำลังเชื่อมต่อกับโหมด '+rigOwner+' ต้องตัดการเชื่อมต่อก่อน');rigSwitch('CW','send');return}
+ if(rigBusy('CW')){tmsg('ส่งไม่ได้: วิทยุเครื่องนี้กำลังเชื่อมต่อกับโหมด VOICE ต้องตัดการเชื่อมต่อก่อน');rigSwitch('CW','send');return}
  const w=txWpm(),seq=plan(text,w);if(!seq.length)return;
  tx.on=true;tx.abort=false;txOn=true;document.body.classList.add('sending');$('#txstop').hidden=false;
  $('#txst').textContent='กำลังส่ง M'+(i+1)+' ที่ '+w+' WPM';
@@ -1017,7 +1044,7 @@ async function devs(ask){
  try{if(ask){const s=await navigator.mediaDevices.getUserMedia({audio:true});s.getTracks().forEach(t=>t.stop())}
   const ds=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='audioinput');
   sel.replaceChildren(E('option',{value:'',textContent:'ค่าเริ่มต้นของระบบ'}),...ds.map(d=>E('option',{value:d.deviceId,textContent:d.label||'อุปกรณ์เสียง'})));
-  sel.value=S.dev}
+  sel.value=(S.rigs&&S.rigs[S.ri]?S.rigs[S.ri].dev:'')||''}
  catch(e){st('อ่านรายชื่ออุปกรณ์เสียงไม่ได้ ('+e.name+')')}}
 
 const F=[['call','Callsign'],['name','ชื่อ นามสกุล'],['loc','Location'],['qth','QTH'],['rig','RIG'],['ant','ANT'],['pwr','PWR (W)'],['wx','WX'],['tmp','TMP (°C)']];
@@ -1033,12 +1060,12 @@ const tv=()=>{$('#tv').textContent=S.tone};
 $('#tone').value=S.tone;$('#ch').value=S.ch;$('#tt').value=S.tt;tv();
 $('#tone').oninput=e=>{S.tone=+e.target.value;S.auto=false;$('#auto').checked=false;tv();save();spec()};
 $('#auto').checked=!!S.auto;$('#auto').onchange=e=>{S.auto=e.target.checked;save()};
-$('#ch').onchange=e=>{S.ch=e.target.value;save();if(stream)live()};
-$('#dev').onchange=e=>{S.dev=e.target.value;save();if(stream)live()};
+$('#ch').onchange=e=>{S.ch=e.target.value;save();if(stream)live();if(VA.stream)liveV()};
+$('#dev').onchange=e=>{rigCur().dev=e.target.value;save();for(const m of['CW','VOICE'])if(S.rm[m]===S.ri)audRestart(m)};
 $('#tt').oninput=e=>{S.tt=e.target.value;save()};
 $('#sp').onclick=e=>{const r=e.currentTarget.getBoundingClientRect(),f=Math.round((e.clientX-r.left)/r.width*SPMAX/10)*10;S.tone=Math.min(1000,Math.max(400,f));S.auto=false;$('#auto').checked=false;$('#tone').value=S.tone;tv();save();spec()};
 $('#ref').onclick=()=>devs(true);$('#go').onclick=live;$('#tst').onclick=async()=>{if(audOwner&&audOwner!=='CW'&&!await ownAsk('audio',audOwner,'CW'))return;test()}
-$('#stop').onclick=()=>{if(audBusy()){audUI();return}stopAll();st('หยุดแล้ว');audUI()};
+$('#stop').onclick=()=>{stopAll();st('หยุดแล้ว');audUI()};
 $('#clr').onclick=()=>{txt='';qso='';S.cur='';lastP=null;$('#lcd').textContent='';upd()};
 $('#cp').onclick=()=>{copyText(txt);const f=$('#cp span');f.textContent='คัดลอกแล้ว';setTimeout(()=>f.textContent='คัดลอก',1200)};
 
@@ -1225,19 +1252,19 @@ const BCOL={'160m':['#c96a6a','#fff'],'80m':['#e68ae6','#111'],'60m':['#5cc7b8',
 function bcol(el,b){const c=BCOL[(b||'').trim()];if(c){el.style.background=c[0];el.style.color=c[1];el.style.borderColor='#2b2b2b'}else{el.style.background='';el.style.color='';el.style.borderColor=''}}
 const bandOf=m=>{const b=isFinite(m)&&BANDS.find(x=>m>=x[1]&&m<=x[2]);return b?b[0]:''};
 const MODES={0:'LSB',1:'USB',2:'AM',3:'CW',4:'RTTY',5:'FM',7:'CW-R',8:'RTTY-R'};
-const rig={hz:0,mode:'',live:false,t:0,mt:{},sm:null,smt:0,ptt:false,dup:'',tone:false,tsql:false};let cat=null,rigNote='';
-const civA=()=>parseInt(S.civ||'94',16)||0x94;
+const civA=m=>parseInt(rigProf(m||RC.cur).civ||'94',16)||0x94;
 const fmtMHz=hz=>(hz/1e6).toFixed(6).replace(/0{1,3}$/,'');
 function curFreq(){if(rigOK())return fmtMHz(rig.hz);const v=(S.fq||'').trim().replace(',','.');return /^\d+(\.\d+)?$/.test(v)&&parseFloat(v)>0?v:''}
 function rigMsg(m){rigNote=m;updRig()}
+function ctxMsg(C,m){C.note=m;updRig()}
 function updRig(){
- const f=$('#fq'),conn=!!txPort&&!rigBusy();
- if(rig.live&&Date.now()-rig.t>6000){rig.live=false;rigNote='ไม่ได้รับข้อมูลจากวิทยุแล้ว กรอกความถี่เองได้'}
+ const f=$('#fq'),conn=!!txPort;
+ for(const k of['CW','VOICE']){const C=RC[k];if(C.rig.live&&Date.now()-C.rig.t>6000){C.rig.live=false;C.note='ไม่ได้รับข้อมูลจากวิทยุแล้ว กรอกความถี่เองได้'}}
  if(document.activeElement!==f)f.value=rigOK()?fmtMHz(rig.hz):(S.fq||'');
  const fr=curFreq(),bn=bandOf(parseFloat(fr));
  drawThb();$('#bd').textContent=bn||'--';$('#bd').classList.toggle('on',!!bn);bcol($('#bd'),bn);
  $('#md').textContent=rigOK()&&rig.mode?'โหมด '+rig.mode:'';if(!$('#p4').hidden){qPh();rScr()}if(rig.mode!==rigLM){rigLM=rig.mode;rigVoice()}
- $('#rigst').textContent=rigBusy()?'วิทยุกำลังเชื่อมต่อกับโหมด '+rigOwner+' · กด "เชื่อมต่อวิทยุ" เพื่อสลับมาใช้โหมด '+rigMode()+' (ต้องตัดการเชื่อมต่อโหมด '+rigOwner+' ก่อน) กรอกความถี่เองได้':rigNote||(rigOK()?'ได้รับความถี่จากวิทยุแล้ว (อ่านต่อเนื่อง) · พิมพ์ความถี่ในช่องแล้วกด Enter เพื่อสั่งวิทยุ':conn?'เชื่อมต่อพอร์ตแล้ว รอข้อมูลจากวิทยุ ...':'ยังไม่เชื่อมต่อ กรอกความถี่เองได้ ย่านจะคำนวณให้')}
+ $('#rigst').textContent=rigBusy()?'วิทยุเครื่องนี้กำลังเชื่อมต่อกับโหมด '+RX(RC.cur)+' · กด "เชื่อมต่อ" เพื่อสลับมาใช้โหมด '+RC.cur+' (ต้องตัดการเชื่อมต่อโหมด '+RX(RC.cur)+' ก่อน) หรือเลือกวิทยุอีกเครื่อง กรอกความถี่เองได้':rigNote||(rigOK()?'ได้รับความถี่จากวิทยุแล้ว (อ่านต่อเนื่อง) · พิมพ์ความถี่ในช่องแล้วกด Enter เพื่อสั่งวิทยุ':conn?'เชื่อมต่อพอร์ตแล้ว รอข้อมูลจากวิทยุ ...':'ยังไม่เชื่อมต่อ กรอกความถี่เองได้ ย่านจะคำนวณให้')}
 function parseMHz(v){v=(v||'').trim().replace(',','.');if(!/^\d+(\.\d+)?$/.test(v))return 0;let n=parseFloat(v);if(n>=1000)n/=1000;return n>=0.03&&n<=450?n:0} // 14074 or 14074.0 = kHz, 14.074 = MHz
 $('#fq').oninput=e=>{if(rigOK())return;S.fq=e.target.value.trim();save();updRig()};
 $('#fq').onkeydown=e=>{
@@ -1249,35 +1276,36 @@ $('#fq').onkeydown=e=>{
  else{S.fq=fmtMHz(Math.round(m*1e6));save();e.target.blur();rigMsg('ตั้งความถี่ '+S.fq+' MHz ในแอป'+(txPort?' (ยังไม่ได้รับข้อมูลจากวิทยุ จึงไม่ได้สั่งวิทยุ)':' ไม่ได้ต่อวิทยุ'));updRig()}};
 $('#fq').onblur=()=>{if(rigOK())$('#fq').value=fmtMHz(rig.hz);updRig()};
 function catFeed(c,v){
+ const C=c.C||RC[RC.cur],rig=C.rig;
  for(const x of v){c.buf.push(x);
   if(x!==0xFD){if(c.buf.length>700)c.buf=[];continue}
   const b=c.buf;c.buf=[];let i=-1;for(let k=b.length-2;k>=0;k--)if(b[k]===0xFE&&b[k+1]===0xFE){i=k;break}
   if(i<0)continue;const f=b.slice(i+2,-1);if(f.length<4)continue;
-  const[to,from,cmd,...d]=f;if(from!==civA()||(to!==0xE0&&to!==0x00))continue;
+  const[to,from,cmd,...d]=f;if(from!==civA(C.m)||(to!==0xE0&&to!==0x00))continue;
   if((cmd===0x03||cmd===0x00)&&d.length>=5){let hz=0,m=1,ok=true;
    for(let k=0;k<5;k++){const lo=d[k]&15,hi=d[k]>>4;if(lo>9||hi>9){ok=false;break}hz+=(hi*10+lo)*m;m*=100}
-   if(ok&&hz>0){rig.hz=hz;rig.live=true;rig.t=Date.now();rigNote='';updRig()}}
-  else if(cmd===0xFA){if(Date.now()-(c.tuneT||0)<2500)rigMsg('วิทยุไม่รับความถี่นี้ (อาจอยู่นอกช่วงของเครื่อง เช่น 70cm บน IC-7300)')}
+   if(ok&&hz>0){rig.hz=hz;rig.live=true;rig.t=Date.now();C.note='';updRig()}}
+  else if(cmd===0xFA){if(Date.now()-(c.tuneT||0)<2500)ctxMsg(C,'วิทยุไม่รับความถี่นี้ (อาจอยู่นอกช่วงของเครื่อง เช่น 70cm บน IC-7300)')}
   else if(cmd===0x15&&d.length>=3){const bc=x=>(x>>4)*10+(x&15),v=bc(d[1])*100+bc(d[2]),n=Date.now();if(d[0]===0x02){rig.sm=v;rig.smt=n}else rig.mt[d[0]]={v,t:n};rig.t=n;rScr()}
   else if(cmd===0x1C&&d[0]===0x00&&d.length>=2){rig.ptt=d[1]===1;rig.t=Date.now();rScr()}
   else if(cmd===0x0F&&d.length>=1){rig.dup=({0x10:'S',0x11:'-',0x12:'+'})[d[0]]||'';rig.t=Date.now();rScr()}
   else if(cmd===0x16&&d.length>=2&&(d[0]===0x42||d[0]===0x43)){if(d[0]===0x42)rig.tone=d[1]===1;else rig.tsql=d[1]===1;rig.t=Date.now();rScr()}
   else if(cmd===0x27&&d[0]===0x00&&d.length>=4){rig.t=Date.now();scopeFrame(d.slice(1))}
   else if((cmd===0x04||cmd===0x01)&&d.length>=1){rig.mode=MODES[d[0]]||('0x'+d[0].toString(16));rig.t=Date.now();updRig()}}}
-async function catStart(port){
+async function catStart(C,port){
  if(!port.readable||!port.writable)return;
- const c={w:port.writable.getWriter(),r:port.readable.getReader(),buf:[],n:0,alive:true};cat=c;
- const send=a=>c.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,...a,0xFD])).catch(()=>{}),S_=[0x15,2],DT=[[0x0F],[0x16,0x42],[0x16,0x43]];
+ const c={w:port.writable.getWriter(),r:port.readable.getReader(),buf:[],n:0,alive:true,C};C.cat=c;
+ const send=a=>c.w.write(new Uint8Array([0xFE,0xFE,civA(C.m),0xE0,...a,0xFD])).catch(()=>{}),S_=[0x15,2],DT=[[0x0F],[0x16,0x42],[0x16,0x43]];
  c.send=send;
- c.iv=setInterval(()=>{if(!c.alive||tx.on)return;const k=c.n++,act=vOn()&&rigOwner==='VOICE',want=scrOn()&&rigOwner==='VOICE'&&(+S.baud||9600)>=115200;
+ c.iv=setInterval(()=>{if(!c.alive||(tx.on&&C.m==='CW'))return;const k=c.n++,act=vOn()&&C.m==='VOICE',want=scrOn()&&C.m==='VOICE'&&(+rigProf(C.m).baud||9600)>=115200;
   if(want&&!c.sc){c.sc=1;send([0x27,0x10,1]);send([0x27,0x11,1])}else if(c.sc&&!want){c.sc=0;send([0x27,0x11,0])} // scope data only while the radio screen is open (needs 115200 baud)
   if(act){ // VOICE page open: S-meter 5x/s, frequency/TX 1x/s, other meters / DUP / TONE every 2-6 s
    const q=[S_,[3],S_,[4],S_,[0x1C,0],S_,[0x15,0x12],S_,[0x15,0x13],S_,[3],S_,[0x1C,0],S_,[0x15,0x15],S_,[0x15,0x16],S_,DT[(c.dt=(c.dt||0)+1)%3]][k%20];send(q)}
   else{if(k%7)return;send((k/7)%2?[4]:[3])}},100);
  (async()=>{try{for(;;){const{value,done}=await c.r.read();if(done)break;if(value)catFeed(c,value)}}catch(e){}})();
- setTimeout(()=>{if(cat===c&&!rig.live)rigMsg('ไม่ได้รับข้อมูลจากวิทยุ ตรวจว่า CI-V USB Baud Rate ในวิทยุ = '+(S.baud||9600)+' และ CI-V Address = '+(S.civ||'94')+' (ตั้งค่า > การเชื่อมต่อวิทยุ) หรือกรอกความถี่เอง')},4500)}
-async function catStop(){
- const c=cat;cat=null;rig.live=false;rig.mode='';rigNote='';rig.sm=null;rig.mt={};rig.ptt=false;rig.dup='';rig.tone=rig.tsql=false;SC.line=null;
+ setTimeout(()=>{if(C.cat===c&&!C.rig.live){const P=rigProf(C.m);ctxMsg(C,'ไม่ได้รับข้อมูลจากวิทยุ ตรวจว่า CI-V USB Baud Rate ในวิทยุ = '+(P.baud||9600)+' และ CI-V Address = '+(P.civ||'94')+' (ตั้งค่า > การเชื่อมต่อวิทยุ) หรือกรอกความถี่เอง')}},4500)}
+async function catStop(C){
+ C=C||RC[RC.cur];const c=C.cat;C.cat=null;Object.assign(C.rig,newRig());C.note='';if(C.m==='VOICE')SC.line=null;
  if(c){c.alive=false;clearInterval(c.iv);try{await c.r.cancel()}catch(e){}try{c.r.releaseLock()}catch(e){}try{c.w.releaseLock()}catch(e){}}
  updRig()}
 setInterval(updRig,2000);
@@ -1297,16 +1325,17 @@ function tuneHz(hz,label){
   if(S.civset===false){rigMsg('ปิดการสั่งวิทยุอยู่ (เปิดได้ที่ตั้งค่า) ความถี่จึงยังเป็นค่าจากวิทยุ');return}
   if(tx.on){rigMsg('กำลังส่งอยู่ รอส่งเสร็จก่อนค่อยเปลี่ยนความถี่');return}
   const d=[];let v=hz;for(let k=0;k<5;k++){d.push(((Math.floor(v/10)%10)<<4)|(v%10));v=Math.floor(v/100)}
-  cat.tuneT=Date.now();cat.w.write(new Uint8Array([0xFE,0xFE,civA(),0xE0,0x05,...d,0xFD])).then(()=>rigMsg('สั่งวิทยุไปที่ '+fmtMHz(hz)+' MHz ('+label+') แล้ว รอวิทยุตอบกลับ ...')).catch(()=>rigMsg('ส่งคำสั่งไปวิทยุไม่สำเร็จ'));
+  cat.tuneT=Date.now();cat.w.write(new Uint8Array([0xFE,0xFE,civA(RC.cur),0xE0,0x05,...d,0xFD])).then(()=>rigMsg('สั่งวิทยุไปที่ '+fmtMHz(hz)+' MHz ('+label+') แล้ว รอวิทยุตอบกลับ ...')).catch(()=>rigMsg('ส่งคำสั่งไปวิทยุไม่สำเร็จ'));
   return}
  S.fq=fmtMHz(hz);save();rigMsg('ตั้งความถี่ '+fmtMHz(hz)+' MHz ('+label+') ในแอป'+(txPort?' (ยังไม่ได้รับข้อมูลจากวิทยุ จึงไม่ได้สั่งวิทยุ)':' ไม่ได้ต่อวิทยุ'));updRig()}
 const VP={'160m':1.84,'80m':3.6,'40m':7.1,'20m':14.2,'17m':18.11,'15m':21.2,'12m':24.94,'10m':28.4,'6m':50.15,'2m':145.5,'70cm':433.5};
 const isVoice=()=>!$('#p4').hidden&&QG==='VOICE';
 // ---- radio connection belongs to ONE mode at a time (CW or VOICE); other modes must disconnect it first ----
-function rigMode(){return !$('#p1').hidden?'CW':(!$('#p4').hidden&&QG==='VOICE')?'VOICE':null}
-function rigOK(){const m=rigMode();return !!rig.live&&(!m||rigOwner===m)}
-function rigBusy(){const m=rigMode();return !!txPort&&!!m&&rigOwner!==m}
-function connUI(){const b=$('#txc');if(!b)return;const busy=rigBusy();b.textContent=!txPort?'เชื่อมต่อวิทยุ (คีย์ / CAT)':busy?'เชื่อมต่อวิทยุ (ใช้อยู่กับโหมด '+rigOwner+')':'ตัดการเชื่อมต่อวิทยุ';b.classList.toggle('busy',busy)}
+function rigMode(){return RC.cur}
+function rigOK(){return !!rig.live}
+function rigBusy(m){m=m||RC.cur;const o=RX(m);return !RC[m].port&&!!RC[o].port&&!!S.rm&&S.rm[o]===S.rm[m]} // the other mode holds the very same radio
+function connUI(){const b=$('#txc');if(!b||!S.rigs)return;const m=RC.cur,P=rigProf(m),nm=S.rigs.length>1?P.n:'วิทยุ',busy=rigBusy(m);
+ b.textContent=RC[m].port?'ตัดการเชื่อมต่อ'+(S.rigs.length>1?' '+P.n:'วิทยุ'):busy?'เชื่อมต่อ '+nm+' (ใช้อยู่กับโหมด '+RX(m)+')':'เชื่อมต่อ'+(S.rigs.length>1?' '+P.n:'วิทยุ')+' (คีย์ / CAT)';b.classList.toggle('busy',busy)}
 function ownAsk(kind,owner,want,why){
  const au=kind==='audio';
  return new Promise(res=>{
@@ -1315,21 +1344,19 @@ function ownAsk(kind,owner,want,why){
   const ok=E('button',{className:'pri',textContent:au?'หยุดฟังโหมด '+owner+' แล้วเริ่มฟังโหมด '+want:'ตัดการเชื่อมต่อโหมด '+owner+' แล้วเชื่อมต่อโหมด '+want}),no=E('button',{textContent:'ยกเลิก'});
   ok.onclick=()=>done(true);no.onclick=()=>done(false);
   const box=E('div',{className:'rgbx',role:'alertdialog'});box.setAttribute('aria-modal','true');
-  box.append(E('h3',{textContent:au?'⚠ เสียงเข้ากำลังใช้งานในโหมด '+owner:'⚠ วิทยุกำลังเชื่อมต่อกับโหมด '+owner}),
-   E('p',{textContent:au?'เสียงเข้า (การฟัง) ใช้ได้ครั้งละ 1 โหมด ต้องหยุดฟังของโหมด '+owner+' ก่อน จึงจะใช้โหมด '+want+' ได้':(why==='send'?'ส่ง CW ไม่ได้ในตอนนี้ ':'')+'วิทยุเชื่อมต่อได้ครั้งละ 1 โหมด ต้องตัดการเชื่อมต่อโหมด '+owner+' ก่อน จึงจะใช้โหมด '+want+' ได้'}),
+  box.append(E('h3',{textContent:au?'⚠ อุปกรณ์เสียงนี้กำลังใช้งานในโหมด '+owner:'⚠ วิทยุเครื่องนี้กำลังเชื่อมต่อกับโหมด '+owner}),
+   E('p',{textContent:au?'อุปกรณ์เสียงเข้าตัวเดียวกันใช้ได้ครั้งละ 1 โหมด ต้องหยุดฟังของโหมด '+owner+' ก่อน จึงจะใช้โหมด '+want+' ได้ (หรือเลือกวิทยุ/อุปกรณ์เสียงคนละตัวให้แต่ละโหมด)':(why==='send'?'ส่ง CW ไม่ได้ในตอนนี้ ':'')+'วิทยุเครื่องเดียวกันใช้ได้ครั้งละ 1 โหมด ต้องตัดการเชื่อมต่อโหมด '+owner+' ก่อน จึงจะใช้โหมด '+want+' ได้ (หรือเลือกวิทยุอีกเครื่องให้โหมด '+want+')'}),
    E('div',{className:'row'}));
   box.lastChild.append(ok,no);
   const ov=E('div',{id:'rgov',className:'rgov'});ov.append(box);ov.onclick=e=>{if(e.target===ov)done(false)};
   document.body.append(ov);document.addEventListener('keydown',kd,true);ok.focus()})}
-const rigAsk=(want,why)=>ownAsk('radio',rigOwner,want,why);
-function audMode(){return rigMode()||'CW'}
-function audBusy(){return !!audOwner&&audOwner!==audMode()}
+function audBusy(m){m=m||RC.cur;const same=audDev('CW')===audDev('VOICE');return m==='VOICE'?(!VA.stream&&!!stream&&same):(!stream&&!!VA.stream&&same)}
 function audUI(){
- const b=$('#rsaf');if(b){const own=audOwner==='VOICE';b.textContent=own?'หยุดฟังเสียง':audBusy()?'เริ่มฟังเสียง (ใช้อยู่กับโหมด '+audOwner+')':'เริ่มฟังเสียง';b.classList.toggle('busy',audBusy());b.hidden=false}
- const g=$('#go');if(g)g.classList.toggle('busy',audBusy());
- const msg='เสียงเข้ากำลังใช้งานโหมด '+audOwner+' · กด "เริ่มฟัง" เพื่อสลับ (ต้องหยุดโหมด '+audOwner+' ก่อน)';
- if(audBusy())st(msg);else if($('#st').textContent.startsWith('เสียงเข้ากำลังใช้งานโหมด'))st('พร้อมใช้งาน')}
-async function rigSwitch(want,why){if(!await rigAsk(want,why))return false;await discon();await rigConnect(true);return !!txPort}
+ const b=$('#rsaf');if(b){const own=!!VA.stream,bz=audBusy('VOICE');b.textContent=own?'หยุดฟังเสียง':bz?'เริ่มฟังเสียง (อุปกรณ์เสียงใช้อยู่กับโหมด CW)':'เริ่มฟังเสียง';b.classList.toggle('busy',bz);b.hidden=false}
+ const g=$('#go');if(g)g.classList.toggle('busy',audBusy('CW'));
+ const msg='อุปกรณ์เสียงนี้กำลังใช้งานโหมด VOICE · กด "เริ่มฟัง" เพื่อสลับ (ต้องหยุดโหมด VOICE ก่อน)';
+ if(audBusy('CW'))st(msg);else if($('#st').textContent.startsWith('อุปกรณ์เสียงนี้กำลังใช้งาน'))st('พร้อมใช้งาน')}
+async function rigSwitch(m,why){const o=RX(m);if(!await ownAsk('radio',o,m,why))return false;const p=RC[o].port;await discon(o);await rigConnect(m,p);return !!RC[m].port}
 
 function bandClick(r){if(isVoice())pickVoice(r);else pickBand(r)}
 function pickVoice(r){ // start of the phone part of the band (clamped into the band range)
@@ -1867,7 +1894,7 @@ function scopeFrame(q){
  if(seq===mx&&SC.cur&&SC.cur.length>=16&&SC.h){SC.line=Uint8Array.from(SC.cur);SC.cur=null;Object.assign(SC,SC.h,{ts:Date.now()});scAdd(SC)}}
 // audio pane: spectrum + waterfall of the audio from the radio (0-3000 Hz); needs "start listening"
 function afTick(){
- if(!scrOn()||audOwner!=='VOICE'||!an||!ac||!stream)return;
+ const an=VA.an,ac=VA.ac;if(!scrOn()||!an||!ac||!VA.stream)return;
  const q=new Float32Array(an.frequencyBinCount);an.getFloatFrequencyData(q);
  const bw=ac.sampleRate/an.fftSize,n=Math.min(q.length,Math.floor(AFMAX/bw)),L=new Uint8Array(n);
  for(let i=0;i<n;i++)L[i]=Math.round(Math.min(Math.max((q[i]+110)/90,0),1)*160);
@@ -1904,15 +1931,15 @@ function scDraw(o){
   if(!o.af){x.textAlign='center';x.fillText((o.mode===0?o.a/1e6:(lo+hi)/2e6).toFixed(3)+' MHz',w/2,3*k)}}
  else{
   x.fillStyle='rgba(3,8,16,.6)';x.fillRect(0,0,w,h);x.fillStyle='#7dd3fc';x.textAlign='center';x.textBaseline='middle';x.font=(12.5*k)+'px "IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif';
-  const lo=(+S.baud||9600)<115200;
-  const t1=o.af?(audOwner==='VOICE'&&stream?'กำลังรอเสียง ...':audBusy()?'เสียงเข้ากำลังใช้งานโหมด '+audOwner:'ยังไม่ได้เริ่มฟังเสียง'):(!rigOK()?'ยังไม่มีข้อมูล Scope จากวิทยุ':lo?'Scope ของวิทยุต้องใช้ CI-V Baud 115200':'กำลังรอข้อมูล Scope จากวิทยุ ...'),
-   t2=o.af?(audOwner==='VOICE'&&stream?'':audBusy()?'กด "เริ่มฟังเสียง" เพื่อสลับ (ต้องหยุดโหมด '+audOwner+' ก่อน)':'กด "เริ่มฟังเสียง" ด้านล่าง'):(rigOK()&&lo?'ใช้ช่อง AUDIO ด้านขวาแทนได้':'');
+  const lo=(+rigProf('VOICE').baud||9600)<115200;
+  const t1=o.af?(VA.stream?'กำลังรอเสียง ...':audBusy('VOICE')?'อุปกรณ์เสียงนี้ใช้อยู่กับโหมด CW':VA.err||'ยังไม่ได้เริ่มฟังเสียง'):(!rigOK()?'ยังไม่มีข้อมูล Scope จากวิทยุ':lo?'Scope ของวิทยุต้องใช้ CI-V Baud 115200':'กำลังรอข้อมูล Scope จากวิทยุ ...'),
+   t2=o.af?(VA.stream?'':audBusy('VOICE')?'กด "เริ่มฟังเสียง" เพื่อสลับ (ต้องหยุดโหมด CW ก่อน)':'กด "เริ่มฟังเสียง" ด้านล่าง'):(rigOK()&&lo?'ใช้ช่อง AUDIO ด้านขวาแทนได้':'');
   x.fillText(t1,w/2,h/2-(t2?9:0)*k);if(t2){x.fillStyle='#5ea8c9';x.font=(11*k)+'px "IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif';x.fillText(t2,w/2,h/2+12*k)}}}
 if(window.ResizeObserver){const ro=new ResizeObserver(()=>{if(scrOn()){scDraw(SC);scDraw(SA)}});ro.observe($('#rsc'));ro.observe($('#rsa'))}
 function rScr(){
  sMeter();if(!scrOn())return;
  const live=rigOK(),cf=curFreq(),mhz=parseFloat(cf),hz=live?rig.hz:(isFinite(mhz)?Math.round(mhz*1e6):0),i=utcNow(),txn=!!(tx.on||rig.ptt),nw=Date.now();
- const st=$('#rsst');st.textContent=live?'CAT เชื่อมต่อ':rigBusy()?'วิทยุใช้อยู่กับโหมด '+rigOwner:txPort?'รอข้อมูลจากวิทยุ':'ไม่ได้เชื่อมต่อ · ความถี่ตั้งเอง';st.classList.toggle('on',live);
+ const st=$('#rsst');st.textContent=live?'CAT เชื่อมต่อ':rigBusy()?'วิทยุใช้อยู่กับโหมด '+RX(RC.cur):txPort?'รอข้อมูลจากวิทยุ':'ไม่ได้เชื่อมต่อ · ความถี่ตั้งเอง';st.classList.toggle('on',live);
  const tr=$('#rstx');tr.textContent=txn?'TX':'RX';tr.classList.toggle('tx',txn);
  $('#rsf').innerHTML=hz?Math.floor(hz/1e6)+'.'+String(Math.floor(hz%1e6/1e3)).padStart(3,'0')+'.'+String(hz%1e3).padStart(3,'0')+'<small>MHz</small>':'--.---.---<small>MHz</small>';
  $('#rsmd').textContent=live&&rig.mode?rig.mode:'--';
@@ -1923,11 +1950,11 @@ function rScr(){
  GAU.forEach((g,k)=>{const row=$('#rsg').children[k],m=g.c?rig.mt[g.c]:null,ok=m&&live&&nw-m.t<4000;
   const lit=ok?Math.round(Math.min(1,m.v/g.m)*30):0;[...row.querySelector('.smt').children].forEach((e,j)=>e.classList.toggle('on',j<lit));row.querySelector('.rgv').textContent=ok?g.t(g.f(m.v)):g.c?'--':'N/A';row.classList.toggle('dim',!!g.tx&&!txn)});
  scTxt();scDraw(SC);scDraw(SA)}
-$('#rsaf').onclick=async()=>{if(audOwner==='VOICE'){stopAll();SA.line=null;scTxt();audUI();scDraw(SA);return}await live();setTimeout(()=>{scTxt();audUI()},600)};
+$('#rsaf').onclick=async()=>{if(VA.stream){stopV();scTxt();audUI();scDraw(SA);return}await liveV();setTimeout(()=>{scTxt();audUI()},600)};
 function scTxt(){const nw=Date.now(),[lo,hi]=scRange(SC),f1=SC.line&&nw-SC.ts<3000,f2=SA.line&&nw-SA.ts<3000;
  $('#rscs').textContent=f1?'Scope '+(SC.mode===0?'Center ±'+(SC.b/1e3).toFixed(1)+' kHz':'Fixed')+(SC.oor?' · นอกช่วง':''):'Scope: ไม่มีข้อมูล';
  $('#rscr').textContent=f1?(lo/1e6).toFixed(3)+' – '+(hi/1e6).toFixed(3)+' MHz':'';
- $('#rsas').textContent=f2?'Audio · เสียงที่ได้ยิน':audBusy()?'Audio: ใช้อยู่กับโหมด '+audOwner:'Audio: ยังไม่ได้เริ่มฟัง';$('#rsar').textContent=f2?'0 – '+AFMAX+' Hz':'';
+ $('#rsas').textContent=f2?'Audio · เสียงที่ได้ยิน':audBusy('VOICE')?'Audio: อุปกรณ์เสียงใช้อยู่กับโหมด CW':VA.err?'Audio: '+VA.err:'Audio: ยังไม่ได้เริ่มฟัง';$('#rsar').textContent=f2?'0 – '+AFMAX+' Hz':'';
  audUI()}
 function rsRange(s){const m=/([\d.]+)\D+([\d.]+)/.exec(s||'');return m?[+m[1],+m[2]]:null}
 function vShow(){const v=vtab();$('#vgbox').hidden=v!=='g';$('#vmbox').hidden=v!=='m';$('#vrbox').hidden=v!=='r';document.querySelectorAll('#vtabs button').forEach(b=>b.classList.toggle('pri',b.dataset.v===v));if(v==='m'){mapLoad();VM.fit=true}vUpd()}
@@ -2017,29 +2044,52 @@ document.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{S.mode=b.dat
 document.querySelectorAll('#lvl button').forEach(b=>b.onclick=()=>{S.lvl=b.dataset.v;save();upd()});
 $('#txs').value=S.txs||'DTR';$('#txw').value=S.txw||'';
 $('#txw').onchange=e=>{S.txw=e.target.value;save();if(!tx.on)$('#txst').textContent=txInfo()};$('#side').checked=S.side!==false;
-$('#txs').onchange=e=>{S.txs=e.target.value;save();if(txPort&&!tx.on)txPort.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{});upd()};
+$('#txs').onchange=e=>{rigCur().txs=e.target.value;save();if(RC.CW.port&&!tx.on)RC.CW.port.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{});upd()};
 $('#side').onchange=e=>{S.side=e.target.checked;save()};
 $('#txstop').onclick=abortTx;
-if(!('serial' in navigator)){$('#txc').disabled=true;rigNote='เบราว์เซอร์นี้ไม่รองรับ Web Serial (ใช้ Chrome หรือ Edge) กรอกความถี่เองได้'}
-const discon=async()=>{abortTx();await catStop();if(txPort){try{await txPort.close()}catch(e){}}txPort=null;rigOwner=null;connUI();updRig();upd()};
-async function rigConnect(reuse){
- const m=rigMode()||'CW';
- try{const p=(reuse&&rigLast)||await navigator.serial.requestPort();await p.open({baudRate:+S.baud||9600});txPort=p;rigLast=p;rigOwner=m;rigNote='';
+if(!('serial' in navigator)){$('#txc').disabled=true;RC.CW.note=RC.VOICE.note='เบราว์เซอร์นี้ไม่รองรับ Web Serial (ใช้ Chrome หรือ Edge) กรอกความถี่เองได้'}
+const discon=async m=>{m=m||RC.cur;const C=RC[m];if(m==='CW')abortTx();await catStop(C);if(C.port){try{await C.port.close()}catch(e){}}C.port=null;rigsUI();connUI();updRig();upd()};
+async function rigConnect(m,reuse){
+ m=m||RC.cur;const C=RC[m],P=rigProf(m);
+ try{const p=reuse||await navigator.serial.requestPort();await p.open({baudRate:+P.baud||9600});C.port=p;C.last=p;C.note='';
   await p.setSignals({dataTerminalReady:false,requestToSend:false});
-  connUI();catStart(p);updRig();upd()}
+  rigsUI();connUI();catStart(C,p);updRig();upd()}
  catch(e){const n=e&&e.name;
-  rigMsg(n==='NotFoundError'?'ยังไม่ได้เลือกพอร์ต':
-   n==='NetworkError'?'เปิดพอร์ตไม่ได้: พอร์ตนี้ถูกโปรแกรมอื่นใช้อยู่ (เช่น Log4OM, WSJT-X, โปรแกรมคุมวิทยุ) ให้ปิดหรือตัดการเชื่อมต่อพอร์ตนั้นก่อน แล้วลองใหม่':
+  ctxMsg(C,n==='NotFoundError'?'ยังไม่ได้เลือกพอร์ต':
+   n==='NetworkError'?'เปิดพอร์ตไม่ได้: พอร์ตนี้ถูกโปรแกรมอื่นหรืออีกโหมดใช้อยู่ (เช่น Log4OM, WSJT-X, โปรแกรมคุมวิทยุ) ให้ปิดหรือตัดการเชื่อมต่อพอร์ตนั้นก่อน แล้วลองใหม่':
    n==='SecurityError'?'เบราว์เซอร์ไม่อนุญาตให้ใช้พอร์ตอนุกรม':
    'เชื่อมต่อพอร์ตไม่ได้ ('+(n||e)+')');connUI()}}
 $('#txc').onclick=async()=>{
- const m=rigMode();
- if(txPort){if(!m||rigOwner===m){await discon();return}await rigSwitch(m,'connect');return}
- await rigConnect(false)};
-if(navigator.serial)navigator.serial.addEventListener('disconnect',e=>{if(e.target===txPort){txPort=null;rigOwner=null;catStop();connUI();rigMsg('พอร์ตหลุด (ถอดสาย USB หรือปิดวิทยุ?)');upd()}});
-$('#baud').value=S.baud||'9600';$('#civ').value=S.civ||'94';
-$('#baud').onchange=e=>{S.baud=e.target.value;save()};
-$('#civ').oninput=e=>{S.civ=e.target.value.trim();save()};
+ const m=RC.cur,C=RC[m];
+ if(C.port){await discon(m);return}
+ if(rigBusy(m)){await rigSwitch(m,'connect');return}
+ await rigConnect(m)};
+if(navigator.serial)navigator.serial.addEventListener('disconnect',e=>{for(const k of['CW','VOICE']){const C=RC[k];if(C.port&&e.target===C.port){C.port=null;catStop(C);rigsUI();connUI();ctxMsg(C,'พอร์ตหลุด (ถอดสาย USB หรือปิดวิทยุ?)');upd()}}});
+// ---- radio profiles: each radio keeps its own CI-V baud / address / keying pin / audio device ----
+const RIGPRE={'IC-7300':'94','IC-9700':'A2','IC-705':'A4','IC-7610':'98','IC-7100':'88'};
+const rigCur=()=>S.rigs[S.ri]; // profile being edited in Settings
+function rigsInit(){
+ if(!Array.isArray(S.rigs)||!S.rigs.length){S.rigs=[{n:'วิทยุ 1',baud:S.baud||'9600',civ:S.civ||'94',txs:S.txs||'DTR',dev:S.dev||''}];S.ri=0}
+ const n=S.rigs.length;S.ri=Math.min(Math.max(+S.ri||0,0),n-1);S.rm=S.rm||{};
+ for(const m of['CW','VOICE'])S.rm[m]=Math.min(Math.max(+(S.rm[m]==null?S.ri:S.rm[m])||0,0),n-1)}
+function rigsUI(){
+ const nm=(r,i)=>r.n||('วิทยุ '+(i+1)),opts=()=>S.rigs.map((r,i)=>E('option',{value:i,textContent:nm(r,i)})),any=!!(RC.CW.port||RC.VOICE.port);
+ const q=$('#rgq');q.replaceChildren(...opts());q.value=S.rm[RC.cur];q.disabled=!!RC[RC.cur].port;q.hidden=S.rigs.length<2;
+ for(const[id,m]of[['#rgp',''],['#rgc','CW'],['#rgv','VOICE']]){const e=$(id);e.replaceChildren(...opts());e.value=m?S.rm[m]:S.ri;e.disabled=m?!!RC[m].port:false}
+ $('#rgd').disabled=S.rigs.length<2||any;
+ const r=rigCur();$('#rgn').value=r.n||'';$('#baud').value=r.baud||'9600';$('#civ').value=r.civ||'94';$('#txs').value=r.txs||'DTR';
+ try{devs()}catch(e){}}
+function audRestart(m){if(m==='CW'&&stream)live();if(m==='VOICE'&&VA.stream)liveV()}
+function rigSel(m,i){if(RC[m].port)return;const od=audDev(m);S.rm[m]=i;save();rigsUI();connUI();updRig();if(audDev(m)!==od)audRestart(m)}
+rigsInit();rigsUI();
+$('#rgp').onchange=e=>{S.ri=+e.target.value;save();rigsUI()};
+$('#rgq').onchange=e=>rigSel(RC.cur,+e.target.value);$('#rgc').onchange=e=>rigSel('CW',+e.target.value);$('#rgv').onchange=e=>rigSel('VOICE',+e.target.value);
+$('#rga').onclick=()=>{S.rigs.push({n:'วิทยุ '+(S.rigs.length+1),baud:'9600',civ:'94',txs:'DTR',dev:''});S.ri=S.rigs.length-1;save();rigsUI();connUI();$('#rgn').focus();$('#rgn').select()};
+$('#rgd').onclick=()=>{if(S.rigs.length<2||RC.CW.port||RC.VOICE.port)return;const d=S.ri;S.rigs.splice(d,1);const n=S.rigs.length;for(const m of['CW','VOICE']){if(S.rm[m]>d)S.rm[m]--;else if(S.rm[m]===d)S.rm[m]=Math.min(d,n-1)}S.ri=Math.min(d,n-1);save();rigsUI();connUI();updRig()};
+$('#rgn').oninput=e=>{rigCur().n=e.target.value.trim();save();for(const id of['#rgp','#rgc','#rgv','#rgq']){const sel=$(id);if(sel.options[S.ri])sel.options[S.ri].textContent=rigCur().n||('วิทยุ '+(S.ri+1))}connUI()};
+$('#rgm').onchange=e=>{const m=e.target.value;if(!m)return;const r=rigCur();r.civ=RIGPRE[m];if(!r.n||/^วิทยุ \d+$/.test(r.n))r.n=m;save();rigsUI();connUI();e.target.value=''};
+$('#baud').onchange=e=>{rigCur().baud=e.target.value;save();updRig()};
+$('#civ').oninput=e=>{rigCur().civ=e.target.value.trim().toUpperCase();save()};
 $('#civset').checked=S.civset!==false;$('#civset').onchange=e=>{S.civset=e.target.checked;save()};
 $('#alog').checked=S.alog!==false;$('#alog').onchange=e=>{S.alog=e.target.checked;save()};
 
@@ -2069,8 +2119,7 @@ th:{t:'คู่มือการใช้งาน',s:[
  'ถ้าไม่ได้เชื่อมต่อวิทยุ แอปจะส่งเป็นเสียงโทนอย่างเดียว (ใช้ฝึก)',
  'ถ้าเปิด <b>บันทึก QSO อัตโนมัติ</b> (ตั้งค่า) เมื่อส่งมาโครตัวสุดท้าย (ปิดท้าย) จบ แอปจะบันทึก QSO แล้วจบการสนทนาให้ ถ้ากด Esc กลางคันจะไม่บันทึก']],
 ['วิทยุ / ความถี่ / ย่าน',[
- 'วิทยุเชื่อมต่อได้ <b>ครั้งละ 1 โหมด</b> (CW หรือ VOICE) ปุ่มเชื่อมต่อของแต่ละหน้าควบคุมเฉพาะโหมดนั้น ถ้าวิทยุกำลังเชื่อมต่ออยู่กับอีกโหมด หน้านี้จะแสดงว่า “ใช้อยู่กับโหมด …” และเมื่อกดเชื่อมต่อหรือสั่งส่ง CW จะมีป๊อปอัพเตือนให้ตัดการเชื่อมต่อโหมดนั้นก่อน (กด “ตัดการเชื่อมต่อ … แล้วเชื่อมต่อ …” เพื่อสลับโดยไม่ต้องเลือกพอร์ตใหม่)',
- 'เสียงเข้า (ปุ่ม “เริ่มฟัง” ของ CW และ “เริ่มฟังเสียง” ของ VOICE) ก็ใช้ได้ <b>ครั้งละ 1 โหมดเช่นกัน</b>: CW ใช้ถอดรหัส ส่วน VOICE ใช้แสดง Audio Scope ถ้าอีกโหมดกำลังฟังอยู่จะมีป๊อปอัพให้หยุดโหมดนั้นก่อน',
+ '<b>วิทยุและเสียงเข้าแยกรายโหมด:</b> ที่ ตั้งค่า &gt; การเชื่อมต่อวิทยุ กด “เพิ่มวิทยุ” สร้างโปรไฟล์ของแต่ละเครื่อง (ชื่อ, CI-V Baud, CI-V Address, ขาคีย์ DTR/RTS และอุปกรณ์เสียง) แล้วเลือกว่า <b>โหมด CW</b> กับ <b>โหมด VOICE</b> ใช้เครื่องไหน (เลือกที่ตั้งค่า หรือที่ช่องข้างปุ่มเชื่อมต่อของแต่ละหน้า) เช่น CW ต่อ IC-7300 (19200) และ VOICE ต่อ IC-9700 (115200) <b>เชื่อมต่อพร้อมกันได้</b> แต่ละโหมดอ่านความถี่/มิเตอร์และสั่งวิทยุของตัวเอง เมนู “ตั้งค่า Address ตามรุ่น” ใส่ Address มาตรฐานให้ (IC-7300 = 94, IC-9700 = A2, IC-705 = A4, IC-7610 = 98, IC-7100 = 88 ตรวจกับเมนู CI-V ในวิทยุอีกครั้ง) ถ้าสองโหมดเลือกวิทยุเครื่องเดียวกัน เมื่อกดเชื่อมต่อหรือสั่งส่ง CW จะมีป๊อปอัพให้ตัดการเชื่อมต่ออีกโหมดก่อน (กด “ตัดการเชื่อมต่อ … แล้วเชื่อมต่อ …” เพื่อสลับโดยไม่ต้องเลือกพอร์ตใหม่) เสียงเข้าก็เช่นกัน: CW ใช้ถอดรหัส VOICE ใช้ Audio Scope ถ้าสองโหมดใช้อุปกรณ์เสียงตัวเดียวกันจะมีป๊อปอัพให้หยุดอีกโหมดก่อน แต่ถ้าเป็นคนละอุปกรณ์ (ตามโปรไฟล์วิทยุ) ฟังพร้อมกันได้',
  '<b>ส่งออกไป Log4OM / QRZ เฉพาะบางรายการ:</b> ตารางบันทึก QSO มีช่องติ๊กหน้าทุกแถว (ช่องบนหัวตาราง = เลือกทั้งหมดในตารางนั้น) และปุ่ม “เลือกทั้งหมด / เลือกหน้านี้ / ล้างที่เลือก” ถ้ามีรายการที่ติ๊กไว้ ปุ่ม “ส่งออก ADIF / CSV” จะส่งออกเฉพาะรายการนั้น (ปุ่มแสดงจำนวนที่เลือก) ถ้าไม่ได้เลือกเลยจะส่งออกทั้งหมดเหมือนเดิม',
  'ตารางของหน้า VOICE / DIGITAL / SATELLITE แสดงหน้าละ <b>10 QSO</b> เรียงล่าสุดไว้หน้าแรก ใช้ปุ่ม « ‹ › » เปลี่ยนหน้า การติ๊กเลือกคงอยู่ข้ามหน้า',
  'เมื่อเชื่อมต่อ แอปอ่านความถี่และโหมดจากวิทยุผ่าน CI-V ต่อเนื่อง ค่า Baud และ CI-V Address (IC-7300 = 94) ต้องตรงกับที่ตั้งในวิทยุ',
@@ -2156,8 +2205,7 @@ en:{t:'User guide',s:[
  'Without a connected radio the app only plays the sidetone (practice).',
  'With <b>auto-log</b> on (Settings), when the last macro (final) has been sent the QSO is logged and ended for you. Pressing Esc half-way does not log.']],
 ['Radio / frequency / band',[
- 'The radio can be connected to <b>one mode at a time</b> (CW or VOICE). Each page\'s connect button controls only its own mode. If the radio is held by the other mode this page shows "in use by mode ...", and pressing connect (or sending CW) opens a warning popup asking you to disconnect that mode first ("Disconnect ... and connect ..." switches without picking the port again).',
- 'The audio input (CW "Start listening" and VOICE "Start listening") is also usable by <b>one mode at a time</b>: CW uses it for decoding, VOICE for the Audio Scope. If the other mode is listening, a popup asks you to stop it first.',
+ '<b>Radio and audio input are separate per mode:</b> in Settings &gt; Radio connection press "Add radio" to create a profile per radio (name, CI-V baud, CI-V address, keying pin DTR/RTS and audio device), then choose which radio the <b>CW mode</b> and the <b>VOICE mode</b> use (in Settings or with the selector next to each page\'s Connect button). E.g. CW on an IC-7300 (19200) and VOICE on an IC-9700 (115200) can be <b>connected at the same time</b>; each mode reads its own frequency/meters and controls its own radio. "Set address by model" fills the standard address (IC-7300 = 94, IC-9700 = A2, IC-705 = A4, IC-7610 = 98, IC-7100 = 88; double-check with the CI-V menu in your radio). If both modes pick the same radio, pressing Connect (or sending CW) opens a popup asking you to disconnect the other mode first ("Disconnect ... and connect ..." switches without choosing the port again). The audio input works the same way: CW uses it to decode, VOICE for the Audio Scope; if both modes use the same audio device a popup asks you to stop the other one, but different devices (per radio profile) can listen at the same time.',
  '<b>Exporting only some QSOs to Log4OM / QRZ:</b> the QSO tables have a tick box on every row (the header box selects everything in that table) and buttons "Select all / Select this page / Clear selection". If any rows are ticked, "Export ADIF / CSV" exports only those (the button shows the count); with nothing ticked it exports everything as before.',
  'The VOICE / DIGITAL / SATELLITE tables show <b>10 QSOs per page</b>, newest first; use the « ‹ › » buttons to change page. Ticks are kept across pages.',
  'When connected, the app reads frequency and mode from the radio continuously over CI-V. Baud rate and CI-V address (IC-7300 = 94) must match the radio.',
@@ -2232,17 +2280,18 @@ function tab(id){let pg=id;
  for(const t of['p0','p1','p2','p3','p4','pm'])$('#'+t).hidden=t!==pg;
  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('pri',b.dataset.t===id));
  const vx=pg==='p4'&&QG==='VOICE';
+ if(pg==='p1')RC.cur='CW';else if(vx)RC.cur='VOICE';
  $('#p4').classList.toggle('vx',vx);for(const i of['#vstrip','#vcards','#vpanel'])$(i).hidden=!vx;
  if(vx){catTo();VQH.append(QTT)}else{catHome();QF1.append(QTT)}
  $('#bhs').textContent=vx?'กดเพื่อตั้งความถี่ช่วงเสียงของย่านนั้น':'กดเพื่อตั้งความถี่ของย่านนั้น';
- connUI();audUI();updRig();
+ rigsUI();connUI();audUI();updRig();
  if(pg==='pm')return;
  if(pg==='p1')setTimeout(()=>{fit();rbDraw(1)},0);
  if(pg==='p0')dash();
  if(pg==='p4'){PG.qlt=0;if(vx)rigVoice();qSetup();renderLog();if(vx){$('#vmi').textContent='';requestAnimationFrame(vShow)}setTimeout(()=>$('#qc').focus(),0)}}
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
 
-window.addEventListener('beforeunload',()=>{tx.abort=true;if(txPort)txPort.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{})});
+window.addEventListener('beforeunload',()=>{tx.abort=true;if(RC.CW.port)RC.CW.port.setSignals({dataTerminalReady:false,requestToSend:false}).catch(()=>{})});
 window.addEventListener('resize',fit);window.addEventListener('resize',()=>rbDraw(1));
 if(window.ResizeObserver){const ro=new ResizeObserver(fit);ro.observe($('#cv'));ro.observe($('#sp'))}
 fit();
