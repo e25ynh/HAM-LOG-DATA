@@ -2759,8 +2759,8 @@ function prKpi(){
  $('#pbest').textContent=hs&&hs.b?'คะแนนสูงสุดของแบบฝึกนี้: '+hs.b:''}
 const pSel=(id,opts,val,lab)=>'<label class="inl">'+lab+' <select id="'+id+'">'+opts.map(([v,t])=>'<option value="'+v+'"'+(String(v)===String(val)?' selected':'')+'>'+t+'</option>').join('')+'</select></label>';
 const pSeg=(g,items,val)=>'<div class="seg" data-g="'+g+'">'+items.map(([v,t])=>'<button data-v="'+v+'" class="'+(String(v)===String(val)?'on':'')+'">'+t+'</button>').join('')+'</div>';
-const PRTXOFF=true; // sending practice closed for now (audio keying input being fixed) · admin can still open it
-const prTxOk=()=>!PRTXOFF||!!ED.adm;
+const PRTXOFF=true; // sending practice closed for everyone (admin too) while the audio keying input is being fixed
+const prTxOk=()=>!PRTXOFF;
 function prCtl(){
  if(PS().cfg.dir==='tx'&&!prTxOk()){PS().cfg.dir='rx';save()}
  const c=PS().cfg,tx=c.dir==='tx';if(c.ex!=='les'&&!prLesDone()){c.ex='les';save()}
