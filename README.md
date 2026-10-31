@@ -2,7 +2,7 @@
 
 โปรแกรมบันทึก Log และช่วยปฏิบัติการวิทยุสมัครเล่น ทำงานบนเบราว์เซอร์ (Chrome / Edge) ติดตั้งเป็นแอปบน Windows และ Mac ได้ ไม่ต้องติดตั้งโปรแกรมอื่นเพิ่ม ข้อมูลทั้งหมดเก็บในเครื่องของผู้ใช้เอง ไม่ได้อยู่บน GitHub หรือเซิร์ฟเวอร์ใด ๆ
 
-**เปิดใช้งาน:** https://e25ynh.github.io/HAM-LOG-DATA/ · รุ่นเสียง VHF/UHF: [HLVhf = HAM LOG VHF](https://e25ynh.github.io/HAM-LOG-Vhf/)
+**เปิดใช้งาน:** https://e25ynh.github.io/HAM-LOG-HF/ · รุ่นเสียง VHF/UHF: [HLVhf = HAM LOG VHF](https://e25ynh.github.io/HAM-LOG-Vhf/)
 
 ## มีอะไรใหม่ใน V1.2
 - **อัปเดต 2026-10-31:** ตั้งชื่อ HLD = HAM LOG DATA · ช่องล็อกอิน QRZ / HamQTH พิมพ์ตัวเล็ก-ใหญ่ได้อิสระ · ปุ่มรูปตาดูรหัสผ่าน · ช่องผู้ใช้ HamQTH รับ Callsign หรือ Email
