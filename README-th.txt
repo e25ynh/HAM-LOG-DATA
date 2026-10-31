@@ -1,4 +1,4 @@
-HLD = HAM LOG DATA — แพ็กเกจติดตั้งเป็นแอป (PWA)  v1.2
+HLHf = HAM LOG HF — แพ็กเกจติดตั้งเป็นแอป (PWA)  v1.3 · 2026-10-31
 =================================================
 ทำให้เปิดจากลิงก์เว็บ ติดตั้งเป็นแอปบน Windows / Mac ด้วย Chrome หรือ Edge
 อัปเดตอัตโนมัติ และแชร์ให้เพื่อนด้วยลิงก์เดียว (ฟรี)
@@ -8,13 +8,13 @@ HLD = HAM LOG DATA — แพ็กเกจติดตั้งเป็นแ
 
 --- ขั้นตอนโฮสต์บน GitHub Pages (ทำครั้งเดียว ~5 นาที) ---
 1) สมัคร/เข้าสู่ระบบ github.com
-2) กด New repository ตั้งชื่อ เช่น cw-console เลือก Public กด Create
+2) กด New repository ตั้งชื่อ HAM-LOG-HF เลือก Public กด Create
 3) กด "uploading an existing file" แล้วลากไฟล์ทั้งหมดในโฟลเดอร์นี้ลงไป
    (ต้องลากโฟลเดอร์ icons ด้วย ไฟล์ .nojekyll ถ้าเครื่องซ่อนไว้ไม่ต้องกังวล ไม่จำเป็นมาก)
    กด Commit changes
 4) ไปที่ Settings > Pages > Source เลือก "Deploy from a branch"
    Branch: main  โฟลเดอร์: / (root)  กด Save
-5) รอ 1-2 นาที จะได้ลิงก์ https://e25ynh.github.io/HAM-LOG-DATA/
+5) รอ 1-2 นาที จะได้ลิงก์ https://e25ynh.github.io/HAM-LOG-HF/
 6) เปิดลิงก์นั้นด้วย Chrome หรือ Edge จะเห็นไอคอนติดตั้งที่แถบที่อยู่
    (หรือเมนู ⋮ > บันทึกและแชร์ > ติดตั้ง / Edge: แอป > ติดตั้งเว็บไซต์นี้เป็นแอป)
 

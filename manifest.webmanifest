@@ -1,7 +1,7 @@
 {
  "id": "./",
- "name": "HLD = HAM LOG DATA",
- "short_name": "HLD",
+ "name": "HLHf = HAM LOG HF",
+ "short_name": "HLHf",
  "description": "บันทึก Log และปฏิบัติการวิทยุสมัครเล่น (CW / Voice / Digital / Satellite)",
  "lang": "th",
  "start_url": "./",
