@@ -863,7 +863,7 @@ const R={};for(const k in M)R[M[k]]=k;
 let S={tone:700,auto:true,ch:'mix',dev:'',my:{},ps:[],cur:'',mode:'cq',gr:'',rs:'599',tt:'CQ CQ DE HS0ABC K'};
 try{Object.assign(S,JSON.parse(localStorage.getItem('cwc')||'{}'))}catch(e){}
 if(S.my&&S.my.wx==='RAIN')S.my.wx='RAINY';
-const VER='1.3.1 · 2026-10-31';
+const VER='1.4 · 2026-10-31';
 const save=()=>{try{localStorage.setItem('cwc',JSON.stringify(S))}catch(e){}};
 // ---- editions (รุ่น): Standard=VOICE · Plus=+CW · Pro=+DIGITAL · Ultimate=+SATELLITE ; unlocked by a signed key bound to the callsign ----
 const ED_PUB={"kty":"EC","x":"hkg1ObxqZdpiZk-OK94gIz_Dpkas1auP51b0hriWZDI","y":"uPCAm2i8pWxZ1l1G1659VyDVwU3OmZixiiDqeWo5VqU","crv":"P-256"};
@@ -1957,7 +1957,7 @@ function expAdif(){
  const n=v=>new TextEncoder().encode(v).length,f=(k,v)=>v?`<${k}:${n(v)}>${v}`:'',me=S.my||{},
   grid=/^[A-R]{2}[0-9]{2}([A-X]{2})?$/i.test(me.loc||'')?me.loc.toUpperCase():'',
   tm=t=>{const a=(t||'').replace(/:/g,'');return a.length===4?a+'00':a},
-  recs=rows.map(r=>[f('STATION_CALLSIGN',me.call),f('MY_GRIDSQUARE',grid),f('CALL',(r.c||'').trim()),f('QSO_DATE',(r.d||'').replace(/-/g,'')),f('TIME_ON',tm(r.t)),f('MODE',adifMode(r.m)),f('SUBMODE',adifSub(r.m)),f('PROP_MODE',r.pm==='SAT'?'SAT':((MD[mdKey(r.m)]||[])[3]||'')),f('SAT_NAME',r.sat),f('FREQ',r.f),f('BAND',r.b),f('RST_SENT',(r.rs||'').replace(/N/gi,'9')),f('RST_RCVD',(r.rr||'').replace(/N/gi,'9')),f('NAME',r.n),f('COUNTRY',r.co),f('QTH',r.q),f('GRIDSQUARE',(r.g||'').toUpperCase()),f('DXCC',r.dx),f('COMMENT',r.cm||(r.r1?'D-STAR UR:'+(r.ur||'CQCQCQ')+' RPT1:'+r.r1+' RPT2:'+(r.r2||''):'')),f('APP_'+APPID()+'_UR',r.ur),f('APP_'+APPID()+'_RPT1',r.r1),f('APP_'+APPID()+'_RPT2',r.r2),'<EOR>'].filter(Boolean).join(' '));
+  recs=rows.map(r=>[f('STATION_CALLSIGN',me.call),f('MY_GRIDSQUARE',grid),f('CALL',(r.c||'').trim()),f('QSO_DATE',(r.d||'').replace(/-/g,'')),f('TIME_ON',tm(r.t)),f('MODE',adifMode(r.m)),f('SUBMODE',adifSub(r.m)),f('PROP_MODE',r.pm==='SAT'?'SAT':((MD[mdKey(r.m)]||[])[3]||'')),f('SAT_NAME',r.sat),f('SAT_MODE',r.satm),f('FREQ_RX',r.frx),f('BAND_RX',r.brx),f('FREQ',r.f),f('BAND',r.b),f('RST_SENT',(r.rs||'').replace(/N/gi,'9')),f('RST_RCVD',(r.rr||'').replace(/N/gi,'9')),f('NAME',r.n),f('COUNTRY',r.co),f('QTH',r.q),f('GRIDSQUARE',(r.g||'').toUpperCase()),f('DXCC',r.dx),f('COMMENT',r.cm||(r.r1?'D-STAR UR:'+(r.ur||'CQCQCQ')+' RPT1:'+r.r1+' RPT2:'+(r.r2||''):'')),f('APP_'+APPID()+'_UR',r.ur),f('APP_'+APPID()+'_RPT1',r.r1),f('APP_'+APPID()+'_RPT2',r.r2),'<EOR>'].filter(Boolean).join(' '));
  dl(LOGPFX()+utcNow().slice(0,10).replace(/-/g,'')+'.adi','text/plain','ADIF export from HLHf = HAM LOG HF\n<ADIF_VER:5>3.1.4 <PROGRAMID:4>HLHf <EOH>\n\n'+recs.join('\n')+'\n');
  const miss=rows.filter(r=>!r.f||!r.b).length;lmsg('ส่งออก ADIF '+rows.length+' รายการ'+(miss?'  ⚠ '+miss+' รายการยังไม่มีความถี่/ย่าน Log4OM อาจนำเข้าไม่ได้':''))}
 function expCsv(){
@@ -2497,6 +2497,12 @@ th:{t:'คู่มือการใช้งาน HLHf = HAM LOG HF',s:[
  'สปอตของ RBN คือสิ่งที่ตัว Skimmer ถอดได้ อาจผิดพลาด และอาจไม่ตรงกับสิ่งที่คุณได้ยินจริง ใช้เป็นแนวทางเท่านั้น']],
 ['รูปโปรไฟล์มุมซ้ายล่าง',[
  'แอปค้นรูปของ Callsign เราเองจาก QRZ (ฟิลด์ image) ถ้าไม่มีจะลอง HamQTH แล้วแสดงเป็นรูปกลมที่มุมซ้ายล่าง (ใต้เมนู) ไม่มีรูปก็ไม่แสดงอะไร บัญชี QRZ ฟรีมักไม่ส่งรูปมาให้']],
+['หน้า SATELLITE (รุ่น Ultimate)',[
+ 'ตั้ง Grid ของสถานีที่ ตั้งค่า › สถานีของเรา › Location (เช่น OK03) ระบบดึงข้อมูลวงโคจร (TLE) จาก CelesTrak เอง วันละครั้ง · ดึงไม่ได้ให้วาง TLE เองในส่วน “ข้อมูลวงโคจร”',
+ 'เลือกดาวเทียมที่แถบบน · ตาราง <b>รอบผ่านถัดไป</b> บอกเวลาขึ้น / นาน / มุมเงยสูงสุด / ทิศ · กด <b>ติดตาม</b> ระบบรอแล้วเริ่มเองเมื่อดาวขึ้น',
+ '<b>Doppler</b>: กด “ต่อ IC-9700” (พอร์ตวิทยุชุดเดียวกับหน้า VOICE) ระหว่างติดตาม ระบบเปิดโหมด Satellite ของวิทยุ ตั้ง SUB = ส่ง · MAIN = รับ (ตามโหมด Satellite ของ IC-9700 สลับย่านให้เองถ้าอยู่ผิดข้าง) และแก้ความถี่ทุก 1 วินาที · ดาว Linear ใช้ปุ่ม −1 / +1 kHz เลื่อนจุดบนทรานสปอนเดอร์ · ปรับละเอียดขารับ ±0.5 kHz',
+ '<b>โรเตอร์ RC-2500</b>: กด “โรเตอร์” แล้วเลือกพอร์ต COM (สาย USB-C หรือ Bluetooth ที่จับคู่แล้ว) หรือ Bluetooth BLE · ติดตามอัตโนมัติจะหันรอก่อนดาวขึ้น 1 นาที และจอด 0° / 0° หลังดาวตก · มีปุ่มหมุนมือ / หยุดฉุกเฉิน',
+ 'บันทึก QSO ในหน้านี้ ระบบเติมชื่อดาวเทียม PROP_MODE=SAT SAT_MODE ความถี่ส่ง / รับ ให้เอง ส่งออก ADIF ไปใช้กับ LoTW ได้']],
 ['สำรองข้อมูล และเลขเวอร์ชัน',[
  'การตั้งค่าและ Log เก็บในเบราว์เซอร์เครื่องนี้ ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่องจะหาย ที่ <b>ตั้งค่า &gt; สำรองข้อมูล</b> กด “สำรองการตั้งค่า + Log” เพื่อได้ไฟล์ .json (ไม่มีรหัสผ่าน QRZ/HamQTH) และ “นำเข้าจากไฟล์สำรอง” เพื่อกู้คืน Log ที่นำเข้าจะรวมกับของเดิม ไม่ซ้ำรายการเดิม',
  'นำเข้า Log เดิมจากโปรแกรมอื่น: ที่ <b>ตั้งค่า &gt; นำเข้า QSO จากไฟล์ ADIF</b> เลือกไฟล์ .adi/.adif (Log4OM, WSJT-X, JTDX, N1MM, LoTW ฯลฯ) ระบบแยกโหมดเข้าหน้า CW/VOICE/DIGITAL/SATELLITE เอง ข้ามรายการที่ซ้ำ และมีปุ่ม “ยกเลิกการนำเข้าล่าสุด” (ใช้ได้จนกว่าจะรีโหลดหน้า) ไฟล์ที่เดิมไม่มี Grid หรือความถี่ จะแก้ในตารางเองได้',
@@ -2595,6 +2601,12 @@ en:{t:'HLHf = HAM LOG HF user guide',s:[
  'RBN spots are what the skimmers decoded; they can be wrong and may differ from what you hear. Use them as a guide only.']],
 ['Profile picture (bottom left)',[
  'The app looks up the picture of your own callsign on QRZ (the image field), then HamQTH, and shows it as a round picture at the bottom left, under the menu. With no picture nothing is shown. Free QRZ accounts usually do not return one.']],
+['SATELLITE page (Ultimate)',[
+ 'Set your grid in Settings › Our station › Location (e.g. OK03). Orbital data (TLE) is fetched from CelesTrak once a day; if that fails, paste TLE under “Orbital data”.',
+ 'Pick a satellite on the top bar. <b>Next passes</b> lists AOS, duration, max elevation and directions. Press <b>Track</b> and it starts by itself at AOS.',
+ '<b>Doppler</b>: press “IC-9700” (same radio port as the VOICE page). While tracking, the radio is put in Satellite mode, SUB = uplink, MAIN = downlink (as in the IC-9700 Satellite mode; bands are exchanged if needed), corrected every second. Linear birds: −1 / +1 kHz moves your spot on the transponder; RX fine tune ±0.5 kHz.',
+ '<b>RC-2500 rotator</b>: press “Rotator”, pick the COM port (USB-C or paired Bluetooth) or Bluetooth BLE. Auto tracking pre-points 1 minute before AOS and parks at 0° / 0° after LOS. Manual jog and emergency stop are there too.',
+ 'QSOs logged here get the satellite name, PROP_MODE=SAT, SAT_MODE and uplink / downlink frequencies, ready for LoTW via ADIF.']],
 ['Backup and version',[
  'Settings and the log live in this browser; clearing browser data or changing computer loses them. In <b>Settings &gt; Backup</b> press "Backup settings + log" to get a .json file (no QRZ/HamQTH passwords) and "Import from backup file" to restore it. Imported log entries are merged with the existing ones without duplicates.',
  'Import an existing log: <b>Settings &gt; Import QSOs from ADIF</b> — pick .adi/.adif files (Log4OM, WSJT-X, JTDX, N1MM, LoTW ...). Modes are sorted into the CW/VOICE/DIGITAL/SATELLITE pages automatically, duplicates are skipped, and "Undo last import" works until the page is reloaded. Missing grids or frequencies can be edited in the tables.',
@@ -2626,7 +2638,7 @@ function drawMan(){
 document.querySelectorAll('#mlang button').forEach(b=>b.onclick=()=>{S.lang=b.dataset.l;save();drawMan()});
 drawMan();
 // ---- tabs ----
-const MAINT={DIGITAL:1,SAT:1}; // modes closed while being updated (remove a key to re-open it)
+const MAINT={DIGITAL:1}; // modes closed while being updated (remove a key to re-open it)
 const PMP0=$('#pmp').textContent;let CURTAB='p0';
 const EDLB={CW:'CW',VOICE:'VOICE',DIGITAL:'DIGITAL',SAT:'SATELLITE'};
 
@@ -3137,6 +3149,12 @@ if(navigator.mediaDevices)devs();
 #p0 .dqw .qlw{margin:0}#p0 .dqw .lt{height:auto;max-height:none}
 #p4 #vpanel .qh > .qtt{margin-left:auto!important}
 #p4.qv .qlw .qh button{display:none}
+/* Dashboard › QSO ล่าสุด: Country closer to Name, QTH widest */
+.dqw .lr{grid-template-columns:26px 162px 96px 84px 50px 80px minmax(150px,1.4fr) minmax(90px,.8fr) minmax(140px,2fr) 52px 52px 78px 48px 28px}
+.dqw .lr.sat{grid-template-columns:26px 162px 96px 84px 50px 80px 92px minmax(150px,1.4fr) minmax(90px,.8fr) minmax(140px,2fr) 52px 52px 78px 48px 28px}
+
+/* HLHf: QSO log hidden on SATELLITE / CW pages (VOICE keeps its table) */
+.hlhf #p4.sat>.qlw,.hlhf .logw{display:none!important}
 
 </style>
 <script>
@@ -5440,6 +5458,7 @@ var qrcode = function() {
 
 </script>
 <script>
+if(!/^HLVhf/.test(document.title))document.documentElement.classList.add('hlhf');
 // ===== VOICE add-ons shared by HLHf and HLVhf: audio auto-start · frequency entry · repeaters · D-STAR · export new · QRZ update · QR =====
 (()=>{
  const HLV=/^HLVhf/.test(document.title);
@@ -5626,6 +5645,389 @@ var qrcode = function() {
 
 </script>
 <!--VOICE-ADDON-END-->
+<!--SAT-ADDON-BEGIN-->
+<style>
+/* ---- SATELLITE page ---- */
+.satx{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}.satx[hidden]{display:none}
+.satx .pn{margin:0}.satx h2{margin:0}.satx .mono{font-family:"IBM Plex Mono",monospace}
+.sxs{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px 18px}.sxti{display:flex;flex-direction:column;gap:4px}
+@media (max-width:900px){.sxs{grid-template-columns:1fr auto}.sxs .sxc{grid-column:1/-1;order:3}}
+.sxc{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.sxchip{padding:6px 12px;border-radius:9px;border:1px solid var(--ln);background:transparent;color:var(--tx);font:600 13.5px "IBM Plex Mono",monospace;cursor:pointer}
+.sxchip.on{background:#a78bfa;border-color:#a78bfa;color:#160b2e}.sxchip.nt{opacity:.5}
+.sxb{display:flex;gap:8px;flex-wrap:wrap;position:relative;margin-top:4px}.sxb button.on{border-color:var(--ok);color:var(--ok)}
+.sxk{text-align:right}.sxk b{display:block;font:600 30px "IBM Plex Mono",monospace;line-height:1.1}
+.sxm{padding:8px 12px;border-radius:10px;border:1px solid var(--amb);color:var(--amb);font-size:13.5px}.sxm[hidden]{display:none}
+.sxg{display:grid;grid-template-columns:minmax(300px,360px) minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media (max-width:1180px){.sxg{grid-template-columns:1fr 1fr}.sxg>:first-child{grid-row:span 2}}
+@media (max-width:760px){.sxg{grid-template-columns:1fr}.sxg>:first-child{grid-row:auto}}
+.sxh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.sxd{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 8px;vertical-align:-1px}.sxd.s{background:#a78bfa}.sxd.a{border:2px solid #f59e0b}
+#sxsky{width:100%;max-width:330px;display:block;margin:6px auto}
+#sxsky .rg{fill:none;stroke:var(--ln);stroke-width:1}#sxsky .pl{fill:var(--mu);font:600 13px "IBM Plex Mono",monospace;text-anchor:middle}#sxsky .pe{fill:var(--mu);opacity:.7;font:10.5px "IBM Plex Mono",monospace}
+#sxsky .tr{fill:none;stroke:#a78bfa;stroke-width:2.4;stroke-dasharray:6 5;opacity:.75}#sxsky .trd{fill:none;stroke:#a78bfa;stroke-width:3.4}
+#sxsky .sat{fill:#a78bfa;stroke:#fff;stroke-width:2}#sxsky .st{fill:var(--tx);font:600 12.5px "IBM Plex Mono",monospace}
+#sxsky .ao{fill:#22c55e}#sxsky .lo{fill:#ef4444}#sxsky .ant{fill:none;stroke:#f59e0b;stroke-width:2.4}
+.sxkv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.sxkv div{border:1px solid var(--ln);border-radius:10px;padding:6px 8px;background:var(--rs)}.sxkv span{display:block;font-size:11.5px;color:var(--mu)}.sxkv b{font:600 19px "IBM Plex Mono",monospace}
+.sxlive{background:#22c55e;color:#04150d;font:600 12px "IBM Plex Mono",monospace;padding:3px 9px;border-radius:7px}.sxlive[hidden]{display:none}
+.sxr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}.sxr[hidden]{display:none}
+.sxbig{font:600 28px "IBM Plex Mono",monospace;color:#a78bfa}
+.sxbar{height:7px;border-radius:4px;background:var(--rs);border:1px solid var(--ln);overflow:hidden;margin-top:8px}.sxbar i{display:block;height:100%;background:#a78bfa;width:0}
+.sxdh{margin-top:14px!important;font-size:16px}.sxdh .mu{font-weight:400;font-size:12.5px}
+.sxdp{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;margin-top:6px}
+.sxdp span{font:600 12px "IBM Plex Mono",monospace}.sxdp b{font:600 28px "IBM Plex Mono",monospace;letter-spacing:1px}.sxdp em{font:600 15px "IBM Plex Mono",monospace;font-style:normal}
+.sxdp .u{color:#f472b6}.sxdp .d{color:#22c55e}
+.sxnote{margin-top:6px;font-size:12.5px}
+.sxcmp{display:grid;grid-template-columns:auto 1fr 1fr;gap:4px 12px;margin:10px 0;font-family:"IBM Plex Mono",monospace}.sxcmp b{font-size:18px}.sxcmp .a{color:#f59e0b}
+.sxrow2{display:flex;gap:16px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.sxpad{display:grid;grid-template-columns:repeat(3,44px);gap:6px}.sxpad button{height:42px;padding:0;font:600 16px "IBM Plex Mono",monospace;touch-action:none}.sxpad .st{font-size:11px}
+.sxcol{display:flex;flex-direction:column;gap:8px}.sxred{border-color:#ef4444!important;color:#ef4444!important}
+.sxpick{position:absolute;top:100%;left:0;z-index:20;margin-top:6px;display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:12px;border:1px solid var(--ln);background:var(--pn);box-shadow:0 8px 30px #0008;min-width:300px}
+.sxtw{overflow-x:auto}.sxt{width:100%;border-collapse:collapse;font-size:13.5px}.sxt th{text-align:left;color:var(--mu);font-weight:500;padding:6px 8px;border-bottom:1px solid var(--ln)}.sxt td{padding:6px 8px;border-bottom:1px solid var(--ln)}
+.sxt tr.sxnow td{background:rgba(167,139,250,.12)}.sxt tr.trk td{box-shadow:inset 0 -2px 0 #a78bfa}.sxt .hi{color:var(--ok);font-weight:700}.sxt .lo2{color:var(--mu)}
+#sxmin{display:inline-block;width:auto!important;min-width:0;padding:2px 6px;margin:0 2px}
+.sxset summary{cursor:pointer;font-weight:600}.sxfull{display:flex;flex-direction:column;gap:4px;margin-top:8px;font-size:12.5px;color:var(--mu)}.sxfull textarea{font:12px "IBM Plex Mono",monospace}
+.sxlist{display:flex;flex-direction:column;gap:2px;margin:6px 0;max-height:220px;overflow:auto}.sxli{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;padding:2px 6px;border-radius:6px}.sxli:nth-child(odd){background:var(--rs)}.sxli button{padding:2px 8px}
+.sxadd{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.sxadd input,.sxadd select{min-width:0;padding:6px 8px}
+#p4.sat #qmodes{display:none}
+/* the SATELLITE page scrolls inside itself (like VOICE): the window never scrolls */
+#p4.sat{overflow:auto;height:100%;min-height:0;padding-right:2px}
+#p4.sat>.satx,#p4.sat>.pn{flex:none}
+#p4.sat>.qlw{flex:none;min-height:320px}
+
+.sxd.me{background:#38bdf8}
+#sxmapv{width:100%;height:auto;max-height:420px;display:block;margin-top:6px;border-radius:10px}
+#sxmapv .sea{fill:var(--rs)}#sxmapv .land{fill:var(--ln);stroke:none}#sxmapv .gl{stroke:var(--ln);stroke-width:.25;opacity:.8}
+#sxmapv .gtp{fill:none;stroke:#a78bfa;stroke-width:.7;stroke-dasharray:2 1.5;opacity:.6}#sxmapv .gtf{fill:none;stroke:#a78bfa;stroke-width:1}
+#sxmapv .fp{fill:rgba(167,139,250,.14);stroke:#a78bfa;stroke-width:.5}#sxmapv .msat{fill:#a78bfa;stroke:#fff;stroke-width:.6}#sxmapv .mme{fill:#38bdf8;stroke:#fff;stroke-width:.5}
+#sxmapv .mt{fill:var(--tx);font:600 5px "IBM Plex Mono",monospace}
+#satx .qfp{margin:0}
+
+/* v3 layout: sky | map | doppler · form · rotator | passes */
+.sxg{grid-template-columns:minmax(280px,330px) minmax(0,1.6fr) minmax(320px,1fr)}
+.sxg>.sxmap{display:flex;flex-direction:column;min-width:0}.sxg>.sxmap #sxmapv{flex:1;max-height:none;min-height:0}
+.sxr3{display:grid;grid-template-columns:minmax(320px,420px) minmax(0,1fr);gap:12px;align-items:start}.sxr3>.pn{margin:0}
+@media (max-width:1180px){.sxg{grid-template-columns:minmax(260px,320px) minmax(0,1fr)}.sxg>:first-child{grid-row:auto}.sxg>.sxmap{grid-column:1/-1;order:3}.sxr3{grid-template-columns:1fr}}
+@media (max-width:760px){.sxg{grid-template-columns:1fr}}
+.sxdp small{display:block;font-size:10.5px;opacity:.8;font-weight:500}
+.sxauto{border:1px solid #a78bfa;background:transparent;color:#a78bfa;border-radius:999px;padding:4px 12px;font-weight:600}.sxauto.on{background:rgba(167,139,250,.2);color:#ddd6fe}
+#satx .qfp:not(.sxedit) .qf1{display:none}
+#satx .qf2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,.8fr) 90px 90px auto;gap:10px;align-items:end}
+@media (max-width:900px){#satx .qf2{grid-template-columns:1fr 1fr}}
+#satx #qkb{display:none}
+.sxlog{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;margin-top:10px;padding:8px 12px;border:1px dashed #a78bfa;border-radius:10px;font-size:13px;color:var(--mu)}
+.sxlog b{color:var(--tx);font-family:"IBM Plex Mono",monospace}.sxlog .t{color:#a78bfa}.sxlog a{margin-left:auto;color:#a78bfa;cursor:pointer}
+
+/* v4: map zoomed to our region; rotator under the map */
+.sxmid{display:flex;flex-direction:column;gap:12px;min-width:0}.sxmid>.pn{margin:0}
+.sxg>.sxmid>.sxmap{display:block}.sxmid #sxmapv{max-height:none;aspect-ratio:200/112;height:auto}
+.sxmid #sxsub{display:none}
+.sxr3{grid-template-columns:1fr}
+@media (max-width:1180px){.sxg>.sxmid{grid-column:1/-1;order:3}}
+
+.sxrot{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:18px;align-content:start}
+.sxrot>.sxh{grid-column:1/-1}.sxrot>.sxcmp{margin:4px 0 6px}.sxrot>.sxrow2{grid-column:2;grid-row:2/span 3;align-self:center;margin:0}
+@media (max-width:620px){.sxrot{grid-template-columns:1fr}.sxrot>.sxrow2{grid-column:1;grid-row:auto}}
+
+/* v5: row 1 = 4 columns · sky | map | doppler | rotator */
+.sxg{grid-template-columns:minmax(250px,290px) minmax(0,1.5fr) minmax(290px,1fr) minmax(270px,300px)}
+.sxmid{display:contents}.sxg>.sxmid>.sxmap{order:1;display:flex;flex-direction:column}.sxg>:nth-child(3){order:2}.sxg>.sxmid>.sxrot{order:3}
+.sxmid #sxmapv{margin:auto 0}
+.sxrot{display:block}.sxrot>.sxrow2{margin-top:10px}
+.sxg .sxkv{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:1280px){.sxg{grid-template-columns:minmax(250px,300px) minmax(0,1fr)}.sxg>.sxmid>.sxmap{order:3;grid-column:1/-1}.sxg>.sxmid>.sxrot{order:2}.sxg>:first-child{grid-row:auto}}
+@media (max-width:760px){.sxg{grid-template-columns:1fr}}
+.sxg{grid-template-columns:minmax(240px,270px) minmax(0,1.6fr) minmax(300px,1fr) minmax(250px,280px)}
+.sxmid #sxmapv{margin:8px 0 0}.sxmap .sxh h2 .mu{display:none}
+.sxg .sxdp b{font-size:clamp(20px,1.75vw,30px)}.sxg .sxdp em{font-size:12px;white-space:nowrap}
+.sxg>.sxmid>.sxmap #sxmapv{flex:1;min-height:200px;aspect-ratio:auto;height:0}
+@media (max-width:1280px){.sxg>.sxmid>.sxmap #sxmapv{flex:none;height:auto;aspect-ratio:200/112}}
+/* v6: row 1 as tall as the sky card; compact rotator */
+.sxg>.sxmid>.sxmap #sxmapv{min-height:160px}
+.sxg .sxrot{font-size:12.5px}.sxg .sxrot .sxcmp{margin:2px 0 4px}.sxg .sxrot .sxcmp b{font-size:16px}
+.sxg .sxrot>.sxrow2{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px}
+.sxg .sxrot .sxpad{grid-template-columns:repeat(3,40px);gap:4px}.sxg .sxrot .sxpad button{height:36px}
+.sxg .sxrot .sxcol{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}.sxg .sxrot .sxcol button{font-size:12px;padding:5px 6px;white-space:nowrap}.sxg .sxrot .sxcol button:last-child{grid-column:1/-1}
+/* map takes no height of its own: row 1 height = sky card */
+.sxg{align-items:stretch}
+.sxg>.sxmid>.sxmap{position:relative;min-height:0}
+.sxg>.sxmid>.sxmap #sxmapv{position:absolute;left:16px;right:16px;top:52px;bottom:16px;width:auto;height:auto;min-height:0;margin:0;flex:none;aspect-ratio:auto}
+@media (max-width:1280px){.sxg>.sxmid>.sxmap{position:static}.sxg>.sxmid>.sxmap #sxmapv{position:static;width:100%;height:auto;aspect-ratio:200/112}}
+/* edit row: fields stretch across the whole card */
+#satx .qfp.sxedit .qf1{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:end}
+#satx .qf1 .qtt{display:none}#satx .qf1>label{width:auto;min-width:0}#satx .qf1 input,#satx .qf1 select{width:100%}
+@media (max-width:900px){#satx .qfp.sxedit .qf1{grid-template-columns:1fr 1fr}}
+.sxmap{position:relative}#sxmapv{cursor:grab;touch-action:none}#sxmapv.drag{cursor:grabbing}
+.sxzm{position:absolute;right:24px;top:60px;display:flex;flex-direction:column;gap:4px;z-index:2}
+.sxzm button{width:30px;height:30px;padding:0;border-radius:8px;font:600 16px "IBM Plex Mono",monospace;background:var(--pn);border:1px solid var(--ln);color:var(--tx);opacity:.9}.sxzm button:hover{border-color:#a78bfa}
+#sxmapv .gtp,#sxmapv .gtf,#sxmapv .fp,#sxmapv .gl,#sxmapv .msat,#sxmapv .mme{vector-effect:non-scaling-stroke}
+#sxmapv .gtp{stroke-width:2;stroke-dasharray:6 5}#sxmapv .gtf{stroke-width:2.5}#sxmapv .fp{stroke-width:1.5}#sxmapv .gl{stroke-width:.8}#sxmapv .msat{stroke-width:2}#sxmapv .mme{stroke-width:1.5}
+.sxg>.sxmid>.sxmap #sxmapv{width:calc(100% - 32px);height:calc(100% - 68px)}
+@media (max-width:1280px){.sxg>.sxmid>.sxmap #sxmapv{width:100%;height:auto}}
+.sxs .sxclk{grid-area:auto;text-align:right;margin-left:auto;line-height:1.1}
+#satx .sxlog{margin:0 0 10px}
+/* map shapes are cloned by <use> (wrap-around), so rules must not depend on #sxmapv */
+.sxl{fill:var(--ln);stroke:none}.sxgl{stroke:var(--ln);stroke-width:.8;opacity:.8;vector-effect:non-scaling-stroke}
+.sxgtp{fill:none;stroke:#a78bfa;stroke-width:2;stroke-dasharray:6 5;opacity:.6;vector-effect:non-scaling-stroke}.sxgtf{fill:none;stroke:#a78bfa;stroke-width:2.5;vector-effect:non-scaling-stroke}
+.sxfp{fill:rgba(167,139,250,.14);stroke:#a78bfa;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.sxms{fill:#a78bfa;stroke:#fff;stroke-width:2;vector-effect:non-scaling-stroke}.sxme{fill:#38bdf8;stroke:#fff;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.sxmt{fill:var(--tx);font-weight:600;font-family:"IBM Plex Mono",monospace}
+.sxclk .vu{display:flex;gap:10px;justify-content:flex-end}
+.qfp>.sxlog{display:none}#satx .qfp>.sxlog{display:flex}
+
+</style>
+<script>
+(()=>{var ht=Object.defineProperty;var xt=(n)=>n;function ft(n,t){this[n]=xt.bind(null,t)}var gt=(n,t)=>{for(var o in t)ht(n,o,{get:t[o],enumerable:!0,configurable:!0,set:ft.bind(t,o)})};var Pn={};gt(Pn,{shadowFraction:()=>Et});var ie=Math.PI,R=ie*2,ke=ie/180,_n=180/ie,vn=1440;var Ue=6378.135,Ke=60/Math.sqrt(650942.9922085947),hn=6378.135*Ke/60,Kn=1/Ke,Be=0.001082616;var Jn=-0.00000165597,He=-0.002345069720011528,We=0.6666666666666666,xn=1440/(2*ie);function $n(n,t){let o=[31,n%4===0?29:28,31,30,31,30,31,31,30,31,30,31],m=Math.floor(t),r=1,i=0;while(m>i+o[r-1]&&r<12)i+=o[r-1],r+=1;let p=r,c=m-i,s=(t-m)*24,u=Math.floor(s);s=(s-u)*60;let l=Math.floor(s),h=(s-l)*60;return{mon:p,day:c,hr:u,minute:l,sec:h}}function Zn(n,t,o,m,r,i,p=0){return 367*n-Math.floor(7*(n+Math.floor((t+9)/12))*0.25)+Math.floor(275*t/9)+o+1721013.5+((p/60000+i/60+r)/60+m)/24}function Qe(n,t,o,m,r,i,p=0){if(n instanceof Date){let c=n;return Zn(c.getUTCFullYear(),c.getUTCMonth()+1,c.getUTCDate(),c.getUTCHours(),c.getUTCMinutes(),c.getUTCSeconds(),c.getUTCMilliseconds())}return Zn(n,t,o,m,r,i,p)}function fn(n,t){let{e3:o,ee2:m,peo:r,pgho:i,pho:p,pinco:c,plo:s,se2:u,se3:l,sgh2:h,sgh3:w,sgh4:M,sh2:I,sh3:H,si2:C,si3:D,sl2:K,sl3:L,sl4:U,t:N,xgh2:d,xgh3:z,xgh4:V,xh2:j,xh3:ee,xi2:G,xi3:O,xl2:le,xl3:W,xl4:ne,zmol:f,zmos:re}=n,{init:P,opsmode:J}=t,{ep:ue,inclp:ye,nodep:y,argpp:te,mp:X}=t,a,x,ae,oe,ze,Z,Re,me,Q,q,k,se,A,T,E,S,g,F,Y,_,B,fe=0.0000119459,he=0.01675,be=0.00015835218,de=0.0549;if(B=re+0.0000119459*N,P==="y")B=re;_=B+0.0335*Math.sin(B),g=Math.sin(_),q=0.5*g*g-0.25,k=-0.5*g*Math.cos(_);let De=u*q+l*k,Te=C*q+D*k,Se=K*q+L*k+U*g,e=h*q+w*k+M*g,Oe=I*q+H*k;if(B=f+0.00015835218*N,P==="y")B=f;_=B+0.1098*Math.sin(B),g=Math.sin(_),q=0.5*g*g-0.25,k=-0.5*g*Math.cos(_);let we=m*q+o*k,Ce=G*q+O*k,Ze=le*q+W*k+ne*g,je=d*q+z*k+V*g,ge=j*q+ee*k;if(se=De+we,E=Te+Ce,S=Se+Ze,A=e+je,T=Oe+ge,P==="n")if(se-=r,E-=c,S-=s,A-=i,T-=p,ye+=E,ue+=se,oe=Math.sin(ye),ae=Math.cos(ye),ye>=0.2)T/=oe,A-=ae*T,te+=A,y+=T,X+=S;else{if(Z=Math.sin(y),ze=Math.cos(y),a=oe*Z,x=oe*ze,Re=T*ze+E*ae*Z,me=-T*Z+E*ae*ze,a+=Re,x+=me,y%=R,y<0&&J==="a")y+=R;if(F=X+te+ae*y,Q=S+A-E*y*oe,F+=Q,Y=y,y=Math.atan2(a,x),y<0&&J==="a")y+=R;if(Math.abs(Y-y)>ie)if(y<Y)y+=R;else y-=R;X+=S,te=F-X-ae*y}return{ep:ue,inclp:ye,nodep:y,argpp:te,mp:X}}function Fn(n){let{epoch:t,ep:o,argpp:m,tc:r,inclp:i,nodep:p,np:c}=n,s,u,l,h,w,M,I,H,C,D,K,L,U,N,d,z,V,j,ee,G,O,le,W,ne,f,re,P,J,ue,ye,y,te,X,a,x,ae,oe,ze,Z,Re,me,Q,q,k,se,A,T,E,S,g,F,Y,_,B,fe,he,be,de,De,Te,Se,e,Oe,we=0.01675,Ce=0.0549,Ze=0.0000029864797,je=0.00000047968065,ge=0.39785416,Xe=0.91744867,qe=0.1945905,Pe=-0.98088458,Fe=c,pe=o,Me=Math.sin(p),$e=Math.cos(p),Ie=Math.sin(m),Ae=Math.cos(m),Ge=Math.sin(i),Ne=Math.cos(i),b=pe*pe,_e=1-b,Le=Math.sqrt(_e),en=0,v=0,rn=0,ln=0,an=0,Ye=t+18261.5+r/1440,Je=(4.523602-0.00092422029*Ye)%R,xe=Math.sin(Je),ve=Math.cos(Je),nn=0.91375164-0.03568096*ve,tn=Math.sqrt(1-nn*nn),Ee=0.089683511*xe/tn,Ve=Math.sqrt(1-Ee*Ee),ce=5.8351514+0.001944368*Ye,on=0.39785416*xe/tn,An=Ve*ve+0.91744867*Ee*xe;on=Math.atan2(on,An),on+=ce-Je;let wn=Math.cos(on),Cn=Math.sin(on);G=0.1945905,O=-0.98088458,ne=0.91744867,f=0.39785416,le=$e,W=Me,K=0.0000029864797;let jn=1/Fe,bn=0;while(bn<2)if(bn+=1,s=G*le+O*ne*W,l=-O*le+G*ne*W,I=-G*W+O*ne*le,H=O*f,C=O*W+G*ne*le,D=G*f,u=Ne*I+Ge*H,h=Ne*C+Ge*D,w=-Ge*I+Ne*H,M=-Ge*C+Ne*D,L=s*Ae+u*Ie,U=l*Ae+h*Ie,N=-s*Ie+u*Ae,d=-l*Ie+h*Ae,z=w*Ie,V=M*Ie,j=w*Ae,ee=M*Ae,Se=12*L*L-3*N*N,e=24*L*U-6*N*d,Oe=12*U*U-3*d*d,Y=3*(s*s+u*u)+Se*b,_=6*(s*l+u*h)+e*b,B=3*(l*l+h*h)+Oe*b,fe=-6*s*w+b*(-24*L*j-6*N*z),he=-6*(s*M+l*w)+b*(-24*(U*j+L*ee)+-6*(N*V+d*z)),be=-6*l*M+b*(-24*U*ee-6*d*V),de=6*u*w+b*(24*L*z-6*N*j),De=6*(h*w+u*M)+b*(24*(U*z+L*V)-6*(d*j+N*ee)),Te=6*h*M+b*(24*U*V-6*d*ee),Y=Y+Y+_e*Se,_=_+_+_e*e,B=B+B+_e*Oe,T=K*jn,A=-0.5*T/Le,E=T*Le,se=-15*pe*E,S=L*N+U*d,g=U*N+L*d,F=U*d-L*N,bn===1)re=se,P=A,J=T,ue=E,ye=S,y=g,te=F,X=Y,a=_,x=B,ae=fe,oe=he,ze=be,Z=de,Re=De,me=Te,Q=Se,q=e,k=Oe,G=wn,O=Cn,ne=nn,f=tn,le=Ve*$e+Ee*Me,W=Me*Ve-$e*Ee,K=0.00000047968065;let In=(4.7199672+(0.2299715*Ye-ce))%R,Ln=(6.2565837+0.017201977*Ye)%R,kn=2*re*y,Un=2*re*te,Gn=2*P*oe,zn=2*P*(ze-ae),Mn=-2*J*a,yn=-2*J*(x-X),Rn=-2*J*(-21-9*b)*0.01675,sn=2*ue*q,Dn=2*ue*(k-Q),Tn=-18*ue*0.01675,mn=-2*P*Re,pn=-2*P*(me-Z),cn=2*se*g,Sn=2*se*F,On=2*A*he,mt=2*A*(be-fe),ct=-2*T*_,it=-2*T*(B-Y),ut=-2*T*(-21-9*b)*0.0549,dt=2*E*e,lt=2*E*(Oe-Se),at=-18*E*0.0549,bt=-2*A*De,pt=-2*A*(Te-de);return{snodm:Me,cnodm:$e,sinim:Ge,cosim:Ne,sinomm:Ie,cosomm:Ae,day:Ye,e3:Sn,ee2:cn,em:pe,emsq:b,gam:ce,peo:0,pgho:0,pho:0,pinco:0,plo:0,rtemsq:Le,se2:kn,se3:Un,sgh2:sn,sgh3:Dn,sgh4:Tn,sh2:mn,sh3:pn,si2:Gn,si3:zn,sl2:Mn,sl3:yn,sl4:Rn,s1:se,s2:A,s3:T,s4:E,s5:S,s6:g,s7:F,ss1:re,ss2:P,ss3:J,ss4:ue,ss5:ye,ss6:y,ss7:te,sz1:X,sz2:a,sz3:x,sz11:ae,sz12:oe,sz13:ze,sz21:Z,sz22:Re,sz23:me,sz31:Q,sz32:q,sz33:k,xgh2:dt,xgh3:lt,xgh4:at,xh2:bt,xh3:pt,xi2:On,xi3:mt,xl2:ct,xl3:it,xl4:ut,nm:Fe,z1:Y,z2:_,z3:B,z11:fe,z12:he,z13:be,z21:de,z22:De,z23:Te,z31:Se,z32:e,z33:Oe,zmol:In,zmos:Ln}}function Yn(n){let{cosim:t,argpo:o,s1:m,s2:r,s3:i,s4:p,s5:c,sinim:s,ss1:u,ss2:l,ss3:h,ss4:w,ss5:M,sz1:I,sz3:H,sz11:C,sz13:D,sz21:K,sz23:L,sz31:U,sz33:N,t:d,tc:z,gsto:V,mo:j,mdot:ee,no:G,nodeo:O,nodedot:le,xpidot:W,z1:ne,z3:f,z11:re,z13:P,z21:J,z23:ue,z31:ye,z33:y,ecco:te,eccsq:X}=n,{emsq:a,em:x,argpm:ae,inclm:oe,mm:ze,nm:Z,nodem:Re,irez:me,atime:Q,d2201:q,d2211:k,d3210:se,d3222:A,d4410:T,d4422:E,d5220:S,d5232:g,d5421:F,d5433:Y,dedt:_,didt:B,dmdt:fe,dnodt:he,domdt:be,del1:de,del2:De,del3:Te,xfact:Se,xlamo:e,xli:Oe,xni:we}=n,Ce,Ze,je,ge,Xe,qe,Pe,Fe,pe,Me,$e,Ie,Ae,Ge,Ne,b,_e,Le,en,v,rn,ln,an,Ye,Je,xe,ve,nn,tn,Ee,Ve,ce,on=0.0000017891679,An=0.0000021460748,wn=0.00000022123015,Cn=0.0000017891679,jn=0.0000000073636953,bn=0.0000000021765803,In=0.0043752690880113,Ln=0.00000037393792,kn=0.00000011428639,Un=0.00015835218,Gn=0.0000119459;if(me=0,Z<0.0052359877&&Z>0.0034906585)me=1;if(Z>=0.00826&&Z<=0.00924&&x>=0.5)me=2;let zn=u*0.0000119459*M,Mn=l*0.0000119459*(C+D),yn=-0.0000119459*h*(I+H-14-6*a),Rn=w*0.0000119459*(U+N-6),sn=-0.0000119459*l*(K+L);if(oe<0.052359877||oe>ie-0.052359877)sn=0;if(s!==0)sn/=s;let Dn=Rn-t*sn;_=zn+m*0.00015835218*c,B=Mn+r*0.00015835218*(re+P),fe=yn-0.00015835218*i*(ne+f-14-6*a);let Tn=p*0.00015835218*(ye+y-6),mn=-0.00015835218*r*(J+ue);if(oe<0.052359877||oe>ie-0.052359877)mn=0;if(be=Dn+Tn,he=sn,s!==0)be-=t/s*mn,he+=mn/s;let pn=0,cn=(V+z*0.0043752690880113)%R;if(x+=_*d,oe+=B*d,ae+=be*d,Re+=he*d,ze+=fe*d,me!==0){if(Ee=(Z/Ke)**We,me===2){Ve=t*t;let Sn=x;x=te;let On=a;if(a=X,ce=x*a,Ge=-0.306-(x-0.64)*0.44,x<=0.65)Ne=3.616-13.247*x+16.29*a,_e=-19.302+117.39*x-228.419*a+156.591*ce,Le=-18.9068+109.7927*x-214.6334*a+146.5816*ce,en=-41.122+242.694*x-471.094*a+313.953*ce,v=-146.407+841.88*x-1629.014*a+1083.435*ce,rn=-532.114+3017.977*x-5740.032*a+3708.276*ce;else if(Ne=-72.099+331.819*x-508.738*a+266.724*ce,_e=-346.844+1582.851*x-2415.925*a+1246.113*ce,Le=-342.585+1554.908*x-2366.899*a+1215.972*ce,en=-1052.797+4758.686*x-7193.992*a+3651.957*ce,v=-3581.69+16178.11*x-24462.77*a+12422.52*ce,x>0.715)rn=-5149.66+29936.92*x-54087.36*a+31324.56*ce;else rn=1464.74-4664.75*x+3763.64*a;if(x<0.7)Ye=-919.2277+4988.61*x-9064.77*a+5542.21*ce,ln=-822.71072+4568.6173*x-8491.4146*a+5337.524*ce,an=-853.666+4690.25*x-8624.77*a+5341.4*ce;else Ye=-37995.78+161616.52*x-229838.2*a+109377.94*ce,ln=-51752.104+218913.95*x-309468.16*a+146349.42*ce,an=-40023.88+170470.89*x-242699.48*a+115605.82*ce;Je=s*s,Ce=0.75*(1+2*t+Ve),Ze=1.5*Je,ge=1.875*s*(1-2*t-3*Ve),Xe=-1.875*s*(1+2*t-3*Ve),Pe=35*Je*Ce,Fe=39.375*Je*Je,pe=9.84375*s*(Je*(1-2*t-5*Ve)+0.33333333*(-2+4*t+6*Ve)),Me=s*(4.92187512*Je*(-2-4*t+10*Ve)+6.56250012*(1+2*t-3*Ve)),$e=29.53125*s*(2-8*t+Ve*(-12+8*t+10*Ve)),Ie=29.53125*s*(-2-8*t+Ve*(12+8*t-10*Ve)),nn=Z*Z,tn=Ee*Ee,ve=3*nn*tn,xe=ve*0.0000017891679,q=xe*Ce*Ge,k=xe*Ze*Ne,ve*=Ee,xe=ve*0.00000037393792,se=xe*ge*_e,A=xe*Xe*Le,ve*=Ee,xe=2*ve*0.0000000073636953,T=xe*Pe*en,E=xe*Fe*v,ve*=Ee,xe=ve*0.00000011428639,S=xe*pe*rn,g=xe*Me*an,xe=2*ve*0.0000000021765803,F=xe*$e*ln,Y=xe*Ie*Ye,e=(j+O+O-(cn+cn))%R,Se=ee+fe+2*(le+he-0.0043752690880113)-G,x=Sn,a=On}if(me===1)Ae=1+a*(-2.5+0.8125*a),_e=1+2*a,b=1+a*(-6+6.60937*a),Ce=0.75*(1+t)*(1+t),je=0.9375*s*s*(1+3*t)-0.75*(1+t),qe=1+t,qe=1.875*qe*qe*qe,de=3*Z*Z*Ee*Ee,De=2*de*Ce*Ae*0.0000017891679,Te=3*de*qe*b*0.00000022123015*Ee,de=de*je*_e*0.0000021460748*Ee,e=(j+O+o-cn)%R,Se=ee+W+fe+be+he-(G+0.0043752690880113);Oe=e,we=G,Q=0,Z=G+pn}return{em:x,argpm:ae,inclm:oe,mm:ze,nm:Z,nodem:Re,irez:me,atime:Q,d2201:q,d2211:k,d3210:se,d3222:A,d4410:T,d4422:E,d5220:S,d5232:g,d5421:F,d5433:Y,dedt:_,didt:B,dmdt:fe,dndt:pn,dnodt:he,domdt:be,del1:de,del2:De,del3:Te,xfact:Se,xlamo:e,xli:Oe,xni:we}}function qn(n){let t=(n-2451545)/36525,o=-0.0000062*t*t*t+0.093104*t*t+3164400184.812866*t+67310.54841;if(o=o*ke/240%R,o<0)o+=R;return o}function un(n,t,o,m,r,i,p){if(n instanceof Date)return qn(Qe(n));if(t!==void 0)return qn(Qe(n,t,o,m,r,i,p));return qn(n)}function Bn(n){let{ecco:t,epoch:o,inclo:m,opsmode:r}=n,{no:i}=n,p=t*t,c=1-p,s=Math.sqrt(c),u=Math.cos(m),l=u*u,h=(Ke/i)**We,w=0.75*Be*(3*l-1)/(s*c),M=w/(h*h),I=h*(1-M*M-M*(0.3333333333333333+134*M*M/81));M=w/(I*I),i/=1+M;let H=(Ke/i)**We,C=Math.sin(m),D=H*c,K=1-5*l,L=-K-l-l,U=1/H,N=D*D,d=H*(1-t),z="n",V;if(r==="a"){let j=o-7305,ee=Math.floor(j+0.00000001),G=j-ee,O=0.017202791694070362,le=1.7321343856509375,W=0.000000000000005075514194322695,ne=0.017202791694070362+R;if(V=(1.7321343856509375+0.017202791694070362*ee+ne*G+j*j*0.000000000000005075514194322695)%R,V<0)V+=R}else V=un(o+2433281.5);return{no:i,method:z,ainv:U,ao:H,con41:L,con42:K,cosio:u,cosio2:l,eccsq:p,omeosq:c,posq:N,rp:d,rteosq:s,sinio:C,gsto:V}}function Hn(n){let{irez:t,d2201:o,d2211:m,d3210:r,d3222:i,d4410:p,d4422:c,d5220:s,d5232:u,d5421:l,d5433:h,dedt:w,del1:M,del2:I,del3:H,didt:C,dmdt:D,dnodt:K,domdt:L,argpo:U,argpdot:N,t:d,tc:z,gsto:V,xfact:j,xlamo:ee,no:G}=n,{atime:O,em:le,argpm:W,inclm:ne,xli:f,mm:re,xni:P,nodem:J,nm:ue}=n,ye=0.13130908,y=2.8843198,te=0.37448087,X=5.7686396,a=0.95240898,x=1.8014998,ae=1.050833,oe=4.4108898,ze=0.0043752690880113,Z=720,Re=-720,me=259200,Q,q,k,se,A,T,E,S,g=0,F=0,Y=(V+z*0.0043752690880113)%R;if(le+=w*d,ne+=C*d,W+=L*d,J+=K*d,re+=D*d,t!==0){if(O===0||d*O<=0||Math.abs(d)<Math.abs(O))O=0,P=G,f=ee;if(d>0)Q=720;else Q=-720;let _=381;while(_===381){if(t!==2)E=M*Math.sin(f-0.13130908)+I*Math.sin(2*(f-2.8843198))+H*Math.sin(3*(f-0.37448087)),A=P+j,T=M*Math.cos(f-0.13130908)+2*I*Math.cos(2*(f-2.8843198))+3*H*Math.cos(3*(f-0.37448087)),T*=A;else S=U+N*O,k=S+S,q=f+f,E=o*Math.sin(k+f-5.7686396)+m*Math.sin(f-5.7686396)+r*Math.sin(S+f-0.95240898)+i*Math.sin(-S+f-0.95240898)+p*Math.sin(k+q-1.8014998)+c*Math.sin(q-1.8014998)+s*Math.sin(S+f-1.050833)+u*Math.sin(-S+f-1.050833)+l*Math.sin(S+q-4.4108898)+h*Math.sin(-S+q-4.4108898),A=P+j,T=o*Math.cos(k+f-5.7686396)+m*Math.cos(f-5.7686396)+r*Math.cos(S+f-0.95240898)+i*Math.cos(-S+f-0.95240898)+s*Math.cos(S+f-1.050833)+u*Math.cos(-S+f-1.050833)+2*(p*Math.cos(k+q-1.8014998)+c*Math.cos(q-1.8014998)+l*Math.cos(S+q-4.4108898)+h*Math.cos(-S+q-4.4108898)),T*=A;if(Math.abs(d-O)>=720)_=381;else F=d-O,_=0;if(_===381)f+=A*Q+E*259200,P+=E*Q+T*259200,O+=Q}if(ue=P+E*F+T*F*F*0.5,se=f+A*F+E*F*F*0.5,t!==1)re=se-2*J+2*Y,g=ue-G;else re=se-J-W+Y,g=ue-G;ue=G+g}return{atime:O,em:le,argpm:W,inclm:ne,xli:f,mm:re,xni:P,nodem:J,dndt:g,nm:ue}}function dn(n,t){let o,m,r,i,p,c,s,u,l,h,w,M,I,H,C,D,K,L,U,N,d,z,V,j,ee,G,O,le=0.0000000000015;n.t=t,n.error=0;let W=n.mo+n.mdot*n.t,ne=n.argpo+n.argpdot*n.t,f=n.nodeo+n.nodedot*n.t;l=ne,d=W;let re=n.t*n.t;if(V=f+n.nodecf*re,K=1-n.cc1*n.t,L=n.bstar*n.cc4*n.t,U=n.t2cof*re,n.isimp!==1){s=n.omgcof*n.t;let pe=1+n.eta*Math.cos(W);c=n.xmcof*(pe*pe*pe-n.delmo),D=s+c,d=W+D,l=ne-D,M=re*n.t,I=M*n.t,K=K-n.d2*re-n.d3*M-n.d4*I,L+=n.bstar*n.cc5*(Math.sin(d)-n.sinmao),U=U+n.t3cof*M+I*(n.t4cof+n.t*n.t5cof)}n.tempa=K,z=n.no;let P=n.ecco;if(N=n.inclo,n.method==="d"){H=n.t;let pe={irez:n.irez,d2201:n.d2201,d2211:n.d2211,d3210:n.d3210,d3222:n.d3222,d4410:n.d4410,d4422:n.d4422,d5220:n.d5220,d5232:n.d5232,d5421:n.d5421,d5433:n.d5433,dedt:n.dedt,del1:n.del1,del2:n.del2,del3:n.del3,didt:n.didt,dmdt:n.dmdt,dnodt:n.dnodt,domdt:n.domdt,argpo:n.argpo,argpdot:n.argpdot,t:n.t,tc:H,gsto:n.gsto,xfact:n.xfact,xlamo:n.xlamo,no:n.no,atime:n.atime,em:P,argpm:l,inclm:N,xli:n.xli,mm:d,xni:n.xni,nodem:V,nm:z},Me=Hn(pe);({em:P,argpm:l,inclm:N,mm:d,nodem:V,nm:z}=Me),n.atime=Me.atime,n.xli=Me.xli,n.xni=Me.xni}if(z<=0)return n.error=2,null;let J=(Ke/z)**We*K*K;if(z=Ke/J**1.5,P-=L,P>=1||P<-0.001)return n.error=1,null;if(P<0.000001)P=0.000001;d+=n.no*U,ee=d+l+V,V%=R,l%=R,ee%=R,d=(ee-l-V)%R;let ue={am:J,em:P,im:N,Om:V,om:l,mm:d,nm:z},ye=Math.sin(N),y=Math.cos(N),te=P;if(j=N,h=l,O=V,G=d,i=ye,r=y,n.method==="d"){let pe={inclo:n.inclo,init:"n",ep:te,inclp:j,nodep:O,argpp:h,mp:G,opsmode:n.operationmode},Me=fn(n,pe);if({ep:te,nodep:O,argpp:h,mp:G}=Me,j=Me.inclp,j<0)j=-j,O+=ie,h-=ie;if(te<0||te>1)return n.error=3,null}if(n.method==="d")if(i=Math.sin(j),r=Math.cos(j),n.aycof=-0.5*He*i,Math.abs(r+1)>0.0000000000015)n.xlcof=-0.25*He*i*(3+5*r)/(1+r);else n.xlcof=-0.25*He*i*(3+5*r)/0.0000000000015;let X=te*Math.cos(h);D=1/(J*(1-te*te));let a=te*Math.sin(h)+D*n.aycof,ae=(G+h+O+D*n.xlcof*X-O)%R;u=ae,C=9999.9;let oe=1;while(Math.abs(C)>=0.000000000001&&oe<=10){if(m=Math.sin(u),o=Math.cos(u),C=1-o*X-m*a,C=(ae-a*o+X*m-u)/C,Math.abs(C)>=0.95)if(C>0)C=0.95;else C=-0.95;u+=C,oe+=1}let ze=X*o+a*m,Z=X*m-a*o,Re=X*X+a*a,me=J*(1-Re);if(me<0)return n.error=4,null;let Q=J*(1-ze),q=Math.sqrt(J)*Z/Q,k=Math.sqrt(me)/Q,se=Math.sqrt(1-Re);D=Z/(1+se);let A=J/Q*(m-a-X*D),T=J/Q*(o-X+a*D);w=Math.atan2(A,T);let E=(T+T)*A,S=1-2*A*A;D=1/me;let g=0.5*Be*D,F=g*D;if(n.method==="d")p=r*r,n.con41=3*p-1,n.x1mth2=1-p,n.x7thm1=7*p-1;let Y=Q*(1-1.5*F*se*n.con41)+0.5*g*n.x1mth2*S;if(Y<1)return n.error=6,null;w-=0.25*F*n.x7thm1*E;let _=O+1.5*F*r*E,B=j+1.5*F*r*i*S,fe=q-z*g*n.x1mth2*E/Ke,he=k+z*g*(n.x1mth2*S+1.5*n.con41)/Ke,be=Math.sin(w),de=Math.cos(w),De=Math.sin(_),Te=Math.cos(_),Se=Math.sin(B),e=Math.cos(B),Oe=-De*e,we=Te*e,Ce=Oe*be+Te*de,Ze=we*be+De*de,je=Se*be,ge=Oe*de-Te*be,Xe=we*de-De*be,qe=Se*de,Pe={x:Y*Ce*Ue,y:Y*Ze*Ue,z:Y*je*Ue},Fe={x:(fe*Ce+he*ge)*hn,y:(fe*Ze+he*Xe)*hn,z:(fe*je+he*qe)*hn};return{position:Pe,velocity:Fe,meanElements:ue}}function Wn(n,t){let{opsmode:o,satn:m,epoch:r,xbstar:i,xecco:p,xargpo:c,xinclo:s,xmo:u,xno:l,xnodeo:h}=t,w,M,I,H,C,D,K,L,U,N,d,z,V,j,ee,G,O,le,W,ne,f,re,P,J,ue,ye,y,te,X,a,x,ae,oe,ze,Z,Re,me,Q,q,k,se,A,T,E,S,g,F,Y,_,B,fe,he,be,de,De,Te,Se=0.0000000000015,e=n;e.isimp=0,e.method="n",e.aycof=0,e.con41=0,e.cc1=0,e.cc4=0,e.cc5=0,e.d2=0,e.d3=0,e.d4=0,e.delmo=0,e.eta=0,e.argpdot=0,e.omgcof=0,e.sinmao=0,e.t=0,e.t2cof=0,e.t3cof=0,e.t4cof=0,e.t5cof=0,e.x1mth2=0,e.x7thm1=0,e.mdot=0,e.nodedot=0,e.xlcof=0,e.xmcof=0,e.nodecf=0,e.irez=0,e.d2201=0,e.d2211=0,e.d3210=0,e.d3222=0,e.d4410=0,e.d4422=0,e.d5220=0,e.d5232=0,e.d5421=0,e.d5433=0,e.dedt=0,e.del1=0,e.del2=0,e.del3=0,e.didt=0,e.dmdt=0,e.dnodt=0,e.domdt=0,e.e3=0,e.ee2=0,e.peo=0,e.pgho=0,e.pho=0,e.pinco=0,e.plo=0,e.se2=0,e.se3=0,e.sgh2=0,e.sgh3=0,e.sgh4=0,e.sh2=0,e.sh3=0,e.si2=0,e.si3=0,e.sl2=0,e.sl3=0,e.sl4=0,e.gsto=0,e.xfact=0,e.xgh2=0,e.xgh3=0,e.xgh4=0,e.xh2=0,e.xh3=0,e.xi2=0,e.xi3=0,e.xl2=0,e.xl3=0,e.xl4=0,e.xlamo=0,e.zmol=0,e.zmos=0,e.atime=0,e.xli=0,e.xni=0,e.bstar=i,e.ecco=p,e.argpo=c,e.inclo=s,e.mo=u,e.no=l,e.nokozai=l,e.nodeo=h,e.operationmode=o;let Oe=78/Ue+1,we=42/Ue,Ce=we*we*we*we;e.init="y",e.t=0;let Ze={satn:m,ecco:e.ecco,epoch:r,inclo:e.inclo,no:e.no,method:e.method,opsmode:e.operationmode},je=Bn(Ze),{ao:ge,con42:Xe,cosio:qe,cosio2:Pe,eccsq:Fe,omeosq:pe,posq:Me,rp:$e,rteosq:Ie,sinio:Ae}=je;if(e.no=je.no,e.con41=je.con41,e.gsto=je.gsto,e.a=(e.no*Kn)**-0.6666666666666666,e.alta=e.a*(1+e.ecco)-1,e.altp=e.a*(1-e.ecco)-1,e.error=0,pe>=0||e.no>=0){if(e.isimp=0,$e<220/Ue+1)e.isimp=1;if(y=Oe,f=Ce,le=($e-1)*Ue,le<156){if(y=le-78,le<98)y=20;let Ne=(120-y)/Ue;f=Ne*Ne*Ne*Ne,y=y/Ue+1}if(W=1/Me,g=1/(ge-y),e.eta=ge*e.ecco*g,z=e.eta*e.eta,d=e.ecco*e.eta,ne=Math.abs(1-z),D=f*g**4,K=D/ne**3.5,H=K*e.no*(ge*(1+1.5*z+d*(4+z))+0.375*Be*g/ne*e.con41*(8+3*z*(8+z))),e.cc1=e.bstar*H,C=0,e.ecco>0.0001)C=-2*D*g*He*e.no*Ae/e.ecco;if(e.x1mth2=1-Pe,e.cc4=2*e.no*K*ge*pe*(e.eta*(2+0.5*z)+e.ecco*(0.5+2*z)-Be*g/(ge*ne)*(-3*e.con41*(1-2*d+z*(1.5-0.5*d))+0.75*e.x1mth2*(2*z-d*(1+z))*Math.cos(2*e.argpo))),e.cc5=2*K*ge*pe*(1+2.75*(z+d)+d*z),L=Pe*Pe,T=1.5*Be*W*e.no,E=0.5*T*Be*W,S=-0.46875*Jn*W*W*e.no,e.mdot=e.no+0.5*T*Ie*e.con41+0.0625*E*Ie*(13-78*Pe+137*L),e.argpdot=-0.5*T*Xe+0.0625*E*(7-114*Pe+395*L)+S*(3-36*Pe+49*L),Y=-T*qe,e.nodedot=Y+(0.5*E*(4-19*Pe)+2*S*(3-7*Pe))*qe,F=e.argpdot+e.nodedot,e.omgcof=e.bstar*C*Math.cos(e.argpo),e.xmcof=0,e.ecco>0.0001)e.xmcof=-We*D*e.bstar/d;if(e.nodecf=3.5*pe*Y*e.cc1,e.t2cof=1.5*e.cc1,Math.abs(qe+1)>0.0000000000015)e.xlcof=-0.25*He*Ae*(3+5*qe)/(1+qe);else e.xlcof=-0.25*He*Ae*(3+5*qe)/0.0000000000015;e.aycof=-0.5*He*Ae;let Ge=1+e.eta*Math.cos(e.mo);if(e.delmo=Ge*Ge*Ge,e.sinmao=Math.sin(e.mo),e.x7thm1=7*Pe-1,2*ie/e.no>=225){e.method="d",e.isimp=1,se=0,ee=e.inclo;let Ne={epoch:r,ep:e.ecco,argpp:e.argpo,tc:se,inclp:e.inclo,nodep:e.nodeo,np:e.no,e3:e.e3,ee2:e.ee2,peo:e.peo,pgho:e.pgho,pho:e.pho,pinco:e.pinco,plo:e.plo,se2:e.se2,se3:e.se3,sgh2:e.sgh2,sgh3:e.sgh3,sgh4:e.sgh4,sh2:e.sh2,sh3:e.sh3,si2:e.si2,si3:e.si3,sl2:e.sl2,sl3:e.sl3,sl4:e.sl4,xgh2:e.xgh2,xgh3:e.xgh3,xgh4:e.xgh4,xh2:e.xh2,xh3:e.xh3,xi2:e.xi2,xi3:e.xi3,xl2:e.xl2,xl3:e.xl3,xl4:e.xl4,zmol:e.zmol,zmos:e.zmos},b=Fn(Ne);e.e3=b.e3,e.ee2=b.ee2,e.peo=b.peo,e.pgho=b.pgho,e.pho=b.pho,e.pinco=b.pinco,e.plo=b.plo,e.se2=b.se2,e.se3=b.se3,e.sgh2=b.sgh2,e.sgh3=b.sgh3,e.sgh4=b.sgh4,e.sh2=b.sh2,e.sh3=b.sh3,e.si2=b.si2,e.si3=b.si3,e.sl2=b.sl2,e.sl3=b.sl3,e.sl4=b.sl4,{sinim:M,cosim:w,em:U,emsq:N,s1:re,s2:P,s3:J,s4:ue,s5:ye,ss1:te,ss2:X,ss3:a,ss4:x,ss5:ae,sz1:oe,sz3:ze,sz11:Z,sz13:Re,sz21:me,sz23:Q,sz31:q,sz33:k}=b,e.xgh2=b.xgh2,e.xgh3=b.xgh3,e.xgh4=b.xgh4,e.xh2=b.xh2,e.xh3=b.xh3,e.xi2=b.xi2,e.xi3=b.xi3,e.xl2=b.xl2,e.xl3=b.xl3,e.xl4=b.xl4,e.zmol=b.zmol,e.zmos=b.zmos,{nm:O,z1:_,z3:B,z11:fe,z13:he,z21:be,z23:de,z31:De,z33:Te}=b;let _e={inclo:ee,init:e.init,ep:e.ecco,inclp:e.inclo,nodep:e.nodeo,argpp:e.argpo,mp:e.mo,opsmode:e.operationmode},Le=fn(e,_e);e.ecco=Le.ep,e.inclo=Le.inclp,e.nodeo=Le.nodep,e.argpo=Le.argpp,e.mo=Le.mp,V=0,j=0,G=0;let en={cosim:w,emsq:N,argpo:e.argpo,s1:re,s2:P,s3:J,s4:ue,s5:ye,sinim:M,ss1:te,ss2:X,ss3:a,ss4:x,ss5:ae,sz1:oe,sz3:ze,sz11:Z,sz13:Re,sz21:me,sz23:Q,sz31:q,sz33:k,t:e.t,tc:se,gsto:e.gsto,mo:e.mo,mdot:e.mdot,no:e.no,nodeo:e.nodeo,nodedot:e.nodedot,xpidot:F,z1:_,z3:B,z11:fe,z13:he,z21:be,z23:de,z31:De,z33:Te,ecco:e.ecco,eccsq:Fe,em:U,argpm:V,inclm:ee,mm:G,nm:O,nodem:j,irez:e.irez,atime:e.atime,d2201:e.d2201,d2211:e.d2211,d3210:e.d3210,d3222:e.d3222,d4410:e.d4410,d4422:e.d4422,d5220:e.d5220,d5232:e.d5232,d5421:e.d5421,d5433:e.d5433,dedt:e.dedt,didt:e.didt,dmdt:e.dmdt,dnodt:e.dnodt,domdt:e.domdt,del1:e.del1,del2:e.del2,del3:e.del3,xfact:e.xfact,xlamo:e.xlamo,xli:e.xli,xni:e.xni},v=Yn(en);e.irez=v.irez,e.atime=v.atime,e.d2201=v.d2201,e.d2211=v.d2211,e.d3210=v.d3210,e.d3222=v.d3222,e.d4410=v.d4410,e.d4422=v.d4422,e.d5220=v.d5220,e.d5232=v.d5232,e.d5421=v.d5421,e.d5433=v.d5433,e.dedt=v.dedt,e.didt=v.didt,e.dmdt=v.dmdt,e.dnodt=v.dnodt,e.domdt=v.domdt,e.del1=v.del1,e.del2=v.del2,e.del3=v.del3,e.xfact=v.xfact,e.xlamo=v.xlamo,e.xli=v.xli,e.xni=v.xni}if(e.isimp!==1)I=e.cc1*e.cc1,e.d2=4*ge*g*I,A=e.d2*g*e.cc1/3,e.d3=(17*ge+y)*A,e.d4=0.5*A*ge*g*(221*ge+31*y)*e.cc1,e.t3cof=e.d2+2*I,e.t4cof=0.25*(3*e.d3+e.cc1*(12*e.d2+10*I)),e.t5cof=0.2*(3*e.d4+12*e.cc1*e.d3+6*e.d2*e.d2+15*I*(2*e.d2+I))}dn(e,0),e.init="n"}function Mt(n,t){Wn(n,{opsmode:t,satn:n.satnum,epoch:n.jdsatepoch-2433281.5,xbstar:n.bstar,xecco:n.ecco,xargpo:n.argpo,xinclo:n.inclo,xmo:n.mo,xno:n.no,xnodeo:n.nodeo})}function Xn(n,t){let r=n.substring(2,7),i=Number(n.substring(18,20)),p=Number(n.substring(20,32)),c=Number(n.substring(33,43)),s=Number(`${n.substring(44,45)}.${n.substring(45,50)}E${n.substring(50,52)}`),u=Number(`${n.substring(53,54)}.${n.substring(54,59)}E${n.substring(59,61)}`),l=Number(t.substring(8,16))*ke,h=Number(t.substring(17,25))*ke,w=Number(`.${t.substring(26,33).replace(/\s/g,"0")}`),M=Number(t.substring(34,42))*ke,I=Number(t.substring(43,51))*ke,H=Number(t.substring(52,63))/xn;c/=xn*1440,s/=xn*1440*1440;let C=i<57?i+2000:i+1900,D=$n(C,p),{mon:K,day:L,hr:U,minute:N,sec:d}=D,z=Qe(C,K,L,U,N,d),V={error:0,satnum:r,epochyr:i,epochdays:p,ndot:c,nddot:s,bstar:u,inclo:l,nodeo:h,ecco:w,argpo:M,mo:I,no:H,jdsatepoch:z};return Mt(V,"i"),V}var Qn=(n)=>n.tempa<=0;function Nn(n,...t){let o=t.at(-1),m=typeof o==="object"&&!(o instanceof Date)?o:void 0,r=m?t.slice(0,-1):t,p=(Qe(...r)-n.jdsatepoch)*vn,c=dn(n,p);if(m?.communityDecayCheckEnabled&&c&&Qn(n))return n.error=6,null;return c}function et(n){return n*_n}function nt(n){return n*ke}function En({longitude:n,latitude:t,height:o}){let c=6378.137/Math.sqrt(1-0.006694380004260718*(Math.sin(t)*Math.sin(t))),s=(c+o)*Math.cos(t)*Math.cos(n),u=(c+o)*Math.cos(t)*Math.sin(n),l=(c*0.9933056199957393+o)*Math.sin(t);return{x:s,y:u,z:l}}function tt(n,t){let r=Math.sqrt(n.x*n.x+n.y*n.y),i=0.0033528106718309306,p=0.006694380004260718,c=((Math.atan2(n.y,n.x)-t+ie)%R+R)%R-ie,s=20,u=0.000000000001,l=0,h=Math.atan2(n.z,r),w;do{w=h;let D=Math.sin(h),K=1/Math.sqrt(1-0.006694380004260718*(D*D));h=Math.atan2(n.z+6378.137*K*0.006694380004260718*D,r)}while(Math.abs(h-w)>0.000000000001&&++l<20);let M=Math.sin(h),I=Math.cos(h),H=1/Math.sqrt(1-0.006694380004260718*(M*M)),C=r*I+n.z*M-6378.137/H;return{longitude:c,latitude:h,height:C}}function ot(n,t){let o=n.x*Math.cos(t)+n.y*Math.sin(t),m=n.x*-Math.sin(t)+n.y*Math.cos(t),{z:r}=n;return{x:o,y:m,z:r}}function yt(n,t){let{longitude:o,latitude:m}=n,r=En(n),i=t.x-r.x,p=t.y-r.y,c=t.z-r.z,s=Math.sin(m)*Math.cos(o)*i+Math.sin(m)*Math.sin(o)*p-Math.cos(m)*c,u=-Math.sin(o)*i+Math.cos(o)*p,l=Math.cos(m)*Math.cos(o)*i+Math.cos(m)*Math.sin(o)*p+Math.sin(m)*c;return{topS:s,topE:u,topZ:l}}function Rt(n){let{topS:t,topE:o,topZ:m}=n,r=Math.sqrt(t*t+o*o+m*m),i=Math.asin(m/r);return{azimuth:Math.atan2(-o,t)+ie,elevation:i,rangeSat:r}}function st(n,t){let o=yt(n,t);return Rt(o)}function rt(n){let t=(n-2451545)/36525,o=(280.46+36000.77*t)%360,m=(357.5277233+35999.05034*t)*ke%R;if(m<0)m+=R;let r=(o+1.914666471*Math.sin(m)+0.019994643*Math.sin(2*m))%360*ke,i=(23.439291-0.0130042*t)*ke,p=1.000140612-0.016708617*Math.cos(m)-0.000139589*Math.cos(2*m),c={x:p*Math.cos(r),y:p*Math.cos(i)*Math.sin(r),z:p*Math.sin(i)*Math.sin(r)},s=Math.atan(Math.cos(i)*Math.tan(r)),u=r;if(u<0)u+=R;let l=s;if(Math.abs(u-l)>ie*0.5)l+=0.5*ie*Math.round((u-s)/(0.5*ie));let h=Math.asin(Math.sin(i)*Math.sin(r));return{rsun:c,rtasc:l,decl:h}}var Dt=695700,Tt=149597870.69098932;function Vn(n){return Math.sqrt(n[0]*n[0]+n[1]*n[1]+n[2]*n[2])}function St(n,t){return n[0]*t[0]+n[1]*t[1]+n[2]*t[2]}function Ot(n){return[-n[0],-n[1],-n[2]]}function qt(n){let t=Vn(n);return[n[0]/t,n[1]/t,n[2]/t]}function Nt(n,t){return[n[0]*t,n[1]*t,n[2]*t]}function gn(n,t,o){return Math.max(t,Math.min(o,n))}function Et(n,t){let o=Nt([n.x,n.y,n.z],Tt),m=qt(Ot(o)),r=[t.x,t.y,t.z],i=Vn(r),p=St(r,m);if(p<=0)return 0;let c=Math.asin(Ue/i),s=Math.asin(Dt/Vn(o)),u=Math.acos(gn(p/i,-1,1));if(u<=c-s)return 1;if(u>=c+s)return 0;let l=s*s*Math.acos(gn((u*u+s*s-c*c)/(2*u*s),-1,1)),h=c*c*Math.acos(gn((u*u+c*c-s*s)/(2*u*c),-1,1)),w=0.5*Math.sqrt(Math.max(0,(-u+s+c)*(u+s-c)*(u-s+c)*(u+s+c))),M=l+h-w,I=Math.PI*s*s;return gn(M/I,0,1)}globalThis.satellite={twoline2satrec:Xn,propagate:Nn,gstime:un,eciToEcf:ot,ecfToLookAngles:st,degreesToRadians:nt,radiansToDegrees:et,eciToGeodetic:tt,geodeticToEcf:En,sunPos:rt,...Pn};})();
+
+</script>
+<script>
+// ===== SATELLITE page (HLHf): pass prediction · sky view · Doppler for IC-9700 · RC-2500 rotator (GS-232B) · satellite logging =====
+(()=>{
+ if(/^HLVhf/.test(document.title)||!window.satellite)return;
+ const SL=window.satellite,CK=299792.458,D2R=Math.PI/180,R2D=180/Math.PI;
+ // default satellites (AMSAT / hamsattracker 2026) · up/dn in MHz (centre for linear) · tone = uplink CTCSS
+ const SATDEF=[
+  {id:27607,n:'SO-50',m:'FM',up:145.850,dn:436.795,tone:67,sm:'V/U',note:'ก่อนใช้ ส่งพาหะ 2 วินาที โทน 74.4 Hz เพื่อเปิดตัวจับเวลา 10 นาที'},
+  {id:25544,n:'ISS',m:'FM',up:145.990,dn:437.800,tone:67,sm:'V/U',note:'รีพีตเตอร์ไม่ได้เปิดตลอด · APRS 145.825'},
+  {id:43017,n:'AO-91',m:'FM',up:435.250,dn:145.960,tone:0,sm:'U/V',note:'ใช้ได้เฉพาะตอนดาวโดนแดด'},
+  {id:43678,n:'PO-101',m:'FM',up:437.500,dn:145.900,tone:141.3,sm:'U/V',note:'เปิดรีพีตเตอร์ตามตาราง'},
+  {id:0,q:'ASRTU|AO-123',n:'AO-123',m:'FM',up:145.850,dn:435.400,tone:67,sm:'V/U'},
+  {id:40931,n:'IO-86',m:'FM',up:145.880,dn:435.880,tone:88.5,sm:'V/U',note:'วงโคจรใกล้เส้นศูนย์สูตร · เปิดตามตาราง'},
+  {id:44909,n:'RS-44',m:'LIN',up:145.965,dn:435.640,bw:30,inv:1,sm:'V/U',note:'Linear กลับด้าน · ส่ง LSB / รับ USB'},
+  {id:24278,n:'FO-29',m:'LIN',up:145.950,dn:435.850,bw:50,inv:1,sm:'V/U',note:'Linear กลับด้าน · ส่ง LSB / รับ USB'}];
+ const SATS=()=>S.sats||SATDEF;
+ const pad=(n,w)=>String(Math.round(n)).padStart(w,'0');
+ const fHz=hz=>{hz=Math.round(hz);return Math.floor(hz/1e6)+'.'+String(Math.floor(hz%1e6/1e3)).padStart(3,'0')+'.'+String(Math.floor(hz%1e3/100))};
+ const hm=d=>d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',hour12:false});
+ const mmss=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')};
+ const dirTxt=a=>['N','NE','E','SE','S','SW','W','NW'][Math.round(a/45)%8];
+ // ---- TLE (CelesTrak) ----
+ let TLE={};try{const c=JSON.parse(localStorage.getItem('cwtle')||'null');if(c&&c.d)TLE=c}catch(_){}
+ const parseTLE=txt=>{const L=txt.split(/\r?\n/).map(x=>x.trimEnd()).filter(Boolean),o={};for(let i=0;i+2<L.length+1;i++){if(L[i+1]&&L[i+2]&&L[i+1].startsWith('1 ')&&L[i+2].startsWith('2 ')){const id=+L[i+1].slice(2,7);o[id]={name:L[i].trim(),l1:L[i+1],l2:L[i+2]};i+=2}}return o};
+ async function tleLoad(force){
+  if(!force&&TLE.t&&Date.now()-TLE.t<12*3600e3)return true;
+  satMsg('กำลังดึงข้อมูลวงโคจร (TLE) จาก CelesTrak ...');
+  try{const r=await fetch('https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle',{cache:'no-store'});if(!r.ok)throw 0;const d=parseTLE(await r.text());
+   for(const s of SATS())if(s.id&&!d[s.id]){try{const x=await fetch('https://celestrak.org/NORAD/elements/gp.php?CATNR='+s.id+'&FORMAT=tle',{cache:'no-store'});if(x.ok)Object.assign(d,parseTLE(await x.text()))}catch(_){}}
+   if(!Object.keys(d).length)throw 0;TLE={t:Date.now(),d};try{localStorage.setItem('cwtle',JSON.stringify(TLE))}catch(_){}SR={};satMsg('');return true}
+  catch(e){satMsg(TLE.t?'ดึง TLE ใหม่ไม่ได้ · ใช้ข้อมูลเดิม ('+Math.round((Date.now()-TLE.t)/3600e3)+' ชม.ก่อน)':'ดึง TLE ไม่ได้ (ไม่มีอินเทอร์เน็ต?) · วาง TLE เองได้ที่ “ข้อมูลวงโคจร” ด้านล่าง');return!!TLE.t}}
+ let SR={}; // satrec cache by sat name
+ function rec(s){if(SR[s.n])return SR[s.n];const d=TLE.d||{};let t=s.id&&d[s.id];if(!t&&s.q){const re=new RegExp(s.q,'i');t=Object.values(d).find(x=>re.test(x.name))}if(!t)return null;try{return SR[s.n]=SL.twoline2satrec(t.l1,t.l2)}catch(_){return null}}
+ // ---- observer ----
+ function obs(){const my=S.my||{},g=(my.loc||'').trim()||((QZ[(my.call||'').toUpperCase()]||{}).g)||'',ll=gridLL(g);return ll?{g:g.toUpperCase(),gd:{latitude:ll[0]*D2R,longitude:ll[1]*D2R,height:0.01}}:null}
+ function look(sr,o,t){const p=SL.propagate(sr,t);if(!p||!p.position||typeof p.position!=='object')return null;const g=SL.gstime(t),la=SL.ecfToLookAngles(o.gd,SL.eciToEcf(p.position,g));return{az:(la.azimuth*R2D+360)%360,el:la.elevation*R2D,rg:la.rangeSat}}
+ function state(s,o,t){const sr=rec(s);if(!sr)return null;const a=look(sr,o,t),b=look(sr,o,new Date(+t+1000));if(!a||!b)return null;a.rr=b.rg-a.rg;return a}
+ // ---- passes (scan 60 s, refine to 1 s) ----
+ function passes(s,o,t0,hrs){const sr=rec(s);if(!sr)return[];const out=[],E=t=>{const l=look(sr,o,new Date(t));return l?l.el:-90},T1=t0+hrs*3600e3;
+  const edge=(a,b,up)=>{for(let i=0;i<14;i++){const m=(a+b)/2;((E(m)>0)===up?b=m:a=m)}return(a+b)/2};
+  let t=t0,prev=E(t),aos=null;if(prev>0){let k=t0;while(E(k)>0&&k>t0-30*60e3)k-=60e3;aos=edge(k,k+60e3,true)}
+  for(t=t0+60e3;t<=T1;t+=60e3){const e=E(t);if(prev<=0&&e>0)aos=edge(t-60e3,t,true);if(prev>0&&e<=0&&aos!=null){const los=edge(t-60e3,t,false);out.push(mk(sr,o,s,aos,los));aos=null}prev=e}
+  return out}
+ function mk(sr,o,s,aos,los){let mx=-90,tm=aos;for(let t=aos;t<=los;t+=10e3){const l=look(sr,o,new Date(t));if(l&&l.el>mx){mx=l.el;tm=t}}const A=look(sr,o,new Date(aos)),Z=look(sr,o,new Date(los));
+  return{s,aos,los,max:mx,tmax:tm,azA:A?A.az:0,azL:Z?Z.az:0}}
+ function track(p,o){const sr=rec(p.s),pts=[];if(!sr)return pts;for(let t=p.aos;t<=p.los;t+=15e3){const l=look(sr,o,new Date(t));if(l)pts.push([l.az,Math.max(0,l.el),t])}const l=look(sr,o,new Date(p.los));if(l)pts.push([l.az,0,p.los]);return pts}
+ // ---- UI ----
+ const p4=$('#p4'),box=E('div',{id:'satx',className:'satx'});box.hidden=true;p4.prepend(box);
+ box.innerHTML='<div class="pn sxs"><div class="sxti"><h2>SATELLITE</h2><div id="sxo" class="mu"></div><div class="sxb"><button id="sxrig" class="sm">IC-9700</button><button id="sxrot" class="sm">โรเตอร์ RC-2500</button></div></div><div id="sxc" class="sxc"></div>'+
+  '<div class="vclk sxclk"><div class="vu"><span>UTC</span><span id="sxlt" class="vl"></span></div><div id="sxt" class="vt">--:--:--</div><div id="sxdt" class="vd"></div></div></div>'+
+  '<div id="sxm" class="sxm" hidden></div>'+
+  '<div class="sxg"><div class="pn"><div class="sxh"><h2>ท้องฟ้า</h2><span class="mu"><i class="sxd s"></i>ดาวเทียม <i class="sxd a"></i>สายอากาศ</span></div><svg id="sxsky" viewBox="0 0 320 320" role="img" aria-label="ท้องฟ้า ตำแหน่งดาวเทียม"></svg>'+
+  '<div class="sxkv"><div><span>Az</span><b id="sxaz">--</b></div><div><span>El</span><b id="sxel">--</b></div><div><span>ระยะ km</span><b id="sxrg">--</b></div><div><span>km/s</span><b id="sxrr">--</b></div></div></div>'+
+  '<div class="pn"><div class="sxh"><h2 id="sxph">--</h2><span id="sxlive" class="sxlive" hidden>LIVE</span></div><div class="sxr"><b id="sxcd" class="sxbig">--</b><span id="sxpi" class="mu"></span></div><div class="sxbar"><i id="sxpb"></i></div>'+
+  '<h2 class="sxdh">Doppler <span id="sxdn" class="mu"></span></h2><div class="sxdp"><span class="u">▲ UP<br>ส่ง</span><b id="sxup" class="u">--</b><em id="sxupd" class="u"></em><span class="d">▼ DN<br>รับ</span><b id="sxdw" class="d">--</b><em id="sxdwd" class="d"></em></div>'+
+  '<div id="sxnom" class="mu"></div><div id="sxlin" class="sxr" hidden><span class="mu">จุดบนทรานสปอนเดอร์</span><button class="sm" data-o="-1">−1</button><button class="sm" data-o="-0.1">−0.1</button><b id="sxoff" class="mono">0.0 kHz</b><button class="sm" data-o="0.1">+0.1</button><button class="sm" data-o="1">+1</button><button class="sm" data-o="0">กลาง</button></div>'+
+  '<div class="sxr"><label class="inl"><input id="sxdop" type="checkbox"> Doppler อัตโนมัติ (สั่ง IC-9700)</label><span class="mu">ปรับละเอียดขารับ</span><button class="sm" data-r="-0.5">−0.5</button><b id="sxrit" class="mono">0.0</b><button class="sm" data-r="0.5">+0.5 kHz</button></div><div id="sxnote" class="mu sxnote"></div></div>'+
+  '<div class="pn"><div class="sxh"><h2>โรเตอร์ RC-2500</h2><span id="sxrs" class="mu">ยังไม่ได้เชื่อมต่อ</span></div>'+
+  '<div class="sxcmp"><span></span><span class="mu">เป้าหมาย (ดาว)</span><span class="mu">สายอากาศจริง</span><span class="mu">Az</span><b id="sxtaz">--</b><b id="sxaaz" class="a">--</b><span class="mu">El</span><b id="sxtel">--</b><b id="sxael" class="a">--</b></div>'+
+  '<div class="sxr"><label class="inl"><input id="sxrtrk" type="checkbox"> ติดตามอัตโนมัติ</label><span id="sxrdiff" class="mu"></span></div><div class="mu" style="font-size:12.5px">ก่อนดาวขึ้น 1 นาที หันรอที่จุดขึ้น · หลังดาวตก จอดที่ 0° / 0°</div>'+
+  '<div class="sxrow2"><div class="sxpad"><span></span><button data-mv="U" aria-label="ขึ้น">▲</button><span></span><button data-mv="L" aria-label="ซ้าย">◀</button><button data-mv="S" class="st">STOP</button><button data-mv="R" aria-label="ขวา">▶</button><span></span><button data-mv="D" aria-label="ลง">▼</button><span></span></div>'+
+  '<div class="sxcol"><button id="sxpark" class="sm">จอด (Park) 0° / 0°</button><button id="sxstop" class="sm sxred">หยุดฉุกเฉิน</button><button id="sxnorth" class="sm">ตั้งทิศตอนนี้เป็นเหนือ (0°)</button></div></div></div></div>'+
+  '<div class="pn sxmap"><div class="sxh"><h2>แผนที่ <span class="mu" style="font-weight:400">เส้นทางดาว ±45 นาที · พื้นที่ครอบคลุม (footprint)</span></h2><span class="mu"><i class="sxd s"></i>ดาวเทียม <i class="sxd me"></i>สถานีเรา</span></div><svg id="sxmapv" viewBox="-180 -90 360 180" preserveAspectRatio="xMidYMid slice" role="img" aria-label="แผนที่โลก ตำแหน่งดาวเทียม"><rect x="-540" y="-90" width="1080" height="180" class="sea"/><defs><clipPath id="sxclip"><rect x="-180" y="-90" width="360" height="180"/></clipPath></defs><g id="sxw" clip-path="url(#sxclip)"><path id="sxland" class="sxl"/><g id="sxgrid"></g><g id="sxmg"></g></g><use href="#sxw" x="360"/><use href="#sxw" x="-360"/></svg><div class="sxzm"><button data-z="1" title="ขยาย">+</button><button data-z="-1" title="ย่อ">−</button><button data-z="0" title="กลับค่าเดิม (สถานีเราอยู่กลาง)">⟲</button></div><div id="sxsub" class="mu"></div></div>'+
+  '<div class="pn"><div class="sxh"><h2>รอบผ่านถัดไป <span class="mu" style="font-weight:400">24 ชม. · มุมเงยขั้นต่ำ <select id="sxmin"><option>0</option><option>10</option><option>20</option><option>30</option></select>°</span></h2><span class="mu">เวลาเครื่อง</span></div><div class="sxtw"><table class="sxt"><thead><tr><th>ดาวเทียม</th><th>ขึ้น (AOS)</th><th>นาน</th><th>El สูงสุด</th><th>ทิศ ขึ้น → ตก</th><th>โหมด</th><th></th></tr></thead><tbody id="sxpl"></tbody></table></div></div>'+
+  '<details class="pn sxset"><summary>ข้อมูลวงโคจร · รายการดาวเทียม · ตั้งค่าวิทยุ</summary><div class="sxr"><button id="sxtle" class="sm">ดึง TLE ใหม่</button><span id="sxtlei" class="mu"></span></div>'+
+  '<label class="sxfull">วาง TLE เอง (3 บรรทัดต่อดวง) ใช้เมื่อดึงจากเน็ตไม่ได้<textarea id="sxtlet" rows="3" spellcheck="false" placeholder="SO-50&#10;1 27607U ...&#10;2 27607 ..."></textarea></label><div class="sxr"><button id="sxtleok" class="sm">ใช้ TLE นี้</button></div>'+
+  '<div class="mu" style="margin-top:8px">ดาวเทียม (แก้ได้): ชื่อ · NORAD · ส่ง MHz · รับ MHz · FM/LIN · โทน · V/U</div><div id="sxlist" class="sxlist"></div>'+
+  '<div class="sxadd"><input id="sxan" placeholder="ชื่อ"><input id="sxai" placeholder="NORAD" inputmode="numeric"><input id="sxau" placeholder="ส่ง 145.850" inputmode="decimal"><input id="sxad" placeholder="รับ 436.795" inputmode="decimal"><select id="sxam"><option value="FM">FM</option><option value="LIN">Linear กลับด้าน</option></select><input id="sxat" placeholder="โทน 67" inputmode="decimal"><button id="sxaok" class="sm pri">เพิ่ม</button><button id="sxars" class="sm">คืนค่าตั้งต้น</button></div>'+
+  '<div class="sxr" style="margin-top:8px"><label class="inl"><input id="sxsm" type="checkbox"> เปิดโหมด Satellite ของ IC-9700 ให้เอง (CI-V 16 5A)</label><label class="inl"><input id="sxsw" type="checkbox"> สลับ MAIN / SUB (ปกติตามโหมด Satellite ของ IC-9700: MAIN = รับ · SUB = ส่ง)</label></div></details>';
+ const $$=s=>box.querySelector(s);
+ {const g=$$('.sxg'),dop=g.children[1],rot=g.children[2],mp=$$('.sxmap'),pl=$$('#sxpl').closest('.pn'),r3=E('div',{className:'sxr3'});const mid=E('div',{className:'sxmid'});g.insertBefore(mid,dop);rot.classList.add('sxrot');mid.append(mp,rot);g.after(r3);r3.append(pl)}
+ // ---- state ----
+ S.satSel=S.satSel||'SO-50';let PL=[],PLT=0,TRK=null,RIT=+(S.satRit||0),OFF=0,lastSel='';
+ const selSat=()=>SATS().find(x=>x.n===S.satSel)||SATS()[0];
+ function satMsg(m){const e=$$('#sxm');e.textContent=m||'';e.hidden=!m}
+ function chips(){const au=E('button',{className:'sxauto'+(S.satAuto?' on':''),textContent:'⟳ อัตโนมัติ: ดาวที่ผ่านถัดไป',title:'เลือกและติดตามดาวที่กำลังผ่าน หรือดวงที่จะขึ้นถัดไปให้เอง'});au.onclick=()=>{S.satAuto=!S.satAuto;save();chips();redraw()};$$('#sxc').replaceChildren(au,...SATS().map(s=>{const b=E('button',{className:'sxchip'+(s.n===S.satSel?' on':''),textContent:s.n,title:s.n+' · '+(s.m==='LIN'?'Linear':'FM')+' '+s.sm+(rec(s)?'':' · ไม่มี TLE')});if(!rec(s)&&TLE.t)b.classList.add('nt');b.onclick=()=>{S.satSel=s.n;S.satAuto=false;save();chips();RIT=0;OFF=0;DP.setup=false;redraw()};return b}))}
+ function list(){$$('#sxlist').replaceChildren(...SATS().map((s,i)=>{const d=E('div',{className:'sxli'});d.append(E('span',{className:'mono',textContent:s.n+' · '+(s.id||'—')+' · '+s.up.toFixed(3)+' / '+s.dn.toFixed(3)+' · '+(s.m==='LIN'?'LIN':'FM')+(s.tone?' '+s.tone:'')+' · '+s.sm}));const x=E('button',{className:'sm',textContent:'✕'});x.setAttribute('aria-label','ลบ '+s.n);x.onclick=()=>{const a=SATS().slice();a.splice(i,1);S.sats=a;save();list();chips();redraw()};d.append(x);return d}))}
+ $$('#sxaok').onclick=()=>{const n=$$('#sxan').value.trim().toUpperCase(),id=+$$('#sxai').value,up=parseFloat($$('#sxau').value),dn=parseFloat($$('#sxad').value),m=$$('#sxam').value,t=parseFloat($$('#sxat').value)||0;
+  if(!n||!(up>0)||!(dn>0)){satMsg('ใส่ชื่อ ความถี่ส่ง และความถี่รับ (MHz)');return}
+  const b=v=>v>=400?'U':v>=144?'V':v>=28?'A':'?';S.sats=[...SATS().filter(s=>s.n!==n),{id:id||0,q:id?undefined:n,n,m,up,dn,tone:t,inv:m==='LIN'?1:0,bw:m==='LIN'?30:0,sm:b(up)+'/'+b(dn)}];save();SR={};list();chips();redraw();for(const k of['#sxan','#sxai','#sxau','#sxad','#sxat'])$$(k).value='';if(id&&!(TLE.d||{})[id])tleLoad(true).then(redraw)};
+ $$('#sxars').onclick=()=>{delete S.sats;save();SR={};list();chips();redraw()};
+ $$('#sxtle').onclick=async()=>{await tleLoad(true);chips();redraw()};
+ $$('#sxtleok').onclick=()=>{const d=parseTLE($$('#sxtlet').value);if(!Object.keys(d).length){satMsg('รูปแบบ TLE ไม่ถูกต้อง');return}TLE={t:Date.now(),d:Object.assign({},TLE.d||{},d)};try{localStorage.setItem('cwtle',JSON.stringify(TLE))}catch(_){}SR={};satMsg('ใช้ TLE ที่วางแล้ว '+Object.keys(d).length+' ดวง');chips();redraw()};
+ $$('#sxmin').value=String(S.satMin??10);$$('#sxmin').onchange=e=>{S.satMin=+e.target.value;save();PLT=0;redraw()};
+ const ck=(id,k,def)=>{const e=$$(id);e.checked=S[k]===undefined?def:!!S[k];e.onchange=()=>{S[k]=e.checked;save();DP.setup=false;redraw()}};
+ ck('#sxdop','satDop',true);ck('#sxsm','satSM',true);ck('#sxsw','satSW',false);ck('#sxrtrk','rotTrk',true);
+ box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{RIT=Math.round((RIT+ +b.dataset.r)*10)/10;S.satRit=RIT;save();DP.lastDn=0;redraw()});
+ box.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{const v=+b.dataset.o,s=selSat();OFF=v===0?0:Math.max(-(s.bw||30)/2,Math.min((s.bw||30)/2,Math.round((OFF+v)*10)/10));DP.lastUp=DP.lastDn=0;redraw()});
+ // ---- radio (IC-9700 on the VOICE radio port) ----
+ const LF={tx:0,rx:0};const DP={setup:false,lastUp:0,lastDn:0,q:Promise.resolve(),busy:0};
+ const RV=()=>RC.VOICE,radioOK=()=>!!(RV().cat&&RV().port&&rigPr('VOICE')==='civ');
+ const civ=b=>{const C=RV().cat;if(!C||!C.w)return;const a=new Uint8Array([0xFE,0xFE,civA('VOICE'),0xE0,...b,0xFD]);DP.q=DP.q.then(()=>C.w.write(a)).then(()=>new Promise(r=>setTimeout(r,25))).catch(()=>{})};
+ const f5=hz=>{const d=[];let v=Math.round(hz);for(let k=0;k<5;k++){d.push(((Math.floor(v/10)%10)<<4)|(v%10));v=Math.floor(v/100)}return d};
+ const tb=t=>{const v=Math.round(t*10);return[0x00,((Math.floor(v/1000)%10)<<4)|(Math.floor(v/100)%10),((Math.floor(v/10)%10)<<4)|(v%10)]};
+ // IC-9700 satellite mode: SUB band = TX (uplink), MAIN band = RX (downlink)
+ const TXB=()=>S.satSW?0xD0:0xD1,RXB=()=>S.satSW?0xD1:0xD0,wait=ms=>new Promise(r=>setTimeout(r,ms));
+ async function dopSetup(s,tx,rx){if(!radioOK()||DP.setup)return;DP.setup='busy';DP.msg='';
+  try{if(S.satSM!==false){civ([0x16,0x5A,0x01]);await DP.q;await wait(400)}
+   const rd=async b=>{RV().rig.hz=0;civ([0x07,b]);civ([0x03]);await DP.q;for(let k=0;k<12&&!RV().rig.hz;k++)await wait(50);return RV().rig.hz||0},
+    bt=hz=>hz?bandOf(hz/1e6):'',rxHz=await rd(RXB()),txHz=await rd(TXB()),wTx=bandOf(tx/1e6),wRx=bandOf(rx/1e6);
+   if(rxHz&&txHz&&bt(rxHz)===wTx&&bt(txHz)===wRx){civ([0x07,0xB0]);await DP.q;await wait(300)} // bands are the wrong way round: exchange MAIN / SUB
+   const setTx=()=>{civ([0x07,TXB()]);civ([0x05,...f5(tx)]);civ([0x06,s.m==='LIN'?(s.inv?0x00:0x01):0x05,0x01]);if(s.m==='FM'){civ([0x16,0x42,s.tone?1:0]);if(s.tone)civ([0x1B,0x00,...tb(s.tone)])}},
+    setRx=()=>{civ([0x07,RXB()]);civ([0x05,...f5(rx)]);civ([0x06,s.m==='LIN'?0x01:0x05,0x01])};
+   if(bt(txHz)&&bt(txHz)===wRx&&bt(rxHz)!==wRx){setRx();setTx()}else{setTx();setRx()} // order avoids putting both on the same band
+   civ([0x07,RXB()]);await DP.q;await wait(400);
+   const chk=await rd(TXB()),chk2=await rd(RXB());
+   DP.msg=chk&&Math.abs(chk-tx)<5000&&chk2&&Math.abs(chk2-rx)<5000?'':(!chk&&!chk2?'วิทยุไม่ตอบ (ตรวจ CI-V Address / Baud)':'วิทยุไม่รับความถี่ · ตรวจว่าเปิดโหมด Satellite แล้ว หรือลองติ๊ก “สลับ MAIN / SUB”');
+   DP.lastUp=tx;DP.lastDn=rx;DP.setup=true}
+  catch(_){DP.setup=false}}
+ $$('#sxrig').onclick=async()=>{const prev=RC.cur;RC.cur='VOICE';try{if(RV().port)await discon('VOICE');else await rigConnect('VOICE')}finally{RC.cur=prev;DP.setup=false;redraw()}};
+ // ---- rotator RC-2500 (GS-232B: W aaa eee · C2 · S · L R U D A E · O) ----
+ const ROT={k:'',w:null,az:null,el:null,t:0,last:'',lastT:0,buf:''};
+ const rotOK=()=>!!ROT.w;
+ async function rotSend(cmd){if(!ROT.w)return;try{await ROT.w(cmd+'\r\n')}catch(_){rotLost()}}
+ function rotRx(txt){ROT.buf=(ROT.buf+txt).slice(-300);let m;const re=/AZ\s*=?\s*\+?(-?\d+(?:\.\d+)?)[^\d\-+]*EL\s*=?\s*\+?(-?\d+(?:\.\d+)?)|\+0?(\d{3})\s*\+0?(\d{3})/i;
+  if((m=re.exec(ROT.buf))){ROT.az=+(m[1]??m[3]);ROT.el=+(m[2]??m[4]);ROT.t=Date.now();ROT.buf=ROT.buf.slice(m.index+m[0].length)}else if(/\n/.test(ROT.buf)){const L=ROT.buf.split(/\r?\n/);ROT.buf=L.pop();for(const l of L){const n=l.match(/-?\d+(?:\.\d+)?/g);if(n&&n.length>=2&&!/AT|VER/i.test(l)){ROT.az=+n[0];ROT.el=+n[1];ROT.t=Date.now()}}}}
+ function rotLost(){ROT.w=null;ROT.k='';rotUI('หลุดการเชื่อมต่อ')}
+ async function rotSerial(){if(!navigator.serial){rotUI('เบราว์เซอร์นี้ไม่รองรับพอร์ตอนุกรม (ใช้ Chrome / Edge)');return}
+  try{const port=await navigator.serial.requestPort();await port.open({baudRate:9600});const w=port.writable.getWriter(),r=port.readable.getReader(),enc=new TextEncoder(),dec=new TextDecoder();
+   ROT.port=port;ROT.k='serial';ROT.w=t=>w.write(enc.encode(t));ROT.close=async()=>{try{r.cancel()}catch(_){}try{w.releaseLock()}catch(_){}try{await port.close()}catch(_){}};
+   (async()=>{try{for(;;){const{value,done}=await r.read();if(done)break;if(value)rotRx(dec.decode(value))}}catch(_){}if(ROT.port===port)rotLost()})();rotUI();rotSend('C2')}
+  catch(e){rotUI(e&&e.name==='NotFoundError'?'ยังไม่ได้เลือกพอร์ต':'เปิดพอร์ตไม่ได้ ('+(e&&e.name||e)+')')}}
+ async function rotBle(){if(!navigator.bluetooth){rotUI('เบราว์เซอร์นี้ไม่รองรับ Bluetooth (BLE) · ใช้ปุ่ม “พอร์ต COM” แทน');return}
+  const SV=['0000ffe0-0000-1000-8000-00805f9b34fb','0000fff0-0000-1000-8000-00805f9b34fb','6e400001-b5a3-f393-e0a9-e50e24dcca9e','0000ff00-0000-1000-8000-00805f9b34fb','49535343-fe7d-4ae5-8fa9-9fafd205e455'];
+  try{const dv=await navigator.bluetooth.requestDevice({filters:[{namePrefix:'doiot'},{namePrefix:'RC-2500'},{namePrefix:'RC2500'}],optionalServices:SV});const gs=await dv.gatt.connect();let wc=null,nc=null;
+   for(const sv of await gs.getPrimaryServices())for(const c of await sv.getCharacteristics()){if(!wc&&(c.properties.write||c.properties.writeWithoutResponse))wc=c;if(!nc&&(c.properties.notify||c.properties.indicate))nc=c}
+   if(!wc){rotUI('ต่อ BLE ได้ แต่ไม่พบช่องส่งคำสั่ง · ใช้ปุ่ม “พอร์ต COM” แทน');gs.disconnect();return}
+   const enc=new TextEncoder(),dec=new TextDecoder();if(nc){await nc.startNotifications();nc.addEventListener('characteristicvaluechanged',e=>rotRx(dec.decode(e.target.value)))}
+   ROT.k='ble';ROT.port=dv;ROT.w=async t=>{const b=enc.encode(t);for(let i=0;i<b.length;i+=20){const p=b.slice(i,i+20);await(wc.properties.writeWithoutResponse?wc.writeValueWithoutResponse(p):wc.writeValue(p))}};ROT.close=async()=>{try{gs.disconnect()}catch(_){}};
+   dv.addEventListener('gattserverdisconnected',()=>{if(ROT.port===dv)rotLost()});rotUI();rotSend('C2')}
+  catch(e){rotUI(e&&e.name==='NotFoundError'?'ยังไม่ได้เลือกอุปกรณ์':'ต่อ BLE ไม่ได้ ('+(e&&e.name||e)+')')}}
+ function rotUI(msg){$$('#sxrot').textContent=rotOK()?'● โรเตอร์ RC-2500 · '+(ROT.k==='ble'?'BLE':'COM'):'โรเตอร์ RC-2500';$$('#sxrot').classList.toggle('on',rotOK());$$('#sxrs').textContent=msg||(rotOK()?(ROT.k==='ble'?'Bluetooth BLE':'พอร์ต COM / Bluetooth SPP')+' · GS-232B':'ยังไม่ได้เชื่อมต่อ')}
+ $$('#sxrot').onclick=async()=>{if(rotOK()){const c=ROT.close;ROT.w=null;ROT.port=null;ROT.k='';if(c)await c();rotUI();return}
+  const m=E('div',{className:'sxpick'});m.innerHTML='<b>เชื่อมต่อโรเตอร์</b><button class="sm pri" data-k="s">พอร์ต COM (สาย USB-C / Bluetooth ที่จับคู่แล้ว)</button><button class="sm" data-k="b">Bluetooth BLE (ไม่ต้องจับคู่)</button><button class="sm" data-k="x">ยกเลิก</button>';
+  $$('#sxrot').after(m);m.onclick=e=>{const k=e.target.dataset.k;if(!k)return;m.remove();if(k==='s')rotSerial();else if(k==='b')rotBle()}};
+ const W=(az,el)=>rotSend('W'+pad(((az%360)+360)%360,3)+' '+pad(Math.max(0,Math.min(90,el)),3));
+ box.querySelectorAll('[data-mv]').forEach(b=>{const v=b.dataset.mv;if(v==='S'){b.onclick=()=>rotSend('S');return}
+  const stop=()=>rotSend(v==='L'||v==='R'?'A':'E');b.onpointerdown=()=>{S.rotTrk=false;$$('#sxrtrk').checked=false;save();rotSend(v)};b.onpointerup=b.onpointerleave=stop});
+ $$('#sxpark').onclick=()=>{S.rotTrk=false;$$('#sxrtrk').checked=false;save();W(0,0)};
+ $$('#sxstop').onclick=()=>{S.rotTrk=false;$$('#sxrtrk').checked=false;save();rotSend('S')};
+ {let arm=0;$$('#sxnorth').onclick=()=>{const b=$$('#sxnorth');if(Date.now()-arm<3000){rotSend('O');b.textContent='ตั้งทิศเหนือแล้ว';arm=0;setTimeout(()=>b.textContent='ตั้งทิศตอนนี้เป็นเหนือ (0°)',2500)}else{arm=Date.now();b.textContent='กดอีกครั้งเพื่อยืนยัน';setTimeout(()=>{if(arm&&Date.now()-arm>=2900){arm=0;b.textContent='ตั้งทิศตอนนี้เป็นเหนือ (0°)'}},3000)}}}
+ // ---- sky plot ----
+ function sky(o,p,cur){const R=135,c=160,P=(az,el)=>{const r=R*(90-Math.max(0,el))/90,a=az*D2R;return[c+r*Math.sin(a),c-r*Math.cos(a)]};
+  let h='';for(const e of[0,30,60])h+='<circle cx="'+c+'" cy="'+c+'" r="'+(R*(90-e)/90).toFixed(1)+'" class="rg"/><text x="'+(c+4)+'" y="'+(c-R*(90-e)/90+12).toFixed(1)+'" class="pe">'+e+'°</text>';
+  for(let a=0;a<360;a+=45){const q=P(a,0);h+='<line x1="'+c+'" y1="'+c+'" x2="'+q[0].toFixed(1)+'" y2="'+q[1].toFixed(1)+'" class="rg"/>'}
+  for(const[a,t]of[[0,'N'],[90,'E'],[180,'S'],[270,'W']]){const q=P(a,-11);h+='<text x="'+q[0].toFixed(1)+'" y="'+(q[1]+4).toFixed(1)+'" class="pl">'+t+'</text>'}
+  if(p){const tr=track(p,o);if(tr.length){const now=Date.now(),all=tr.map(x=>P(x[0],x[1]).map(v=>v.toFixed(1)).join(',')).join(' '),dn=tr.filter(x=>x[2]<=now).map(x=>P(x[0],x[1]).map(v=>v.toFixed(1)).join(',')).join(' ');
+   h+='<polyline points="'+all+'" class="tr"/>'+(dn?'<polyline points="'+dn+'" class="trd"/>':'');const a=P(tr[0][0],0),z=P(tr[tr.length-1][0],0);h+='<circle cx="'+a[0].toFixed(1)+'" cy="'+a[1].toFixed(1)+'" r="5" class="ao"/><circle cx="'+z[0].toFixed(1)+'" cy="'+z[1].toFixed(1)+'" r="5" class="lo"/>'}}
+  if(rotOK()&&ROT.az!=null){const q=P(ROT.az,ROT.el||0);h+='<g transform="translate('+q[0].toFixed(1)+','+q[1].toFixed(1)+')"><circle r="12" class="ant"/><line x1="-17" y1="0" x2="17" y2="0" class="ant"/><line x1="0" y1="-17" x2="0" y2="17" class="ant"/></g>'}
+  if(cur&&cur.el>-2){const q=P(cur.az,cur.el);h+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="7" class="sat"/><text x="'+(q[0]+11).toFixed(1)+'" y="'+(q[1]-9).toFixed(1)+'" class="st">'+pEscH(selSat().n)+'</text>'}
+  $$('#sxsky').innerHTML=h}
+ // ---- world map: ground track · footprint · our station ----
+
+ const RE=6378.137;
+ function subPt(sr,t){const p=SL.propagate(sr,t);if(!p||!p.position||typeof p.position!=='object')return null;const g=SL.eciToGeodetic(p.position,SL.gstime(t));return{la:g.latitude*R2D,lo:((g.longitude*R2D+540)%360)-180,h:g.height}}
+ const segs=pts=>{const o=[];let cur=[];for(const q of pts){if(cur.length&&Math.abs(q[0]-cur[cur.length-1][0])>180){o.push(cur);cur=[]}cur.push(q)}if(cur.length)o.push(cur);return o.map(a=>'M'+a.map(q=>q[0].toFixed(2)+' '+(-q[1]).toFixed(2)).join('L')).join('')};
+ const unwrapD=d=>d.split('M').filter(Boolean).map(sp=>{const z=/Z\s*$/.test(sp),pts=sp.replace(/Z\s*$/,'').split('L').map(q=>q.trim().split(/[\s,]+/).map(Number));
+  let px=null,out=[];for(const [x0,y] of pts){let x=x0;if(px!=null){while(x-px>180)x-=360;while(x-px<-180)x+=360}out.push([x,y]);px=x}
+  if(Math.abs(out[out.length-1][0]-out[0][0])>180)out=pts; // ring around the pole (Antarctica): keep as is
+  return 'M'+out.map(q=>q[0].toFixed(1)+' '+q[1]).join('L')+(z?'Z':'')}).join('');
+ let mapGridDone=false;const MZ={z:1,x:0,y:0,vw:200};
+ const mzSet=(z,x,y)=>{MZ.z=Math.max(1,Math.min(8,z));MZ.x=((x+180)%360+360)%360-180;MZ.y=y;const o=obs(),s=selSat();if(o&&s)wmap(o,s)};
+ function wmap(o,s){const land=$$('#sxland');if(typeof MAPD!=='undefined'&&MAPD&&land.getAttribute('data-ok')!=='1'){land.setAttribute('d',unwrapD(MAPD));land.setAttribute('data-ok','1')}else if(typeof MAPD!=='undefined'&&!MAPD&&MAPS!=='fail'&&typeof mapLoad==='function')mapLoad();
+  if(!mapGridDone){let g='';for(let lo=-150;lo<=150;lo+=30)g+='<line x1="'+lo+'" y1="-90" x2="'+lo+'" y2="90" class="sxgl"/>';for(let la=-60;la<=60;la+=30)g+='<line x1="-180" y1="'+la+'" x2="180" y2="'+la+'" class="sxgl"/>';$$('#sxgrid').innerHTML=g;mapGridDone=true}
+  const sr=rec(s),now=Date.now();let h='';
+  if(sr){const tr=[];for(let k=-45;k<=45;k++){const p=subPt(sr,new Date(now+k*60e3));if(p)tr.push([p.lo,p.la,k])}
+   const past=tr.filter(q=>q[2]<=0),fut=tr.filter(q=>q[2]>=0);h+='<path d="'+segs(past)+'" class="sxgtp"/><path d="'+segs(fut)+'" class="sxgtf"/>';
+   const c=subPt(sr,new Date(now));if(c){const rho=Math.acos(RE/(RE+c.h)),la0=c.la*D2R,lo0=c.lo*D2R,fp=[];
+    for(let a=0;a<=360;a+=4){const b=a*D2R,la=Math.asin(Math.sin(la0)*Math.cos(rho)+Math.cos(la0)*Math.sin(rho)*Math.cos(b)),lo=lo0+Math.atan2(Math.sin(b)*Math.sin(rho)*Math.cos(la0),Math.cos(rho)-Math.sin(la0)*Math.sin(la));fp.push([((lo*R2D+540)%360)-180,la*R2D])}
+    h+='<path d="'+segs(fp)+'" class="sxfp"/><circle cx="'+c.lo.toFixed(2)+'" cy="'+(-c.la).toFixed(2)+'" r="'+(2.6/MZ.z).toFixed(3)+'" class="sxms"/><text x="'+(c.lo+4/MZ.z).toFixed(2)+'" y="'+(-c.la-3/MZ.z).toFixed(2)+'" class="sxmt" style="font-size:'+(5/MZ.z).toFixed(3)+'px">'+pEscH(s.n)+'</text>';
+    $$('#sxsub').textContent=s.n+' อยู่เหนือ '+Math.abs(c.la).toFixed(1)+'°'+(c.la>=0?'N':'S')+' '+Math.abs(c.lo).toFixed(1)+'°'+(c.lo>=0?'E':'W')+' · สูง '+Math.round(c.h)+' km · รัศมีครอบคลุม ~'+Math.round(rho*RE)+' km'}}
+  else $$('#sxsub').textContent='ไม่มีข้อมูลวงโคจรของ '+s.n;
+  const me=o&&[o.gd.longitude*R2D,o.gd.latitude*R2D];{const sv=$$('#sxmapv'),cx=me?Math.round(me[0]):100,r=sv.getBoundingClientRect(),rt=r.width>50&&r.height>50?r.height/r.width:.56,vh=Math.round(Math.min(160,Math.max(100,200*rt))),vw=Math.round(Math.max(120,Math.min(200,vh/rt))),cy=Math.max(-90+vh/2,Math.min(90-vh/2,me?-me[1]-5:0));const w=vw/MZ.z,h=vh/MZ.z,X=cx+MZ.x,Y=Math.max(-90+h/2,Math.min(90-h/2,cy+MZ.y));MZ.y=Y-cy;MZ.vw=w;sv.setAttribute('viewBox',(X-w/2).toFixed(2)+' '+(Y-h/2).toFixed(2)+' '+w.toFixed(2)+' '+h.toFixed(2))}if(me)h+='<circle cx="'+me[0].toFixed(2)+'" cy="'+(-me[1]).toFixed(2)+'" r="'+(2.4/MZ.z).toFixed(3)+'" class="sxme"/>';
+  $$('#sxmg').innerHTML=h}
+ {const sv=$$('#sxmapv');$$('.sxzm').onclick=e=>{const b=e.target.closest('button');if(!b)return;const d=+b.dataset.z;d?mzSet(MZ.z*(d>0?1.6:1/1.6),MZ.x,MZ.y):mzSet(1,0,0)};
+  sv.addEventListener('wheel',e=>{e.preventDefault();const r=sv.getBoundingClientRect(),k=e.deltaY<0?1.25:1/1.25,nz=Math.max(1,Math.min(8,MZ.z*k)),u=MZ.vw/r.width,fx=(e.clientX-r.left-r.width/2)*u,fy=(e.clientY-r.top-r.height/2)*u,f=1-MZ.z/nz;mzSet(nz,MZ.x+fx*f,MZ.y+fy*f)},{passive:false});
+  let dr=null;sv.addEventListener('pointerdown',e=>{dr={x:e.clientX,y:e.clientY,mx:MZ.x,my:MZ.y};sv.setPointerCapture(e.pointerId);sv.classList.add('drag')});
+  sv.addEventListener('pointermove',e=>{if(!dr)return;const r=sv.getBoundingClientRect(),u=MZ.vw/r.width;mzSet(MZ.z,dr.mx-(e.clientX-dr.x)*u,dr.my-(e.clientY-dr.y)*u)});
+  const up=()=>{dr=null;sv.classList.remove('drag')};sv.addEventListener('pointerup',up);sv.addEventListener('pointercancel',up);sv.addEventListener('dblclick',()=>mzSet(1,0,0));if(window.ResizeObserver)new ResizeObserver(()=>{if(!box.hidden)mzSet(MZ.z,MZ.x,MZ.y)}).observe(sv)}
+ // ---- pass list ----
+ function plist(o){const now=Date.now();if(now-PLT>60e3||lastSel!==S.satSel){PL=[];for(const s of SATS())PL.push(...passes(s,o,now,24));PL.sort((a,b)=>a.aos-b.aos);PLT=now;lastSel=S.satSel}
+  PL=PL.filter(p=>p.los>now);const mn=S.satMin??10,show=PL.filter(p=>p.max>=mn).slice(0,14);
+  $$('#sxpl').replaceChildren(...(show.length?show.map(p=>{const live=p.aos<=now,tr=E('tr',{className:(live?'sxnow ':'')+(TRK&&TRK.s.n===p.s.n&&TRK.aos===p.aos?'trk':'')});
+   const td=(t,c)=>{const x=E('td',{textContent:t});if(c)x.className=c;return x},b=E('button',{className:'sm'+(TRK&&TRK.s.n===p.s.n&&TRK.aos===p.aos?' pri':''),textContent:TRK&&TRK.s.n===p.s.n&&TRK.aos===p.aos?(live?'กำลังติดตาม':'รอดาวขึ้น'):'ติดตาม'});
+   b.onclick=()=>{if(S.satAuto){S.satAuto=false;save()}if(TRK&&TRK.s.n===p.s.n&&TRK.aos===p.aos)TRK=null;else{TRK=p;S.satSel=p.s.n;save();DP.setup=false;RIT=0;OFF=0;chips();satForm()}redraw()};
+   const nm=E('td');nm.append(E('b',{textContent:p.s.n}));tr.append(nm,td(hm(new Date(p.aos))+(live?' (กำลังผ่าน)':' · อีก '+mmss((p.aos-now)/1000)),'mono'),td(mmss((p.los-p.aos)/1000),'mono'),td(Math.round(p.max)+'°','mono '+(p.max>=45?'hi':p.max<20?'lo2':'')),td(Math.round(p.azA)+'° '+dirTxt(p.azA)+' → '+Math.round(p.azL)+'° '+dirTxt(p.azL),'mono'),td((p.s.m==='LIN'?'Linear ':'FM ')+p.s.sm));
+   const x=E('td');x.append(b);tr.append(x);return tr}):[(()=>{const tr=E('tr'),x=E('td',{textContent:TLE.t?'ไม่มีรอบผ่านที่สูงกว่า '+mn+'° ใน 24 ชม.':'ยังไม่มีข้อมูลวงโคจร'});x.colSpan=7;x.className='mu';tr.append(x);return tr})()]))}
+ // ---- log form: satellite name / mode / SAT MODE (V/U ...) / uplink ----
+ {const l=$('#qsm');if(l&&!$('#qsatm')){l.closest('label').insertAdjacentHTML('afterend','<label class="qs" hidden>SAT MODE<select id="qsatm">'+['','A','AU','B','J','JL','K','KT','L','LS','R','RA','RK','RT','S','SX','T','US','UV','VS','VU'].map(x=>'<option>'+x+'</option>').join('')+'</select></label>')}}
+ const SATN=[['AO-7','AMSAT-OSCAR 7'],['AO-10','AMSAT-OSCAR 10'],['AO-13','AMSAT-OSCAR 13'],['AO-16','AMSAT-OSCAR 16'],['AO-27','AMRAD-OSCAR 27'],['AO-40','AMSAT-OSCAR 40'],['AO-51','AMSAT-OSCAR 51'],['AO-73','AMSAT-OSCAR 73 (FUNcube-1)'],['AO-85','AMSAT-OSCAR-85 (Fox-1A)'],['AO-91','AMSAT-OSCAR-91 (Fox-1B)'],['AO-92','AMSAT-OSCAR-92 (Fox-1D)'],['AO-109','AMSAT-OSCAR-109 (Fox-1E)'],['AO-123','AMSAT-OSCAR 123 (ASRTU-1)'],['ARISS','ARISS (ISS)'],['CAS-4A','CAS-4A'],['CAS-4B','CAS-4B'],['DO-64','Delfi OSCAR-64'],['EO-79','EURO OSCAR 79'],['EO-80','EURO OSCAR 80'],['FO-12','Fuji-OSCAR 12'],['FO-20','Fuji-OSCAR 20'],['FO-29','Fuji-OSCAR 29'],['IO-86','Indonesia-OSCAR 86 (LAPAN-A2)'],['IO-117','GreenCube (IO-117)'],['PO-101','Philippines-OSCAR-101 (Diwata-2)'],['QO-100','Qatar-OSCAR 100'],['RS-44','Radio Sputnik 44'],['SO-50','Saudi-OSCAR 50']];
+ const satCode=n=>n==='ISS'?'ARISS':n,satFull=n=>{const c=satCode(n),x=SATN.find(a=>a[0]===c);return x?x[1]:''};
+ {const dl=$('#qsatl');if(dl){const have=new Set(SATN.map(a=>a[0]));dl.replaceChildren(...SATN.map(([c,f])=>E('option',{value:c,label:f})),...SATS().filter(x=>!have.has(satCode(x.n))).map(x=>E('option',{value:satCode(x.n)})))}}
+ function satForm(){const s=selSat();if(QG!=='SAT'||!s)return;const a=$('#qsat'),m=$('#qsm');if(a)a.value=satCode(s.n);if(m)m.value=s.m==='LIN'?'SSB':'FM';const sm=$('#qsatm');if(sm){if(![...sm.options].some(o=>o.value===s.sm))sm.append(E('option',{textContent:s.sm.replace('/','')}));sm.value=s.sm.replace('/','')}const f=$('#qf');if(f&&!f.matches(':focus'))f.value=s.up.toFixed(3);S.qsat=s.n;S.qsm=m?m.value:'FM'}
+ const _addQso=addQso;addQso=async function(){const n=LOG.length,s=selSat(),tx=LF.tx,rx=LF.rx;await _addQso.apply(this,arguments);if(QG==='SAT'&&LOG.length>n&&s){const r=LOG[LOG.length-1];{r.sat=($('#satx .qfp.sxedit')&&$('#qsat').value.trim())||satCode(s.n);r.pm='SAT';r.satm=(($('#qsatm')&&$('#qsatm').value)||s.sm).replace('/','');const ed=$('#satx .qfp.sxedit'),fv=ed&&parseFloat(($('#qf').value||'').replace(',','.'));const T=ed&&fv>0?fv:tx>0?tx/1e6:s.up,R=rx>0?rx/1e6:s.dn;r.f=mhzS(T);r.b=bandOf(T);r.frx=mhzS(R);r.brx=bandOf(R);saveLog();renderLog()}}};
+ $('#qadd').onclick=()=>addQso();
+ function logStrip(){const f=$('#satx .qfp');if(!f)return;let b=f.querySelector('#sxlog');if(!b){b=E('div',{id:'sxlog',className:'sxlog'});f.prepend(b);b.onclick=e=>{if(e.target.closest('a')){f.classList.toggle('sxedit');logStrip()}}}
+  const s=selSat();if(!s)return;const T=LF.tx>0?LF.tx/1e6:s.up,R=LF.rx>0?LF.rx/1e6:s.dn,k=v=>(v*1000).toFixed(1),sm=(($('#qsatm')&&$('#qsatm').value)||s.sm).replace('/',''),md=($('#qsm')&&$('#qsm').value)||'FM',it=(l,v)=>'<span>'+l+' <b>'+pEscH(v)+'</b></span>';
+  b.innerHTML='<span class="t">บันทึกให้อัตโนมัติ:</span>'+it('Band',bandOf(T))+it('RX Band',bandOf(R))+it('Mode',md)+it('Freq',k(T)+' kHz')+it('RX Freq',k(R)+' kHz')+it('Propagation','Satellite')+it('Satellite',satCode(s.n)+(satFull(s.n)?' · '+satFull(s.n):''))+it('Satellite Mode',sm)+'<a href="javascript:void 0">'+(f.classList.contains('sxedit')?'ซ่อน ‹':'แก้ไข ›')+'</a>'}
+ // ---- main loop (1 s while the page is open) ----
+ function redraw(){tick(true)}
+ let busyT=0;
+ async function tick(force){
+  if(box.hidden)return;const now=new Date(),o=obs();{const i=now.toISOString();$$('#sxt').textContent=i.slice(11,19);$$('#sxdt').textContent=i.slice(0,10);$$('#sxlt').textContent='เวลาเครื่อง '+now.toLocaleTimeString('en-GB')}
+  if(!o){$$('#sxo').textContent='ใส่ Grid ของสถานีที่ ตั้งค่า › สถานีของเรา › Location (เช่น OK03) เพื่อคำนวณรอบผ่าน';return}
+  $$('#sxo').textContent=((S.my&&S.my.call)||'')+' · '+o.g+' · TLE '+(TLE.t?'อัปเดต '+Math.max(0,Math.round((Date.now()-TLE.t)/3600e3))+' ชม.ก่อน (CelesTrak)':'ยังไม่มี');
+  if(!TLE.t&&!busyT){busyT=1;await tleLoad(false);busyT=0;chips()}
+  if(S.satAuto){if(force||Date.now()-PLT>60e3)plist(o);const mn=S.satMin??10,live=TRK&&TRK.aos<=+now&&TRK.los>+now,p=PL.find(p=>p.los>+now&&p.max>=mn);
+   if(p&&!live&&!(TRK&&TRK.s.n===p.s.n&&TRK.aos===p.aos)){TRK=p;if(S.satSel!==p.s.n){S.satSel=p.s.n;save();DP.setup=false;RIT=0;OFF=0;chips();satForm();plist(o)}}}
+  const s=selSat();if(!s)return;
+  if(force||Date.now()-PLT>60e3)plist(o);
+  const cur=state(s,o,now),mine=PL.filter(p=>p.s.n===s.n),act=mine.find(p=>p.aos<=+now&&p.los>+now),nxt=act||mine[0];
+  // current pass card
+  $$('#sxph').textContent=s.n+(act?' · กำลังผ่าน':nxt?' · รอบถัดไป':' · ไม่มีรอบผ่านใน 24 ชม.');$$('#sxlive').hidden=!act;
+  if(nxt){const T=act?(nxt.los-now)/1000:(nxt.aos-now)/1000;$$('#sxcd').textContent=(act?'LOS ':'AOS ')+mmss(T);$$('#sxpi').textContent='ขึ้น '+hm(new Date(nxt.aos))+' · El สูงสุด '+Math.round(nxt.max)+'° · นาน '+mmss((nxt.los-nxt.aos)/1000);$$('#sxpb').style.width=act?Math.min(100,(now-nxt.aos)*100/(nxt.los-nxt.aos))+'%':'0%'}
+  else{$$('#sxcd').textContent='--';$$('#sxpi').textContent=rec(s)?'':'ไม่มีข้อมูลวงโคจรของ '+s.n;$$('#sxpb').style.width='0%'}
+  $$('#sxaz').textContent=cur?Math.round(cur.az)+'°':'--';$$('#sxel').textContent=cur?Math.round(cur.el)+'°':'--';$$('#sxrg').textContent=cur?Math.round(cur.rg):'--';$$('#sxrr').textContent=cur?cur.rr.toFixed(1):'--';
+  // Doppler
+  const lin=s.m==='LIN',up0=(s.up+(lin?OFF/1000:0))*1e6,dn0=(s.dn+(lin?(s.inv?-OFF:OFF)/1000:0))*1e6,k=cur?cur.rr/CK:0,tx=up0/(1-k),rx=dn0*(1-k)+RIT*1e3;
+  LF.tx=tx;LF.rx=rx;{const bl=v=>v>=2300?'S':v>=1000?'L':v>=400?'U':v>=144?'V':v>=28?'A':'',uTop=s.up>=s.dn,dp=$$('.sxdp');for(const e of dp.querySelectorAll('.u'))e.style.order=uTop?0:1;for(const e of dp.querySelectorAll('.d'))e.style.order=uTop?1:0;
+   dp.querySelector('span.u').innerHTML='▲ UP ส่ง<small>'+(bandOf(s.up)||'')+' · '+bl(s.up)+'</small>';dp.querySelector('span.d').innerHTML='▼ DN รับ<small>'+(bandOf(s.dn)||'')+' · '+bl(s.dn)+'</small>'}
+  $$('#sxup').textContent=fHz(tx);$$('#sxupd').textContent=(tx-up0>=0?'+':'−')+Math.abs((tx-up0)/1e3).toFixed(1)+' kHz';$$('#sxdw').textContent=fHz(rx);$$('#sxdwd').textContent=(rx-dn0>=0?'+':'−')+Math.abs((rx-dn0)/1e3).toFixed(1)+' kHz';
+  $$('#sxnom').textContent='ความถี่กลาง: ส่ง '+s.up.toFixed(3)+' '+(lin?(s.inv?'LSB':'USB'):'FM')+(s.tone?' · TONE '+s.tone:'')+' · รับ '+s.dn.toFixed(3)+' '+(lin?'USB':'FM')+' · '+s.sm;
+  $$('#sxlin').hidden=!lin;$$('#sxoff').textContent=(OFF>=0?'+':'')+OFF.toFixed(1)+' kHz';$$('#sxrit').textContent=(RIT>=0?'+':'')+RIT.toFixed(1);$$('#sxnote').textContent=s.note||'';
+  const doing=S.satDop!==false&&radioOK()&&act&&TRK&&TRK.s.n===s.n&&cur;
+  $$('#sxdn').textContent=DP.msg&&doing?'· ⚠ '+DP.msg:!radioOK()?'· ยังไม่ได้ต่อ IC-9700 (ปุ่มบนแถบด้านบน)':S.satDop===false?'· ปิดอยู่':doing?'· กำลังสั่ง IC-9700':'· จะเริ่มเองเมื่อกด “ติดตาม” และดาวขึ้น';
+  $$('#sxrig').textContent=radioOK()?'● IC-9700 · CI-V':'ต่อ IC-9700';$$('#sxrig').classList.toggle('on',radioOK());
+  if(doing){if(!DP.setup)dopSetup(s,tx,rx);else if(DP.setup===true){const tU=lin?20:300,tD=lin?20:200,a=Math.abs(tx-DP.lastUp)>=tU,b=Math.abs(rx-DP.lastDn)>=tD;
+   if(a){civ([0x07,TXB()]);civ([0x05,...f5(tx)]);DP.lastUp=tx}
+   if(b){civ([0x07,RXB()]);civ([0x05,...f5(rx)]);DP.lastDn=rx}else if(a)civ([0x07,RXB()])}}
+  // rotator
+  const pre=TRK&&!act&&TRK.s.n===s.n&&TRK.aos-now<60e3&&TRK.aos>+now,tgt=act&&cur?{az:cur.az,el:Math.max(0,cur.el)}:pre?{az:TRK.azA,el:0}:null;
+  $$('#sxtaz').textContent=tgt?Math.round(tgt.az)+'°':cur?Math.round(cur.az)+'°':'--';$$('#sxtel').textContent=tgt?Math.round(tgt.el)+'°':cur?Math.max(0,Math.round(cur.el))+'°':'--';
+  $$('#sxaaz').textContent=rotOK()&&ROT.az!=null?Math.round(ROT.az)+'°':'--';$$('#sxael').textContent=rotOK()&&ROT.el!=null?Math.round(ROT.el)+'°':'--';
+  if(rotOK()){if(S.rotTrk!==false&&TRK&&TRK.s.n===s.n&&tgt){const d=ROT.az==null?99:Math.hypot(((tgt.az-ROT.az+540)%360)-180,tgt.el-(ROT.el||0)),key=Math.round(tgt.az)+' '+Math.round(tgt.el);
+    $$('#sxrdiff').textContent=ROT.az==null?'':'ห่าง '+d.toFixed(1)+'° · '+(d<6?'ตามทัน':'กำลังหมุนตาม');if(key!==ROT.last||Date.now()-ROT.lastT>5000){W(tgt.az,tgt.el);ROT.last=key;ROT.lastT=Date.now()}}
+   else $$('#sxrdiff').textContent=TRK?'':'กด “ติดตาม” ที่รอบผ่านเพื่อให้หมุนตาม';
+   if(TRK&&+now>TRK.los+5e3){if(S.rotTrk!==false)W(0,0);TRK=null;DP.setup=false;plist(o)}
+   if(Date.now()-(ROT.q||0)>1000){ROT.q=Date.now();rotSend('C2')}}
+  else if(TRK&&+now>TRK.los+5e3){TRK=null;DP.setup=false}
+  sky(o,act||(TRK&&TRK.s.n===s.n?TRK:nxt),cur);if(force||Math.floor(+now/1000)%5===0)wmap(o,s);logStrip();
+  if(Math.floor(+now/1000)%5===0||force)plist(o)}
+ setInterval(()=>tick(false),1000);
+ // ---- open / close with the page ----
+ const _tab=tab;tab=function(id){const r=_tab.apply(this,arguments);const on=!$('#p4').hidden&&QG==='SAT';box.hidden=!on;$('#p4').classList.toggle('sat',on);{const f=document.querySelector('#p4 .qfp')||document.querySelector('#satx .qfp');if(f){const cl=$('#qc').closest('label'),q1=f.querySelector('.qf1'),q2=f.querySelector('.qf2');if(on){$$('.sxg').after(f);if(cl.parentNode!==q2)q2.prepend(cl);logStrip()}else{if(cl.parentNode!==q1)q1.prepend(cl);f.classList.remove('sxedit');if(f.parentNode!==$('#p4'))$('#vpanel').after(f)}}}if(on){document.body.scrollTop=document.documentElement.scrollTop=0;$('#p4').scrollTop=0;chips();list();satForm();tleLoad(false).then(()=>{chips();redraw()})}return r};
+ rotUI();chips();list();
+})();
+
+</script>
+<!--SAT-ADDON-END-->
 <script>
 /* PWA: register service worker (http/https only) + update toast */
 (function(){
